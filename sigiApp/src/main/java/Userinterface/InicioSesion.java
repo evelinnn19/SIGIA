@@ -85,20 +85,16 @@ public class InicioSesion extends javax.swing.JFrame {
         UsuarioDaoImpl usuarioAut = new UsuarioDaoImpl();
        
         try {
-            if (usuarioAut.Autenticacion(usuario, contraseña)){
-                
-                //Llamar ventana correspondiente
-                System.out.println("Usuario Encontrado");
-            }else{
-                System.out.println("Usuario inexistente");
-            }
             
-            //System.out.println(usuario);
-            //System.out.println(contraseña);
+            System.out.println(usuarioAut.findWhereNombreEqualsB(usuario));
+            
         } catch (UsuarioDaoException ex) {
             Logger.getLogger(InicioSesion.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        
+       
+       
     }//GEN-LAST:event_jButton1MouseClicked
 
     /**

@@ -37,6 +37,8 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 	 * All finder methods in this class use this SELECT constant to build their queries
 	 */
 	protected final String SQL_SELECT = "SELECT idUsuario, dni, nombre, correo, contrasena, rol, estado FROM " + getTableName() + "";
+        
+       
 
 	/** 
 	 * Finder methods will pass this value to the JDBC setMaxRows method
@@ -295,6 +297,20 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 	{
 		return findByDynamicSelect( SQL_SELECT + " WHERE nombre = ? ORDER BY nombre", new Object[] { nombre } );
 	}
+        
+        public boolean findWhereNombreEqualsB(String nombre) throws UsuarioDaoException
+	{
+            boolean resultado = false; 
+                      
+		findByDynamicSelect( SQL_SELECT + " WHERE nombre = ? ORDER BY nombre", new Object[] { nombre } );
+                
+                if(nombre.equals(findByDynamicSelect( SQL_SELECT + " WHERE nombre = ? ORDER BY nombre", new Object[] { nombre } ))){
+                    resultado = true;
+                }
+                System.out.println(resultado);
+                
+            return resultado;
+	}
 
 	/** 
 	 * Returns all rows from the Usuario table that match the criteria 'correo = :correo'.
@@ -531,16 +547,7 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
         
         //Métodos creados 
         
-         public boolean Autenticacion(String nombre, String contraseña) throws UsuarioDaoException {
-            
-            boolean resultado = false;
-            
-            if(findByDynamicSelect( SQL_SELECT + " WHERE nombre = ? ORDER BY nombre", new Object[] { nombre } ) != null && findByDynamicSelect( SQL_SELECT + " WHERE contrasena = ? ORDER BY contrasena", new Object[] { contraseña } ) != null ){
-                resultado = true;
-            }
-            
-            return resultado;
-        }
+     
         
         
         
