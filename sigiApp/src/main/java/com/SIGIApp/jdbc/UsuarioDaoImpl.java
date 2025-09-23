@@ -528,5 +528,21 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 		}
 		
 	}
+        
+        //Métodos creados 
+        
+         public boolean Autenticacion(String nombre, String contraseña) throws UsuarioDaoException {
+            
+            boolean resultado = false;
+            
+            if(findByDynamicSelect( SQL_SELECT + " WHERE nombre = ? ORDER BY nombre", new Object[] { nombre } ) != null && findByDynamicSelect( SQL_SELECT + " WHERE contrasena = ? ORDER BY contrasena", new Object[] { contraseña } ) != null ){
+                resultado = true;
+            }
+            
+            return resultado;
+        }
+        
+        
+        
 
 }
