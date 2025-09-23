@@ -6,6 +6,7 @@ public class ResourceManager
 {
     private static String JDBC_DRIVER   = "com.mysql.jdbc.Driver";
     private static String JDBC_URL      = "jdbc:mysql://m1uc.mooo.com:53306/sigia";
+   // private static String JDBC_URL      =  "jdbc:sqlserver://m1uc.mooo.com:53306;encrypt=false;databaseName=sigia;user=Admin;password=Sigia2025";
 
     private static String JDBC_USER     = "Admin";
     private static String JDBC_PASSWORD = "Sigia2025";
