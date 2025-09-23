@@ -8,6 +8,7 @@ import com.SIGIApp.exceptions.UsuarioDaoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.SIGIApp.jdbc.*;
+import java.sql.SQLException;
 
 /**
  *
@@ -83,14 +84,18 @@ public class InicioSesion extends javax.swing.JFrame {
         String contraseña = jTextField2.getText();
         
         UsuarioDaoImpl usuarioAut = new UsuarioDaoImpl();
-       
         try {
+            Boolean inicioS = usuarioAut.AutenticarUsuario(usuario, contraseña);
+            if(inicioS){
+            //do case para mostrar pantalla segun rol    
+            }
             
-            System.out.println(usuarioAut.findWhereNombreEqualsB(usuario));
-            
-        } catch (UsuarioDaoException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(InicioSesion.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+    
         
         
        

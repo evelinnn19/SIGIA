@@ -13,6 +13,7 @@ import com.SIGIApp.dto.Usuario;
 import com.SIGIApp.exceptions.UsuarioDaoException;
 import com.SIGIApp.dao.UsuarioDao;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Collection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -547,7 +548,34 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
         
         //Métodos creados 
         
-     
+       public boolean AutenticarUsuario(String nombre, String contrasena) throws SQLException{
+           boolean resultado = false;
+           String databaseUsername = "";
+           String databasePassword = "";
+           
+           
+           userConn = ResourceManager.getConnection();
+           
+           Statement stmt = userConn.createStatement();
+           String SQL = "SELECT * FROM Usuario WHERE nombre='" + nombre + "' && contrasena='" + contrasena+ "'";
+
+            ResultSet rs = stmt.executeQuery(SQL);
+
+            // Check Username and Password
+        while (rs.next()) {
+            databaseUsername = rs.getString("nombre");
+            databasePassword = rs.getString("contrasena");
+        }
+
+        if (nombre.equals(databaseUsername) && contrasena.equals(databasePassword)) {
+            System.out.println("Successful Login!\n----");
+            resultado = true;
+        } else {
+        System.out.println("Incorrect Password\n----");
+        }
+           
+           return resultado;
+       }
         
         
         
