@@ -299,7 +299,7 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 		return findByDynamicSelect( SQL_SELECT + " WHERE nombre = ? ORDER BY nombre", new Object[] { nombre } );
 	}
         
-        public boolean findWhereNombreEqualsB(String nombre) throws UsuarioDaoException
+        /*public boolean findWhereNombreEqualsB(String nombre) throws UsuarioDaoException
 	{
             boolean resultado = false; 
                       
@@ -311,7 +311,7 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
                 System.out.println(resultado);
                 
             return resultado;
-	}
+	}*/
 
 	/** 
 	 * Returns all rows from the Usuario table that match the criteria 'correo = :correo'.
@@ -568,10 +568,10 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
         }
 
         if (nombre.equals(databaseUsername) && contrasena.equals(databasePassword)) {
-            System.out.println("Successful Login!\n----");
+            System.out.println("Usuario Encontrado!\n----");
             resultado = true;
         } else {
-        System.out.println("Incorrect Password\n----");
+        System.out.println("Contraseña Incorrecta, intente nuevamente\n----");
         }
            
            return resultado;
