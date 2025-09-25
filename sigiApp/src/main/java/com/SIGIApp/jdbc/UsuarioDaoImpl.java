@@ -571,10 +571,36 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
             System.out.println("Usuario Encontrado!\n----");
             resultado = true;
         } else {
-        System.out.println("Contraseña Incorrecta, intente nuevamente\n----");
+        System.out.println("Contraseña o Usuario Incorrectos, intente nuevamente\n----");
         }
            
            return resultado;
+       }
+       
+       public String VerificarRol(String nombre, String contrasena) throws SQLException{
+           boolean resultado = false;
+           
+           //String databaseUsername = "";
+           //String databasePassword = "";
+           
+           
+           String databaseRol = "";
+           
+           userConn = ResourceManager.getConnection();
+           
+           Statement stmt = userConn.createStatement();
+           String SQL = "SELECT rol FROM Usuario WHERE nombre='" + nombre + "' && contrasena='" + contrasena+ "'";
+
+            ResultSet rs = stmt.executeQuery(SQL);
+
+            // Check Username and Password
+        while (rs.next()) {
+            databaseRol = rs.getString("rol");
+        }
+            System.out.println(rs);
+           
+           return databaseRol;
+       
        }
         
         

@@ -167,6 +167,21 @@ public class InicioSesion extends javax.swing.JFrame {
         try {
             Boolean inicioS = usuarioAut.AutenticarUsuario(usuario, contraseña);
             if(inicioS){
+                String rol = usuarioAut.VerificarRol(usuario, contraseña);
+                
+                if(rol.equals("no_docente")){
+                    PantallaNoDocente pnd = new PantallaNoDocente();
+                    pnd.setVisible(true);
+                }
+                
+                if(rol.equals("administrador")){
+                    //Completar
+                }
+                
+                if(rol.equals("docente")){
+                    //Completar
+                }
+                
             //do case para mostrar pantalla segun rol    
             }
             
