@@ -51,6 +51,8 @@ public class Solicitud implements Serializable
 	public Solicitud()
 	{
 	}
+        
+        
 
 	/**
 	 * Method 'getIdSolicitud'

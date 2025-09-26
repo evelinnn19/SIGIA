@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Userinterface;
-
+import com.SIGIApp.dto.*;
 /**
  *
  * @author Anita
@@ -11,11 +11,17 @@ package Userinterface;
 public class SolicitarInsumo extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SolicitarInsumo.class.getName());
+    private int idUsuario;
 
     /**
      * Creates new form SolicitarInsumo
      */
     public SolicitarInsumo() {
+        initComponents();
+    }
+    
+    public SolicitarInsumo(int idUsuario) {
+        this.idUsuario = idUsuario;
         initComponents();
     }
 
@@ -41,7 +47,7 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         fnombs = new javax.swing.JTextField();
         bcancelar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        bconfirmar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,10 +119,15 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         bcancelar.setForeground(new java.awt.Color(253, 242, 197));
         bcancelar.setText("Cancelar");
 
-        jButton2.setBackground(new java.awt.Color(77, 64, 43));
-        jButton2.setFont(new java.awt.Font("sansserif", 1, 20)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(253, 242, 197));
-        jButton2.setText("Confirmar");
+        bconfirmar.setBackground(new java.awt.Color(77, 64, 43));
+        bconfirmar.setFont(new java.awt.Font("sansserif", 1, 20)); // NOI18N
+        bconfirmar.setForeground(new java.awt.Color(253, 242, 197));
+        bconfirmar.setText("Confirmar");
+        bconfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bconfirmarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -142,7 +153,7 @@ public class SolicitarInsumo extends javax.swing.JFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                             .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(bconfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addComponent(fnombs, javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,7 +191,7 @@ public class SolicitarInsumo extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                        .addComponent(bconfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
                         .addGap(125, 125, 125))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -209,6 +220,20 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_fcantActionPerformed
 
+    private void bconfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bconfirmarActionPerformed
+        // TODO add your handling code here:
+        fnombInsumo.getText();
+        //Buscar insumo en bd y obtener el id
+        
+        fareas.getText();
+        fcant.getText();
+        fnombs.getText();
+        //ver cómo obtener idUsuario
+        
+        //Transaccion pedido = new Transaccion("egreso",fcant.getText(), fareas.getText(), fnombs.getText(), int idInsumo, int idUsuario);
+        
+    }//GEN-LAST:event_bconfirmarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -236,12 +261,12 @@ public class SolicitarInsumo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bcancelar;
+    private javax.swing.JButton bconfirmar;
     private javax.swing.JTextField fareas;
     private javax.swing.JTextField fcant;
     private javax.swing.JTextField fnombInsumo;
     private javax.swing.JTextField fnombs;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

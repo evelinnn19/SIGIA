@@ -299,19 +299,6 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 		return findByDynamicSelect( SQL_SELECT + " WHERE nombre = ? ORDER BY nombre", new Object[] { nombre } );
 	}
         
-        /*public boolean findWhereNombreEqualsB(String nombre) throws UsuarioDaoException
-	{
-            boolean resultado = false; 
-                      
-		findByDynamicSelect( SQL_SELECT + " WHERE nombre = ? ORDER BY nombre", new Object[] { nombre } );
-                
-                if(nombre.equals(findByDynamicSelect( SQL_SELECT + " WHERE nombre = ? ORDER BY nombre", new Object[] { nombre } ))){
-                    resultado = true;
-                }
-                System.out.println(resultado);
-                
-            return resultado;
-	}*/
 
 	/** 
 	 * Returns all rows from the Usuario table that match the criteria 'correo = :correo'.
@@ -569,6 +556,7 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 
         if (nombre.equals(databaseUsername) && contrasena.equals(databasePassword)) {
             System.out.println("Usuario Encontrado!\n----");
+            
             resultado = true;
         } else {
         System.out.println("Contraseña o Usuario Incorrectos, intente nuevamente\n----");
@@ -593,7 +581,6 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 
             ResultSet rs = stmt.executeQuery(SQL);
 
-            
         while (rs.next()) {
             databaseRol = rs.getString("rol");
         }
@@ -603,6 +590,19 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
        
        }
         
+       public Usuario findUsuario(Usuario usuario, String nombre, String contrasena) throws SQLException{
+           
+           userConn = ResourceManager.getConnection();
+           
+           Statement stmt = userConn.createStatement();
+           String SQL = "SELECT * FROM Usuario WHERE nombre='" + nombre + "' && contrasena='" + contrasena+ "'";
+           
+
+            ResultSet rs = stmt.executeQuery(SQL);
+           
+           return usuario = fetchSingleResult(rs);
+           
+       }
         
         
 

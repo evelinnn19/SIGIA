@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.SIGIApp.jdbc.*;
 import java.sql.SQLException;
+import com.SIGIApp.dto.*;
 
 /**
  *
@@ -185,7 +186,12 @@ public class InicioSesion extends javax.swing.JFrame {
                     
                     case "no_docente":
                         System.out.println("el usuario es un no docente");
-                        PantallaNoDocente pnd = new PantallaNoDocente();
+                        //COnsigo TODOS los datos del usuario no docente para odtener el ID
+                        Usuario user = new Usuario();
+                        usuarioAut.findUsuario(user, usuario, contraseña);
+                        user.toString();
+                        //Asigno el IDdeUsuario así lo puedo usar en Pantalla no docente.
+                        PantallaNoDocente pnd = new PantallaNoDocente(user.getIdUsuario());
                         pnd.setVisible(true);
                     break;
                         
