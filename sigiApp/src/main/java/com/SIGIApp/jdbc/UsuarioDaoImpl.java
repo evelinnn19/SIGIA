@@ -593,11 +593,11 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 
             ResultSet rs = stmt.executeQuery(SQL);
 
-            // Check Username and Password
+            
         while (rs.next()) {
             databaseRol = rs.getString("rol");
         }
-            System.out.println(rs);
+            System.out.println(rs.toString());
            
            return databaseRol;
        
