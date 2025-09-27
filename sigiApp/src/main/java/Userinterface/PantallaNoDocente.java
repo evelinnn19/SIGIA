@@ -80,6 +80,11 @@ public class PantallaNoDocente extends javax.swing.JFrame {
         jButton2.setForeground(new java.awt.Color(77, 64, 43));
         jButton2.setText("Solicitar Insumo");
         jButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(253, 242, 197));
 
@@ -184,12 +189,17 @@ public class PantallaNoDocente extends javax.swing.JFrame {
     private void cargarNotaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cargarNotaMouseClicked
         // TODO add your handling code here:
         
-        //Abrir interfaz de Solicitar insumo.
-        SolicitarInsumo Si = new SolicitarInsumo(idusuario);
-        Si.setVisible(true);
+        
         
         
     }//GEN-LAST:event_cargarNotaMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        //Abrir interfaz de Solicitar insumo.
+        SolicitarInsumo Si = new SolicitarInsumo(idusuario);
+        Si.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

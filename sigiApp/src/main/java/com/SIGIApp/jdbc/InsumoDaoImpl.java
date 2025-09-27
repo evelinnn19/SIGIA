@@ -37,7 +37,7 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 	 * All finder methods in this class use this SELECT constant to build their queries
 	 */
 	protected final String SQL_SELECT = "SELECT idInsumo, nombre, categoria, stockActual, stockMinimo, critico FROM " + getTableName() + "";
-
+        
 	/** 
 	 * Finder methods will pass this value to the JDBC setMaxRows method
 	 */
@@ -254,7 +254,7 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 	{
 		return findByDynamicSelect( SQL_SELECT + " ORDER BY idInsumo", null );
 	}
-
+        
 	/** 
 	 * Returns all rows from the Insumo table that match the criteria 'idInsumo = :idInsumo'.
 	 */
@@ -378,6 +378,7 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 		resultList.toArray( ret );
 		return ret;
 	}
+        
 
 	/** 
 	 * Populates a DTO with data from a ResultSet
@@ -391,7 +392,7 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 		dto.setStockMinimo( rs.getInt( COLUMN_STOCK_MINIMO ) );
 		dto.setCritico( rs.getShort( COLUMN_CRITICO ) );
 	}
-
+      
 	/** 
 	 * Resets the modified attributes in the DTO
 	 */

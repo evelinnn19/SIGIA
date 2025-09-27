@@ -4,6 +4,9 @@
  */
 package Userinterface;
 import com.SIGIApp.dto.*;
+import com.SIGIApp.exceptions.InsumoDaoException;
+import com.SIGIApp.jdbc.*;
+import java.sql.SQLException;
 /**
  *
  * @author Anita
@@ -18,13 +21,37 @@ public class SolicitarInsumo extends javax.swing.JFrame {
      */
     public SolicitarInsumo() {
         initComponents();
+        
     }
     
     public SolicitarInsumo(int idUsuario) {
         this.idUsuario = idUsuario;
         initComponents();
+        OpcionesInsumo();
     }
 
+    private void OpcionesInsumo(){
+        InsumoDaoImpl insumos = new InsumoDaoImpl();
+        System.out.println("NombreInsumoListMouseClicked");
+        
+        try {
+            NombreInsumoList.addItem("");
+            Insumo[] menuoptions = insumos.findAll();
+            int i=0;
+            while(i < menuoptions.length){
+                System.out.println("insumo: "+ menuoptions[i].getNombre());
+                NombreInsumoList.addItem(menuoptions[i].getNombre());
+                i = i + 1;
+            }   
+            
+        } catch (InsumoDaoException ex) {
+            System.getLogger(SolicitarInsumo.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        
+        
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,6 +75,7 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         fnombs = new javax.swing.JTextField();
         bcancelar = new javax.swing.JButton();
         bconfirmar = new javax.swing.JButton();
+        NombreInsumoList = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,6 +157,19 @@ public class SolicitarInsumo extends javax.swing.JFrame {
             }
         });
 
+        NombreInsumoList.setBackground(new java.awt.Color(253, 242, 197));
+        NombreInsumoList.setForeground(new java.awt.Color(77, 64, 43));
+        NombreInsumoList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NombreInsumoListMouseClicked(evt);
+            }
+        });
+        NombreInsumoList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NombreInsumoListActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -138,17 +179,14 @@ public class SolicitarInsumo extends javax.swing.JFrame {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(280, Short.MAX_VALUE)
+                .addContainerGap(200, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fnombInsumo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(275, 275, 275))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(fnombInsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(241, 241, 241)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                             .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -162,21 +200,28 @@ public class SolicitarInsumo extends javax.swing.JFrame {
                             .addGap(18, 18, 18)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel4)
-                                .addComponent(fcant, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addComponent(fcant, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(NombreInsumoList, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(275, 275, 275))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(fnombInsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(60, 60, 60)
                 .addComponent(jLabel1)
                 .addGap(34, 34, 34)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fnombInsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(NombreInsumoList, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
@@ -234,6 +279,17 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         
     }//GEN-LAST:event_bconfirmarActionPerformed
 
+    private void NombreInsumoListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreInsumoListActionPerformed
+        // TODO add your handling code here:
+
+        
+    }//GEN-LAST:event_NombreInsumoListActionPerformed
+
+    private void NombreInsumoListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NombreInsumoListMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_NombreInsumoListMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -260,6 +316,7 @@ public class SolicitarInsumo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> NombreInsumoList;
     private javax.swing.JButton bcancelar;
     private javax.swing.JButton bconfirmar;
     private javax.swing.JTextField fareas;
