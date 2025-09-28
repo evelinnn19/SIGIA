@@ -508,11 +508,13 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
            userConn = ResourceManager.getConnection();
            
            Statement stmt = userConn.createStatement();
-           String SQL = "SELECT * FROM Usuario WHERE nombre='" + nombreInsumo + " ";
+           String SQL = "SELECT * FROM Insumo WHERE nombre= '" + nombreInsumo + "'";
            
            ResultSet rs = stmt.executeQuery(SQL);
+           resultado = fetchSingleResult(rs);
+           resultado.toString();
            
-           return resultado = fetchSingleResult(rs);
+           return resultado;
             
         }
 

@@ -11,6 +11,8 @@ package com.SIGIApp.dto;
 import java.io.Serializable;
 import java.util.*;
 import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Transaccion implements Serializable
 {
@@ -75,10 +77,30 @@ public class Transaccion implements Serializable
 	 */
 	public Transaccion()
 	{
+            this.idTransaccion = 0;
+            this.tipo = "";
+            Date fechaObsoleta = new Date();
+            this.fecha = fechaObsoleta;
+            this.cantidad = 0;
+            this.areaDestino = "";
+            this.solicitante = "";
+            this.idInsumo = 0;
+            this.idUsuario = 0;
 	}
 
-    public Transaccion(String tipo, int cantidad, String areaDestino, String solicitante, int idInsumo, int idUsuario) {
+    /*public Transaccion(String tipo, int cantidad, String areaDestino, String solicitante, int idInsumo, int idUsuario) {
         this.tipo = tipo;
+        this.cantidad = cantidad;
+        this.areaDestino = areaDestino;
+        this.solicitante = solicitante;
+        this.idInsumo = idInsumo;
+        this.idUsuario = idUsuario;
+    }*/
+
+    public Transaccion(/*int idTransaccion,*/ String tipo, /*Date fecha*/ int cantidad, String areaDestino, String solicitante, int idInsumo, int idUsuario) {
+        //this.idTransaccion = idTransaccion;
+        this.tipo = tipo;
+        //this.fecha = fecha;
         this.cantidad = cantidad;
         this.areaDestino = areaDestino;
         this.solicitante = solicitante;

@@ -5,8 +5,11 @@
 package Userinterface;
 import com.SIGIApp.dto.*;
 import com.SIGIApp.exceptions.InsumoDaoException;
+import com.SIGIApp.exceptions.TransaccionDaoException;
 import com.SIGIApp.jdbc.*;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 /**
  *
  * @author Anita
@@ -258,19 +261,50 @@ public class SolicitarInsumo extends javax.swing.JFrame {
     private void bconfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bconfirmarActionPerformed
         // TODO add your handling code here:
         InsumoDaoImpl insumos = new InsumoDaoImpl();
+        TransaccionDaoImpl transaccion = new TransaccionDaoImpl();
         NombreInsumoList.getSelectedItem();
         fareas.getText();
         fcant.getText();
+        int cantidad;
+        Transaccion pedido = new Transaccion();
+        
+        cantidad = Integer.parseInt(fcant.getText());
         fnombs.getText();
         
-        System.out.println(NombreInsumoList.getSelectedItem().toString());
+        
         try {
+            System.out.println(NombreInsumoList.getSelectedItem().toString());
             Insumo tempo = insumos.buscarInsumoNombre(NombreInsumoList.getSelectedItem().toString());
+            
             //Antes de insertar ver si el stockActual es mayor que el solicitado.
+            if(tempo.getStockActual() > cantidad){
+                //Cargo los datos ingresados
+                pedido.setTipo("egreso");
+                pedido.setCantidad(cantidad);
+                pedido.setSolicitante(fnombs.getText());
+                pedido.setAreaDestino(fareas.getText());
+                pedido.setIdInsumo(tempo.getIdInsumo());
+                pedido.setIdUsuario(idUsuario);
+                
+                //Modifico la cantidad disponible del insumo en su tabla
+                int stockmodified = tempo.getStockActual() - cantidad;
+                InsumoPk tempoPk = new InsumoPk();
+                tempoPk.setIdInsumo(tempo.getIdInsumo());
+                tempo.setStockActual(stockmodified);
+                insumos.update(tempoPk, tempo);
+                
+                //Inserto la nueva transacción en la tabla.
+                transaccion.insert(pedido);
+                
+                //Guardo operación en tabla de Actividades
+                
+            }
             
-            
-            //Transaccion pedido = new Transaccion("egreso",fcant.getText(), fareas.getText(), fnombs.getText(), int idInsumo, int idUsuario);
         } catch (SQLException ex) {
+            System.getLogger(SolicitarInsumo.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } catch (TransaccionDaoException ex) {
+            System.getLogger(SolicitarInsumo.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } catch (InsumoDaoException ex) {
             System.getLogger(SolicitarInsumo.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
         
