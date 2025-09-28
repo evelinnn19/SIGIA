@@ -4,6 +4,7 @@
  */
 package Userinterface;
 import com.SIGIApp.dto.*;
+import com.SIGIApp.exceptions.ActividadDaoException;
 import com.SIGIApp.exceptions.InsumoDaoException;
 import com.SIGIApp.exceptions.TransaccionDaoException;
 import com.SIGIApp.jdbc.*;
@@ -34,10 +35,11 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         initComponents();
         OpcionesInsumo();
     }
-
+    
+    //Lee la Tabla insumos de la BD y los agrega cómo items en el menú
     private void OpcionesInsumo(){
         InsumoDaoImpl insumos = new InsumoDaoImpl();
-        //System.out.println("NombreInsumoListMouseClicked");
+       
         
         try {
             NombreInsumoList.addItem("");
@@ -52,8 +54,7 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         } catch (InsumoDaoException ex) {
             System.getLogger(SolicitarInsumo.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
-        
-        
+            
     }
     
     
@@ -147,6 +148,11 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         bcancelar.setFont(new java.awt.Font("sansserif", 1, 20)); // NOI18N
         bcancelar.setForeground(new java.awt.Color(253, 242, 197));
         bcancelar.setText("Cancelar");
+        bcancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bcancelarActionPerformed(evt);
+            }
+        });
 
         bconfirmar.setBackground(new java.awt.Color(77, 64, 43));
         bconfirmar.setFont(new java.awt.Font("sansserif", 1, 20)); // NOI18N
@@ -262,6 +268,7 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         // TODO add your handling code here:
         InsumoDaoImpl insumos = new InsumoDaoImpl();
         TransaccionDaoImpl transaccion = new TransaccionDaoImpl();
+        ActividadDaoImpl actividades = new ActividadDaoImpl();
         NombreInsumoList.getSelectedItem();
         fareas.getText();
         fcant.getText();
@@ -273,12 +280,13 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         
         
         try {
-            System.out.println(NombreInsumoList.getSelectedItem().toString());
+            //System.out.println(NombreInsumoList.getSelectedItem().toString());
+            //Ver de hacer si el usuario ingresa un elemento que no está en la base de datos.
             Insumo tempo = insumos.buscarInsumoNombre(NombreInsumoList.getSelectedItem().toString());
             
             //Antes de insertar ver si el stockActual es mayor que el solicitado.
             if(tempo.getStockActual() > cantidad){
-                //Cargo los datos ingresados
+                //Cargo los datos ingresados para luego agregarlos a la tabla Transacciones
                 pedido.setTipo("egreso");
                 pedido.setCantidad(cantidad);
                 pedido.setSolicitante(fnombs.getText());
@@ -286,18 +294,35 @@ public class SolicitarInsumo extends javax.swing.JFrame {
                 pedido.setIdInsumo(tempo.getIdInsumo());
                 pedido.setIdUsuario(idUsuario);
                 
+                
+                //++++
                 //Modifico la cantidad disponible del insumo en su tabla
-                int stockmodified = tempo.getStockActual() - cantidad;
-                InsumoPk tempoPk = new InsumoPk();
-                tempoPk.setIdInsumo(tempo.getIdInsumo());
+                //++++
+                
+                int stockmodified = tempo.getStockActual() - cantidad;   
+                
                 tempo.setStockActual(stockmodified);
-                insumos.update(tempoPk, tempo);
+                //Hago la actualización
+                insumos.update(tempo.createPk(), tempo);
                 
                 //Inserto la nueva transacción en la tabla.
                 transaccion.insert(pedido);
                 
+                //++++
                 //Guardo operación en tabla de Actividades
+                //++++
+                Actividad actividad = new Actividad();
+                actividad.setAccionRealizada(pedido.getTipo());
+                actividad.setAreaAfectada(pedido.getAreaDestino());
+                actividad.setDescripcion(pedido.getTipo() + " de " + NombreInsumoList.getSelectedItem() + ". Id de usuario: " + idUsuario);
+                actividad.setIdActividad(cantidad);
+                actividad.setIdUsuario(idUsuario);
+                actividad.createPk();
                 
+                actividades.insert(actividad);
+                
+            }else{
+                //ejecutar cartel de stock no disponible ya que la cantidad pedida es mayor al stock actual
             }
             
         } catch (SQLException ex) {
@@ -305,6 +330,8 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         } catch (TransaccionDaoException ex) {
             System.getLogger(SolicitarInsumo.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         } catch (InsumoDaoException ex) {
+            System.getLogger(SolicitarInsumo.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } catch (ActividadDaoException ex) {
             System.getLogger(SolicitarInsumo.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
         
@@ -320,6 +347,11 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_NombreInsumoListMouseClicked
+
+    private void bcancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bcancelarActionPerformed
+        // TODO add your handling code here:
+        bcancelar.getParent().setVisible(true);
+    }//GEN-LAST:event_bcancelarActionPerformed
 
     /**
      * @param args the command line arguments

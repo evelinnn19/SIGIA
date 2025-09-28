@@ -55,6 +55,8 @@ public class Actividad implements Serializable
 	 */
 	public Actividad()
 	{
+             Date fechaObsoleta = new Date();
+            this.fecha = fechaObsoleta;
 	}
 
 	/**
