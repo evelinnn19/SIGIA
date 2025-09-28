@@ -39,7 +39,7 @@ public class PantallaNoDocente extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         cargarNota = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        SolicitarInsumo = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -75,14 +75,14 @@ public class PantallaNoDocente extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(205, 216, 172));
-        jButton2.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(77, 64, 43));
-        jButton2.setText("Solicitar Insumo");
-        jButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        SolicitarInsumo.setBackground(new java.awt.Color(205, 216, 172));
+        SolicitarInsumo.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
+        SolicitarInsumo.setForeground(new java.awt.Color(77, 64, 43));
+        SolicitarInsumo.setText("Solicitar Insumo");
+        SolicitarInsumo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        SolicitarInsumo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                SolicitarInsumoActionPerformed(evt);
             }
         });
 
@@ -151,7 +151,7 @@ public class PantallaNoDocente extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SolicitarInsumo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cargarNota, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -166,7 +166,7 @@ public class PantallaNoDocente extends javax.swing.JFrame {
                 .addGap(59, 59, 59)
                 .addComponent(cargarNota, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SolicitarInsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
@@ -194,12 +194,12 @@ public class PantallaNoDocente extends javax.swing.JFrame {
         
     }//GEN-LAST:event_cargarNotaMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void SolicitarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarInsumoActionPerformed
         // TODO add your handling code here:
         //Abrir interfaz de Solicitar insumo.
         SolicitarInsumo Si = new SolicitarInsumo(idusuario);
         Si.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_SolicitarInsumoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -227,8 +227,8 @@ public class PantallaNoDocente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton SolicitarInsumo;
     private javax.swing.JButton cargarNota;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

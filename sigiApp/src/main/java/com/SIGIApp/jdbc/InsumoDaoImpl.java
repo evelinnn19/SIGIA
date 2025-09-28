@@ -499,5 +499,21 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 		}
 		
 	}
+        
+        public Insumo buscarInsumoNombre(String nombreInsumo) throws SQLException{
+            
+           Insumo resultado = new Insumo();
+            
+        
+           userConn = ResourceManager.getConnection();
+           
+           Statement stmt = userConn.createStatement();
+           String SQL = "SELECT * FROM Usuario WHERE nombre='" + nombreInsumo + " ";
+           
+           ResultSet rs = stmt.executeQuery(SQL);
+           
+           return resultado = fetchSingleResult(rs);
+            
+        }
 
 }

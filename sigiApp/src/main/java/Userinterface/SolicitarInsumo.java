@@ -15,6 +15,8 @@ public class SolicitarInsumo extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SolicitarInsumo.class.getName());
     private int idUsuario;
+    private Insumo[] menuoptions;
+    //InsumoDaoImpl insumos;
 
     /**
      * Creates new form SolicitarInsumo
@@ -32,11 +34,11 @@ public class SolicitarInsumo extends javax.swing.JFrame {
 
     private void OpcionesInsumo(){
         InsumoDaoImpl insumos = new InsumoDaoImpl();
-        System.out.println("NombreInsumoListMouseClicked");
+        //System.out.println("NombreInsumoListMouseClicked");
         
         try {
             NombreInsumoList.addItem("");
-            Insumo[] menuoptions = insumos.findAll();
+            menuoptions = insumos.findAll();
             int i=0;
             while(i < menuoptions.length){
                 System.out.println("insumo: "+ menuoptions[i].getNombre());
@@ -65,7 +67,6 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        fnombInsumo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         fareas = new javax.swing.JTextField();
         fcant = new javax.swing.JTextField();
@@ -108,9 +109,6 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(77, 64, 43));
         jLabel1.setText("Solicitar Insumo");
-
-        fnombInsumo.setBackground(new java.awt.Color(253, 242, 197));
-        fnombInsumo.setForeground(new java.awt.Color(77, 64, 43));
 
         jLabel2.setFont(new java.awt.Font("sansserif", 1, 20)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(77, 64, 43));
@@ -177,47 +175,42 @@ public class SolicitarInsumo extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(200, Short.MAX_VALUE)
+                .addGap(0, 653, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(219, 219, 219)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fnombInsumo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(bconfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(fnombs, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(fareas, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel3))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4)
-                                .addComponent(fcant, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(NombreInsumoList, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(275, 275, 275))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(36, 36, 36))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel5)
+                        .addComponent(jLabel2)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(bconfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(fnombs, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(fareas, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(fcant, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(NombreInsumoList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(fnombInsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(29, 29, 29)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60)
                 .addComponent(jLabel1)
-                .addGap(34, 34, 34)
+                .addGap(26, 26, 26)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(NombreInsumoList, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,12 +228,9 @@ public class SolicitarInsumo extends javax.swing.JFrame {
                 .addComponent(fnombs, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(bconfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-                        .addGap(125, 125, 125))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(bconfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bcancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(133, 133, 133))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -267,15 +257,22 @@ public class SolicitarInsumo extends javax.swing.JFrame {
 
     private void bconfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bconfirmarActionPerformed
         // TODO add your handling code here:
-        fnombInsumo.getText();
-        //Buscar insumo en bd y obtener el id
-        
+        InsumoDaoImpl insumos = new InsumoDaoImpl();
+        NombreInsumoList.getSelectedItem();
         fareas.getText();
         fcant.getText();
         fnombs.getText();
-        //ver cómo obtener idUsuario
         
-        //Transaccion pedido = new Transaccion("egreso",fcant.getText(), fareas.getText(), fnombs.getText(), int idInsumo, int idUsuario);
+        System.out.println(NombreInsumoList.getSelectedItem().toString());
+        try {
+            Insumo tempo = insumos.buscarInsumoNombre(NombreInsumoList.getSelectedItem().toString());
+            //Antes de insertar ver si el stockActual es mayor que el solicitado.
+            
+            
+            //Transaccion pedido = new Transaccion("egreso",fcant.getText(), fareas.getText(), fnombs.getText(), int idInsumo, int idUsuario);
+        } catch (SQLException ex) {
+            System.getLogger(SolicitarInsumo.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
         
     }//GEN-LAST:event_bconfirmarActionPerformed
 
@@ -321,7 +318,6 @@ public class SolicitarInsumo extends javax.swing.JFrame {
     private javax.swing.JButton bconfirmar;
     private javax.swing.JTextField fareas;
     private javax.swing.JTextField fcant;
-    private javax.swing.JTextField fnombInsumo;
     private javax.swing.JTextField fnombs;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
