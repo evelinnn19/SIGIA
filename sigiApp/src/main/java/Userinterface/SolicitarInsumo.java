@@ -294,22 +294,26 @@ public class SolicitarInsumo extends javax.swing.JFrame {
                 pedido.setIdInsumo(tempo.getIdInsumo());
                 pedido.setIdUsuario(idUsuario);
                 
+                //++++
+                //+Inserto la nueva transacción en la tabla.
+                //++++
+                transaccion.insert(pedido);
                 
                 //++++
-                //Modifico la cantidad disponible del insumo en su tabla
+                //+Modifico la cantidad disponible del insumo en su tabla
                 //++++
                 
                 int stockmodified = tempo.getStockActual() - cantidad;   
                 
                 tempo.setStockActual(stockmodified);
+                InsumoPk insumoPk = new InsumoPk();
+                insumoPk.setIdInsumo(tempo.getIdInsumo());
                 //Hago la actualización
-                insumos.update(tempo.createPk(), tempo);
+                insumos.update(insumoPk, tempo);
                 
-                //Inserto la nueva transacción en la tabla.
-                transaccion.insert(pedido);
                 
                 //++++
-                //Guardo operación en tabla de Actividades
+                //+Guardo operación en tabla de Actividades
                 //++++
                 Actividad actividad = new Actividad();
                 actividad.setAccionRealizada(pedido.getTipo());
