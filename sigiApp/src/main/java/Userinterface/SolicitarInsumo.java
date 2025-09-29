@@ -360,7 +360,7 @@ public class SolicitarInsumo extends javax.swing.JFrame {
                 actividad.setDescripcion(pedido.getTipo() + " de " + NombreInsumoList.getSelectedItem() + ". Id de usuario: " + idUsuario);
                 actividad.setIdActividad(cantidad);
                 actividad.setIdUsuario(idUsuario);
-                actividad.createPk();
+                
                 
                 actividades.insert(actividad);
                 jDialog1.setVisible(true);
