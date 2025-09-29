@@ -10,13 +10,14 @@ import java.util.logging.Logger;
 import com.SIGIApp.jdbc.*;
 import java.sql.SQLException;
 import com.SIGIApp.dto.*;
+import com.SIGIApp.exceptions.ActividadDaoException;
 
 /**
  *
  * @author Usuario
  */
 public class InicioSesion extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form InicioSesion
      */
@@ -50,6 +51,11 @@ public class InicioSesion extends javax.swing.JFrame {
         jTextField1.setBackground(new java.awt.Color(205, 216, 172));
         jTextField1.setForeground(new java.awt.Color(77, 64, 43));
         jTextField1.setText("correo_electronico");
+        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField1MouseClicked(evt);
+            }
+        });
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -90,6 +96,16 @@ public class InicioSesion extends javax.swing.JFrame {
         jPasswordField1.setBackground(new java.awt.Color(205, 216, 172));
         jPasswordField1.setForeground(new java.awt.Color(77, 64, 43));
         jPasswordField1.setText("jPasswordField1");
+        jPasswordField1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPasswordField1MouseClicked(evt);
+            }
+        });
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -159,6 +175,7 @@ public class InicioSesion extends javax.swing.JFrame {
         String contraseña = jPasswordField1.getText();
         
         UsuarioDaoImpl usuarioAut = new UsuarioDaoImpl();
+        ActividadDaoImpl actividades = new ActividadDaoImpl();
         try {
             Boolean inicioS = usuarioAut.AutenticarUsuario(usuario, contraseña);
             if(inicioS){
@@ -190,10 +207,22 @@ public class InicioSesion extends javax.swing.JFrame {
                         
                         Usuario user = new Usuario();
                         user = usuarioAut.findUsuario( usuario, contraseña);
+                        
                         String message = user.toString();
                         System.out.println(message);
                         
+                        //++++
+                        //+Guardo operación en tabla de Actividades
+                        //++++
+                        Actividad actividad = new Actividad();
+                        actividad.setAccionRealizada("Inicio de Sesión");
+                        actividad.setAreaAfectada("Mesa de Entradas");
+                        actividad.setDescripcion("El usuario "+ user.getNombre()+ " inició sesión.");
+                        actividad.setIdActividad(0);
+                        actividad.setIdUsuario(user.getIdUsuario());
                         
+                        actividades.insert(actividad);
+                        System.out.println("Guardado en historial");
                         
                         //Asigno el IDdeUsuario así lo puedo usar en Pantalla no docente.
                         PantallaNoDocente pnd = new PantallaNoDocente(user.getIdUsuario());
@@ -212,11 +241,15 @@ public class InicioSesion extends javax.swing.JFrame {
                 
                 
                 
+                
+                
             }else{
                 javax.swing.JOptionPane.showMessageDialog(this, "¡Falló el inicio de sesión! \nDatos incorrectos", "LOGIN", javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
             
         } catch (SQLException ex) {
+            Logger.getLogger(InicioSesion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ActividadDaoException ex) {
             Logger.getLogger(InicioSesion.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -235,6 +268,21 @@ public class InicioSesion extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
+
+    private void jPasswordField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPasswordField1MouseClicked
+        // TODO add your handling code here:
+        jPasswordField1.setText("");
+    }//GEN-LAST:event_jPasswordField1MouseClicked
+
+    private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
+        // TODO add your handling code here:
+        jTextField1.setText("");
+    }//GEN-LAST:event_jTextField1MouseClicked
 
     /**
      * @param args the command line arguments

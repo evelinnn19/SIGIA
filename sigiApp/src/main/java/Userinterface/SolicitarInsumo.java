@@ -397,7 +397,7 @@ public class SolicitarInsumo extends javax.swing.JFrame {
                 actividad.setAccionRealizada(pedido.getTipo());
                 actividad.setAreaAfectada(pedido.getAreaDestino());
                 actividad.setDescripcion(pedido.getTipo() + " de " + NombreInsumoList.getSelectedItem() + ". Id de usuario: " + idUsuario);
-                actividad.setIdActividad(cantidad);
+                //actividad.setIdActividad(cantidad);
                 actividad.setIdUsuario(idUsuario);
                 
                 
