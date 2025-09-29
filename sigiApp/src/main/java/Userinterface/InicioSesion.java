@@ -24,6 +24,23 @@ public class InicioSesion extends javax.swing.JFrame {
     public InicioSesion() {
         initComponents();
     }
+    
+    private void registrarInicioDeSesion(Usuario user) throws ActividadDaoException{
+        
+                        ActividadDaoImpl actividades = new ActividadDaoImpl();
+                        //++++
+                        //+Guardo operación en tabla de Actividades
+                        //++++
+                        Actividad actividad = new Actividad();
+                        actividad.setAccionRealizada("Inicio de Sesión");
+                        actividad.setAreaAfectada("Mesa de Entradas");
+                        actividad.setDescripcion("El usuario "+ user.getNombre()+ " inició sesión.");
+                        actividad.setIdActividad(0);
+                        actividad.setIdUsuario(user.getIdUsuario());
+                        
+                        actividades.insert(actividad);
+                        System.out.println("Guardado en historial");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -167,7 +184,9 @@ public class InicioSesion extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    
+    
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         
@@ -210,19 +229,7 @@ public class InicioSesion extends javax.swing.JFrame {
                         
                         String message = user.toString();
                         System.out.println(message);
-                        
-                        //++++
-                        //+Guardo operación en tabla de Actividades
-                        //++++
-                        Actividad actividad = new Actividad();
-                        actividad.setAccionRealizada("Inicio de Sesión");
-                        actividad.setAreaAfectada("Mesa de Entradas");
-                        actividad.setDescripcion("El usuario "+ user.getNombre()+ " inició sesión.");
-                        actividad.setIdActividad(0);
-                        actividad.setIdUsuario(user.getIdUsuario());
-                        
-                        actividades.insert(actividad);
-                        System.out.println("Guardado en historial");
+                        registrarInicioDeSesion(user);
                         
                         //Asigno el IDdeUsuario así lo puedo usar en Pantalla no docente.
                         PantallaNoDocente pnd = new PantallaNoDocente(user.getIdUsuario());
