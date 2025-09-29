@@ -522,8 +522,5 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 		
 	}
         
-        public int ObtenerKey(){
-            
-        }
 
 }
