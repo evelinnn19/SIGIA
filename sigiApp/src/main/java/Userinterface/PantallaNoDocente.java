@@ -201,8 +201,9 @@ public class PantallaNoDocente extends javax.swing.JFrame {
     private void SolicitarInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarInsumoActionPerformed
         // TODO add your handling code here:
         //Abrir interfaz de Solicitar insumo.
-        SolicitarInsumo Si = new SolicitarInsumo(idusuario);
+        SolicitarInsumo Si = new SolicitarInsumo(idusuario);  
         Si.setVisible(true);
+
     }//GEN-LAST:event_SolicitarInsumoActionPerformed
 
     /**

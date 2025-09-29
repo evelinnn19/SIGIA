@@ -47,7 +47,7 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 	/** 
 	 * SQL INSERT statement for this table
 	 */
-	protected final String SQL_INSERT = "INSERT INTO " + getTableName() + " ( idActividad, areaAfectada, accionRealizada, fecha, descripcion, idUsuario ) VALUES ( ?, ?, ?, ?, ?, ? )";
+	protected final String SQL_INSERT = "INSERT INTO " + getTableName() + " (idActividad, areaAfectada, accionRealizada, fecha, descripcion, idUsuario ) VALUES ( ?, ?, ?, ?, ?, ? )";
 
 	/** 
 	 * SQL UPDATE statement for this table
@@ -521,5 +521,9 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
 		}
 		
 	}
+        
+        public int ObtenerKey(){
+            
+        }
 
 }

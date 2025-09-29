@@ -212,6 +212,8 @@ public class InicioSesion extends javax.swing.JFrame {
                 
                 
                 
+            }else{
+                javax.swing.JOptionPane.showMessageDialog(this, "¡Falló el inicio de sesión! \nDatos incorrectos", "LOGIN", javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
             
         } catch (SQLException ex) {
