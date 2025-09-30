@@ -590,8 +590,8 @@ calls to this DAO, otherwise a new Connection will be allocated for each operati
        
        }
         
-       public Usuario findUsuario(Usuario usuario, String nombre, String contrasena) throws SQLException{
-           
+       public Usuario findUsuario( String nombre, String contrasena) throws SQLException{
+           Usuario usuario = new Usuario();
            userConn = ResourceManager.getConnection();
            
            Statement stmt = userConn.createStatement();

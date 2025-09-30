@@ -5,18 +5,18 @@ import java.sql.*;
 public class ResourceManager
 {
     /////CONEXIÓN POR INTERNET
-    /*private static String JDBC_DRIVER   = "com.mysql.jdbc.Driver";
+    private static String JDBC_DRIVER   = "com.mysql.jdbc.Driver";
     private static String JDBC_URL      = "jdbc:mysql://m1uc.mooo.com:53306/sigia";
     private static String JDBC_USER     = "Admin";
-    private static String JDBC_PASSWORD = "Sigia2025";*/
+    private static String JDBC_PASSWORD = "Sigia2025";
         
     
     ///CONEXIÓN DESDE CASA
-    private static String JDBC_DRIVER   = "com.mysql.jdbc.Driver";
+    /*private static String JDBC_DRIVER   = "com.mysql.jdbc.Driver";
     private static String JDBC_URL      = "jdbc:mysql://192.168.200.221:3306/sigia";
 
     private static String JDBC_USER     = "Admin";
-    private static String JDBC_PASSWORD = "Sigia2025";
+    private static String JDBC_PASSWORD = "Sigia2025";*/
     
     
 

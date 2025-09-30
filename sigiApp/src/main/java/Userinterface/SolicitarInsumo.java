@@ -67,6 +67,12 @@ public class SolicitarInsumo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jDialog2 = new javax.swing.JDialog();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -81,6 +87,77 @@ public class SolicitarInsumo extends javax.swing.JFrame {
         bcancelar = new javax.swing.JButton();
         bconfirmar = new javax.swing.JButton();
         NombreInsumoList = new javax.swing.JComboBox<>();
+
+        jPanel3.setBackground(new java.awt.Color(253, 242, 197));
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(77, 64, 43));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Operación realizada");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(64, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(71, 71, 71))
+        );
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jDialog2.setTitle("Stock Insuficiente");
+
+        jPanel4.setBackground(new java.awt.Color(255, 204, 204));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("STOCK INSUFICIENTE");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(94, 94, 94)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(93, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
+        jDialog2.getContentPane().setLayout(jDialog2Layout);
+        jDialog2Layout.setHorizontalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jDialog2Layout.setVerticalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -258,6 +335,7 @@ public class SolicitarInsumo extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void fcantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fcantActionPerformed
@@ -294,35 +372,40 @@ public class SolicitarInsumo extends javax.swing.JFrame {
                 pedido.setIdInsumo(tempo.getIdInsumo());
                 pedido.setIdUsuario(idUsuario);
                 
+                //++++
+                //+Inserto la nueva transacción en la tabla.
+                //++++
+                transaccion.insert(pedido);
                 
                 //++++
-                //Modifico la cantidad disponible del insumo en su tabla
+                //+Modifico la cantidad disponible del insumo en su tabla
                 //++++
                 
                 int stockmodified = tempo.getStockActual() - cantidad;   
                 
                 tempo.setStockActual(stockmodified);
+                InsumoPk insumoPk = new InsumoPk();
+                insumoPk.setIdInsumo(tempo.getIdInsumo());
                 //Hago la actualización
-                insumos.update(tempo.createPk(), tempo);
+                insumos.update(insumoPk, tempo);
                 
-                //Inserto la nueva transacción en la tabla.
-                transaccion.insert(pedido);
                 
                 //++++
-                //Guardo operación en tabla de Actividades
+                //+Guardo operación en tabla de Actividades
                 //++++
                 Actividad actividad = new Actividad();
                 actividad.setAccionRealizada(pedido.getTipo());
                 actividad.setAreaAfectada(pedido.getAreaDestino());
                 actividad.setDescripcion(pedido.getTipo() + " de " + NombreInsumoList.getSelectedItem() + ". Id de usuario: " + idUsuario);
-                actividad.setIdActividad(cantidad);
+                //actividad.setIdActividad(cantidad);
                 actividad.setIdUsuario(idUsuario);
-                actividad.createPk();
+                
                 
                 actividades.insert(actividad);
-                
+                jDialog1.setVisible(true);
             }else{
                 //ejecutar cartel de stock no disponible ya que la cantidad pedida es mayor al stock actual
+                jDialog2.setVisible(true);
             }
             
         } catch (SQLException ex) {
@@ -350,7 +433,13 @@ public class SolicitarInsumo extends javax.swing.JFrame {
 
     private void bcancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bcancelarActionPerformed
         // TODO add your handling code here:
-        bcancelar.getParent().setVisible(true);
+        NombreInsumoList.setSelectedIndex(0);
+        fareas.setText("");
+        fcant.setText("");
+        fnombs.setText("");
+        //this.setVisible(false);
+        
+        
     }//GEN-LAST:event_bcancelarActionPerformed
 
     /**
@@ -386,12 +475,18 @@ public class SolicitarInsumo extends javax.swing.JFrame {
     private javax.swing.JTextField fcant;
     private javax.swing.JTextField fnombs;
     private javax.swing.JButton jButton1;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     // End of variables declaration//GEN-END:variables
 }
