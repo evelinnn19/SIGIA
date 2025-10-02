@@ -1,0 +1,47 @@
+package com.SIGIApp.controllers;
+
+import com.SIGIApp.dao.InsumoDao;
+import com.SIGIApp.dto.Insumo;
+import com.SIGIApp.dto.InsumoPk;
+import com.SIGIApp.exceptions.InsumoDaoException;
+import com.SIGIApp.jdbc.InsumoDaoImpl;
+
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/insumos")
+public class InsumoController {
+
+    private final InsumoDao insumoDao = new InsumoDaoImpl();
+
+    @GetMapping
+    public List<Insumo> getAll() throws InsumoDaoException {
+        return List.of(insumoDao.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public Insumo getById(@PathVariable int id) throws InsumoDaoException {
+        return insumoDao.findByPrimaryKey(new InsumoPk(id));
+    }
+
+    @PostMapping
+    public String create(@RequestBody Insumo insumo) throws InsumoDaoException {
+        insumoDao.insert(insumo);
+        return "Insumo creado con éxito";
+    }
+
+    @PutMapping("/{id}")
+    public String update(@PathVariable int id, @RequestBody Insumo insumo) throws InsumoDaoException {
+        insumo.setIdInsumo(id);
+        insumoDao.update(new InsumoPk(id), insumo);
+        return "Insumo actualizado con éxito";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable int id) throws InsumoDaoException {
+        insumoDao.delete(new InsumoPk(id));
+        return "Insumo eliminado con éxito";
+    }
+}

@@ -3,17 +3,17 @@
  */
 
 package com.SIGIApp;
-import Userinterface.*;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 /**
  *
  * @author Anita
  */
+@SpringBootApplication(exclude = {org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class})
 public class SigiApp {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-        //Marcar a PantallaBienvenida cómo pantalla principal luego.
-        SolicitarInsumo soli = new SolicitarInsumo(1);
-        soli.setVisible(true);
+          SpringApplication.run(SigiApp.class, args);
     }
 }
