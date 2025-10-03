@@ -1,5 +1,6 @@
 .idea/
 /sigiApp/target/
 SIGIA.iml
-ResourceManager.javanode_modules/
+ResourceManager.java
+node_modules/
 package-lock.json
