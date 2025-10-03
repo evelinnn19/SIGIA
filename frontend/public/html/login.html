@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sigia :: Login</title>
+    <link rel="stylesheet" href="../css/tailwind.css" />
+  </head>
+  <body class="login-page">
+    <header class="topbar">
+      <a href="index.html" class="back-btn">← Volver</a>
+    </header>
+    
+    <div class="login-container">
+      <div class="login-box">
+        <img src="../imgs/LOGO.svg" alt="Logo SIGIA" class="logo-sigia" />
+        <h2 class="login-title">Iniciar Sesión</h2>
+        
+        <form>
+          <div>
+            <label>Usuario</label>
+            <input type="text" name="usuario" placeholder="usuario@mail.com" required />
+          </div>
+          
+          <div>
+            <label>Contraseña</label>
+            <input type="password" name="contraseña" placeholder="****************" required />
+          </div>
+          
+          <button type="submit">Entrar</button>
+          <a href="index.html" class="form-back">Volver</a>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
