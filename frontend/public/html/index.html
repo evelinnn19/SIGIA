@@ -5,12 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sigia :: Bienvenido</title>
     <link rel="stylesheet" href="../css/tailwind.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script src="https://cdn.tailwindcss.com"></script> <!carga Tailwind CSS directamente desde internet (desde un CDN - Content Delivery Network). Esto permite utilizar las utilidades de Tailwind CSS sin necesidad de instalarlo localmente en el proyecto.>
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+      }
+    </style>
   </head>
-  <body>
-    <main class="container-index">
-      <h1>Bienvenido a SIGIA</h1>
-      <a href="login.html">
-        <button type="button" class="btn-main">Ingresar</button>
+  <body class="min-h-screen bg-[#D3E6B9] text-[#4D3C2D]">
+    <main
+      class="min-h-screen flex flex-col items-center justify-center gap-7 px-8 py-8"
+    >
+      <h1
+        class="m-0 font-extrabold text-[clamp(46px,8vw,96px)] leading-tight tracking-wide text-[#4D3C2D] text-center"
+      >
+        Bienvenido a SIGIA
+      </h1>
+      <a href="login.html" class="no-underline">
+        <button
+          type="button"
+          class="inline-flex items-center justify-center px-8 py-4 text-lg font-extrabold text-[#F7F6EF] bg-[#4D3C2D] border-none rounded-full shadow-[0_8px_18px_rgba(0,0,0,0.14)] cursor-pointer transition-all duration-75 ease-in-out hover:bg-[#3D3023] hover:-translate-y-0.5 active:translate-y-0"
+        >
+          Ingresar
+        </button>
       </a>
     </main>
   </body>
