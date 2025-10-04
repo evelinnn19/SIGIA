@@ -1,5 +1,6 @@
 package com.SIGIApp.controllers;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.*;
 import com.SIGIApp.dao.SolicitudDao;
@@ -8,6 +9,8 @@ import com.SIGIApp.dto.SolicitudPk;
 import com.SIGIApp.exceptions.SolicitudDaoException;
 import com.SIGIApp.jdbc.SolicitudDaoImpl;
 
+
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/solicitudes")
 public class SolicitudController {
@@ -40,5 +43,21 @@ public class SolicitudController {
     public String delete(@PathVariable int id) throws SolicitudDaoException {
         solicitudDao.delete(new SolicitudPk(id));
         return "Solicitud eliminada";
+    }
+
+
+    @PutMapping("/{id}/estado")
+    public String updateEstado(@PathVariable int id, @RequestBody Map<String,String> body) throws SolicitudDaoException {
+        String nuevoEstado = body.get("estado");
+
+        Solicitud solicitud = solicitudDao.findByPrimaryKey(id);
+        if (solicitud == null) {
+            throw new SolicitudDaoException("Solicitud no encontrada con id: " + id);
+        }
+
+        solicitud.setEstado(nuevoEstado);
+        solicitudDao.update(new SolicitudPk(id), solicitud);
+
+        return "Estado actualizado correctamente";
     }
 }
