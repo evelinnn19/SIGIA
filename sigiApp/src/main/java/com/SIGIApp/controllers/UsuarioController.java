@@ -8,8 +8,11 @@ import com.SIGIApp.jdbc.UsuarioDaoImpl;
 
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 
+
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
@@ -44,5 +47,11 @@ public class UsuarioController {
     public String delete(@PathVariable int id) throws UsuarioDaoException {
         usuarioDao.delete(new UsuarioPk(id));
         return "Usuario eliminado con éxito";
+    }
+
+
+    @GetMapping("mail/{mail}")
+    public Usuario[] getByMail(@PathVariable String mail) throws UsuarioDaoException {
+        return usuarioDao.findWhereCorreoEquals(mail);
     }
 }
