@@ -12,6 +12,13 @@ export async function getUsuarioById(id) {
   return res.json();
 }
 
+//Obtener usuario por Mail
+export async function getUsuarioByMail(Mail) {
+  const res = await fetch(`${BASE_URL}/mail/${encodeURIComponent(Mail)}`);
+  if(!res.ok) throw new Error("Error al obtener usuario");
+  return res.json()
+}
+
 export async function createUsuario(usuario) {
   const res = await fetch(BASE_URL, {
     method: "POST",
