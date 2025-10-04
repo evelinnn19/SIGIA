@@ -8,8 +8,10 @@ import com.SIGIApp.jdbc.InsumoDaoImpl;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/insumos")
 public class InsumoController {
@@ -27,9 +29,12 @@ public class InsumoController {
     }
 
     @PostMapping
-    public String create(@RequestBody Insumo insumo) throws InsumoDaoException {
+    public Map<String, String> create(@RequestBody Insumo insumo) throws InsumoDaoException {
         insumoDao.insert(insumo);
-        return "Insumo creado con éxito";
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Insumo creado con éxito");
+    return response;
     }
 
     @PutMapping("/{id}")
