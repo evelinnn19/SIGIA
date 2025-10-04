@@ -57,63 +57,63 @@
       <div class="space-y-6">
         <!-- N° de Tramite -->
         <div class="flex flex-col">
-          <label class="font-bold text-base text-[#4D3C2D] mb-2">
+          <label for="numero_tramite" class="font-bold text-base text-[#4D3C2D] mb-2">
             N° de Tramite <span class="text-red-600">*</span>
           </label>
           <input 
+            id="numero_tramite"
             type="text" 
             name="numero_tramite" 
             placeholder="1234567" 
             value="1234567"
             required 
             class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
-            style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif;"
           />
         </div>
 
         <!-- Área solicitante -->
         <div class="flex flex-col">
-          <label class="font-bold text-base text-[#4D3C2D] mb-2">
+          <label for="area" class="font-bold text-base text-[#4D3C2D] mb-2">
             Área solicitante <span class="text-red-600">*</span>
           </label>
           <input 
+            id="area"
             type="text" 
             name="area" 
             placeholder="Posgrado" 
             value="Posgrado"
             required 
             class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
-            style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif;"
           />
         </div>
 
         <!-- Nombre del solicitante -->
         <div class="flex flex-col">
-          <label class="font-bold text-base text-[#4D3C2D] mb-2">
+          <label for="nombre_solicitante" class="font-bold text-base text-[#4D3C2D] mb-2">
             Nombre del solicitante <span class="text-red-600">*</span>
           </label>
           <input 
+            id="nombre_solicitante"
             type="text" 
             name="nombre_solicitante" 
             placeholder="Omar Luna" 
             value="Omar Luna"
             required 
             class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
-            style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif;"
           />
         </div>
 
         <!-- Fecha de solicitud de nota -->
         <div class="flex flex-col">
-          <label class="font-bold text-base text-[#4D3C2D] mb-2">
+          <label for="fecha_solicitud" class="font-bold text-base text-[#4D3C2D] mb-2">
             Fecha de solicitud de nota <span class="text-red-600">*</span>
           </label>
           <input 
+            id="fecha_solicitud"
             type="date" 
             name="fecha_solicitud" 
             required 
             class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md"
-            style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif;"
           />
         </div>
       </div>
@@ -126,15 +126,15 @@
           <p class="text-[#8A9A7A] text-base font-medium">No hay insumos agregados</p>
         </div>
 
-        <button 
-          type="button"
-          class="w-full px-8 py-4 text-lg font-extrabold text-white bg-[#4D3C2D] border-none rounded-full shadow-[0_8px_18px_rgba(0,0,0,0.14)] transition-all duration-75 hover:-translate-y-0.5 hover:bg-[#3D3023] active:translate-y-0 flex items-center justify-center gap-2"
+        <a 
+          href="agregar-insumo.html"
+          class="w-full px-8 py-4 text-lg font-extrabold text-white bg-[#4D3C2D] border-none rounded-full shadow-[0_8px_18px_rgba(0,0,0,0.14)] transition-all duration-75 hover:-translate-y-0.5 hover:bg-[#3D3023] active:translate-y-0 flex items-center justify-center gap-2 text-center no-underline"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"/>
           </svg>
           Agregar Insumo
-        </button>
+        </a>
       </div>
     </div>
 
