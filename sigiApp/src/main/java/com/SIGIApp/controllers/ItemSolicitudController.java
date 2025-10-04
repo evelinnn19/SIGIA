@@ -9,6 +9,7 @@ import com.SIGIApp.dto.ItemSolicitudPk;
 import com.SIGIApp.exceptions.ItemSolicitudDaoException;
 import com.SIGIApp.jdbc.ItemSolicitudDaoImpl;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/item-solicitudes")
 public class ItemSolicitudController {

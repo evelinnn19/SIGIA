@@ -9,6 +9,7 @@ import com.SIGIApp.dto.TransaccionPk;
 import com.SIGIApp.exceptions.TransaccionDaoException;
 import com.SIGIApp.jdbc.TransaccionDaoImpl;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/transacciones")
 public class TransaccionController {

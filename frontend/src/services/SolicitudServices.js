@@ -37,3 +37,15 @@ export async function deleteSolicitud(id) {
   if (!res.ok) throw new Error("Error al eliminar solicitud");
   return true;
 }
+
+
+export async function updateEstadoSolicitud(id, estado) {
+  const res = await fetch(`${BASE_URL}/${id}/estado`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ estado }),
+  });
+  if (!res.ok) throw new Error("Error al actualizar estado de solicitud");
+  return true;
+}
+
