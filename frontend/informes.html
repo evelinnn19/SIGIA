@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIGIA :: Administrador - Informes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="shortcut icon"
+      href="public/imgs/favicon.ico"
+      type="image/x-icon"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+      }
+    </style>
+  </head>
+
+  <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
+    <!-- Header -->
+    <header
+      class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm"
+    >
+      <div class="flex items-center gap-3">
+        <img src="imgs/LOGO.svg" alt="Logo Sigia" class="w-32 h-auto" />
+      </div>
+      <div
+        class="flex items-center gap-3 bg-[#C5DBA7] px-5 py-2.5 rounded-full"
+      >
+        <img
+          src="imgs/logo-nodocente-encargado.svg"
+          alt="Administrador"
+          class="w-8 h-8 rounded-full"
+        />
+        <span class="font-bold text-lg">Administrador</span>
+      </div>
+    </header>
+    <div class="px-8 pt-6">
+      <a
+        href="notas-cargadas.html"
+        class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#4D3C2D] text-white no-underline font-extrabold rounded-2xl shadow-[0_8px_18px_rgba(0,0,0,0.14)] text-[17px] transition-all duration-75 hover:bg-[#3D3023] hover:-translate-y-0.5"
+      >
+        <img src="imgs/icon-back.svg" alt="Volver" class="w-5 h-5" />
+        Volver
+      </a>
+    </div>
+    <!-- Main -->
+    <main class="px-8 pt-6 pb-12">
+      <div class="max-w-[1120px] mx-auto">
+        <!-- Título -->
+        <h1 class="mt-10 text-4xl md:text-5xl font-extrabold">Informes</h1>
+
+        <!-- Lista de informes -->
+        <ul class="mt-6 space-y-4 text-2xl md:text-3xl font-semibold">
+          <li class="list-disc list-inside">
+            <a href="historial-movimientos.html" class="hover:underline">
+              Movimientos de Insumos
+            </a>
+          </li>
+          <li class="list-disc list-inside">
+            <a href="stock-actual.html" class="hover:underline">
+              Stock Actual
+            </a>
+          </li>
+          <li class="list-disc list-inside">
+            <a href="informes-solicitudes.html" class="hover:underline">
+              Solicitudes
+            </a>
+          </li>
+          <li class="list-disc list-inside">
+            <a href="actividad-del-sistema.html" class="hover:underline">
+              Actividad del Sistema
+            </a>
+          </li>
+        </ul>
+      </div>
+    </main>
+  </body>
+</html>

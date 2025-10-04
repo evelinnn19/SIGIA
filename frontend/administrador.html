@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SIGIA :: Administrador</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="shortcut icon" href="public/imgs/favicon.ico" type="image/x-icon"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet"/>
+    <style>
+      body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
+    </style>
+  </head>
+
+  <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
+    <!-- Header -->
+    <header class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm">
+      <div class="flex items-center gap-3">
+        <img src="imgs/LOGO.svg" alt="Logo Sigia" class="w-32 h-auto"/>
+      </div>
+      <div class="flex items-center gap-3 bg-[#C5DBA7] px-5 py-2.5 rounded-full">
+        <img src="imgs/logo-admin.svg" alt="Administrador" class="w-8 h-8 rounded-full"/>
+        <span class="font-bold text-lg">Administrador</span>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="px-8 py-12">
+      <div class="max-w-[1120px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-y-16 md:gap-y-24">
+        <!-- Columna izquierda -->
+        <nav class="space-y-16">
+          <a href="insumos.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">Insumos</a>
+          <a href="usuarios.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">Usuarios</a>
+          <a href="informes.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">Informes</a>
+        </nav>
+
+        <!-- Columna derecha -->
+        <div class="space-y-16">
+          <a href="solicitar-insumo-por-nota.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">
+            Solicitar Insumo por Nota
+          </a>
+          <a href="modificar-solicitud-nota.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">
+            Modificar Solicitud Nota
+          </a>
+          <a href="solicitar-insumo.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">
+            Solicitar Insumo
+          </a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
