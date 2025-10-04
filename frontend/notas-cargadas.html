@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="shortcut icon" href="public/imgs/favicon.ico" type="image/x-icon">
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap"
       rel="stylesheet"
@@ -23,18 +24,17 @@
       class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm"
     >
       <div class="flex items-center gap-3">
-        <img
-          src="imgs/LOGO.svg"
-          alt="Logo Sigia"
-          class="w-32 h-auto"
-        />
+        <img src="imgs/LOGO.svg" alt="Logo Sigia" class="w-32 h-auto" />
       </div>
       <div
         class="flex items-center gap-3 bg-[#C5DBA7] px-5 py-2.5 rounded-full"
       >
-        <div
-        >
-          <img src="imgs/logo-nodocente-encargado.svg" alt="" class="w-8 h-8 bg-[#8A9A7A] rounded-full flex items-center justify-center" />
+        <div>
+          <img
+            src="imgs/logo-nodocente-encargado.svg"
+            alt=""
+            class="w-8 h-8 bg-[#8A9A7A] rounded-full flex items-center justify-center"
+          />
         </div>
         <span class="font-bold text-lg text-[#4D3C2D]">No Docente</span>
       </div>
@@ -44,10 +44,19 @@
     <main class="px-6 py-8">
       <!-- Títulos -->
       <div class="mb-8">
+        <!-- Item 1: Solicitar Insumo -->
         <h2 class="text-4xl font-extrabold text-[#4D3C2D] mb-2">
-          Cargar Nota Solicitud de Insumos
+          <a href="solicitar-insumo.html" class="hover:underline">
+            Solicitar Insumo
+          </a>
         </h2>
-        <h3 class="text-3xl font-bold text-[#5D4C3D]">Solicitar Insumo</h3>
+
+        <!-- Item 2: Cargar Nota (index de Notas Cargadas) -->
+        <h3 class="text-3xl font-bold text-[#5D4C3D]">
+          <a href="cargar-nota.html" class="hover:underline">
+            Cargar Nota
+          </a>
+        </h3>
       </div>
 
       <!-- Card de Notas Cargadas -->
