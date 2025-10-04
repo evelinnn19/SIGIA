@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIGIA - Solicitar Insumo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="shortcut icon" href="public/imgs/favicon.ico" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="public/imgs/favicon.ico"
+      type="image/x-icon"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
+    <!-- Header -->
+    <header
+      class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm"
+    >
+      <div class="flex items-center gap-3">
+        <img src="imgs/LOGO.svg" alt="Logo Sigia" class="w-32 h-auto" />
+      </div>
+      <div
+        class="flex items-center gap-3 bg-[#C5DBA7] px-5 py-2.5 rounded-full"
+      >
+        <div>
+          <img
+            src="imgs/logo-nodocente-encargado.svg"
+            alt=""
+            class="w-8 h-8 bg-[#8A9A7A] rounded-full flex items-center justify-center"
+          />
+        </div>
+        <span class="font-bold text-lg text-[#4D3C2D]">No Docente</span>
+      </div>
+    </header>
+
+    <!-- Botón Volver -->
+    <div class="px-6 pt-6">
+      <a
+        href="notas-cargadas.html"
+        class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#4D3C2D] text-white no-underline font-extrabold rounded-2xl shadow-[0_8px_18px_rgba(0,0,0,0.14)] text-[17px] transition-all duration-75 hover:bg-[#3D3023] hover:-translate-y-0.5"
+      >
+        ← Volver
+      </a>
+    </div>
+
+    <!-- Main Content -->
+    <main
+      class="px-6 py-8 flex items-center justify-center min-h-[calc(100vh-200px)]"
+    >
+      <div class="w-full max-w-lg">
+        <h2 class="text-4xl font-extrabold text-[#4D3C2D] text-center mb-8">
+          Solicitar Insumo
+        </h2>
+
+        <!-- Formulario -->
+        <form class="space-y-6">
+          <!-- Nombre insumo -->
+          <div class="flex flex-col">
+            <label class="font-bold text-base text-[#4D3C2D] mb-2">
+              Nombre insumo <span class="text-red-600">*</span>
+            </label>
+            <input
+              type="text"
+              name="nombre_insumo"
+              placeholder="Resma A4"
+              value="Resma A4"
+              required
+              class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
+              style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif"
+            />
+          </div>
+
+          <!-- Área solicitante y Cantidad -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col">
+              <label class="font-bold text-base text-[#4D3C2D] mb-2">
+                Área solicitante <span class="text-red-600">*</span>
+              </label>
+              <input
+                type="text"
+                name="area"
+                placeholder="Posgrado"
+                value="Posgrado"
+                required
+                class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
+                style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif"
+              />
+            </div>
+
+            <div class="flex flex-col">
+              <label class="font-bold text-base text-[#4D3C2D] mb-2">
+                Cantidad <span class="text-red-600">*</span>
+              </label>
+              <input
+                type="number"
+                name="cantidad"
+                placeholder="2"
+                value="2"
+                required
+                class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
+                style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif"
+              />
+            </div>
+          </div>
+
+          <!-- Nombre del Solicitante -->
+          <div class="flex flex-col">
+            <label class="font-bold text-base text-[#4D3C2D] mb-2">
+              Nombre del Solicitante
+            </label>
+            <input
+              type="text"
+              name="nombre_solicitante"
+              placeholder="Ingrese nombre completo"
+              class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
+              style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif"
+            />
+          </div>
+
+          <!-- Botones -->
+          <div class="flex items-center justify-center gap-4 pt-4">
+            <button
+              type="button"
+              class="px-10 py-3.5 text-base font-extrabold text-[#4D3C2D] bg-transparent border-2 border-[#4D3C2D] rounded-full transition-all duration-75 hover:bg-[#4D3C2D] hover:text-white"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="px-10 py-3.5 text-base font-extrabold text-white bg-[#4D3C2D] border-none rounded-full shadow-[0_8px_18px_rgba(0,0,0,0.14)] transition-all duration-75 hover:-translate-y-0.5 hover:bg-[#3D3023] active:translate-y-0"
+            >
+              Confirmar
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+    <script src="../../src/index.js"></script>
+  </body>
+</html>
