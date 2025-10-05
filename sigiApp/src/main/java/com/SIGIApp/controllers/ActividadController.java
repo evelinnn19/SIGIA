@@ -5,9 +5,6 @@ import com.SIGIApp.dto.Actividad;
 import com.SIGIApp.dto.ActividadPk;
 import com.SIGIApp.exceptions.ActividadDaoException;
 import com.SIGIApp.jdbc.ActividadDaoImpl;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
