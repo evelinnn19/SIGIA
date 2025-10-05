@@ -13,14 +13,19 @@ export async function getActividadById(id) {
 }
 
 export async function createActividad(actividad) {
-  const res = await fetch(BASE_URL, {
+  const res = await fetch("http://localhost:8080/api/actividades", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(actividad),
   });
-  if (!res.ok) throw new Error("Error al crear actividad");
-  return res.json();
+
+  // no intentamos parsear como JSON
+  const text = await res.text();
+
+  if (!res.ok) throw new Error(`Error al crear actividad: ${text}`);
+  return text; // será "Actividad creada"
 }
+
 
 export async function updateActividad(id, actividad) {
   const res = await fetch(`${BASE_URL}/${id}`, {

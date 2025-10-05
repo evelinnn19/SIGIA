@@ -1,5 +1,11 @@
 // solicitudes.js (o el archivo donde tenés este código)
 import { getSolicitudes,updateEstadoSolicitud} from "./services/SolicitudServices"; // dejar solo la import necesaria
+import { registrarActividad } from "./services/actividadUtilidad";
+
+
+// obtener usuarioActual de forma segura (fallback a null si no está)
+const usuarioActualRaw = localStorage.getItem('usuarioActual');
+const usuarioActual = usuarioActualRaw ? Number(usuarioActualRaw) : null;
 
 const ESTADOS = [
   'pendiente',
@@ -48,6 +54,12 @@ cont.addEventListener('change', async (e) => {
       await updateEstadoSolicitud(id, nuevoEstado);
       console.log('Estado actualizado OK');
       // opcional: mostrar toast o cambiar visual
+      await registrarActividad(
+  usuarioActual,
+  "Cambio de estado en solicitud",
+  `Cambio a ${nuevoEstado} en IDSolicitud ${id}`, // template literal para interpolar id
+  "--"
+);
     } catch (err) {
       console.error('No se pudo actualizar estado:', err);
       alert('No se pudo actualizar el estado. Intente nuevamente.');
@@ -120,8 +132,8 @@ function crearFila(tramite) {
   boton.className = 'w-8 h-8 flex items-center justify-center hover:bg-[#E5D9B3] rounded-full transition-colors';
   boton.dataset.id = id;
   // fijate el nombre real de tu imagen (sin doble punto)
-  boton.innerHTML = `                <img
-                  src="imgs/icon-download..svg"
+  boton.innerHTML = `<img
+                  src="../public/imgs/icon-download.svg"
                   alt="Descargar"
                   class="w-5 h-5"
                 />`;
@@ -130,6 +142,11 @@ function crearFila(tramite) {
 
   return container;
 }
+
+
+
+//Debemos hacer un metodo para crear actividad. Debe ser general, sino se repite el codigo. Propongo lo siguiente.
+
 
 
 document.addEventListener('DOMContentLoaded', initTabla);
