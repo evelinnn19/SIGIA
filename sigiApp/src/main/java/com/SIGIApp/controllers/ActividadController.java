@@ -6,6 +6,8 @@ import com.SIGIApp.dto.ActividadPk;
 import com.SIGIApp.exceptions.ActividadDaoException;
 import com.SIGIApp.jdbc.ActividadDaoImpl;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +34,8 @@ public class ActividadController {
         return "Actividad creada";
     }
 
+    
+
     @PutMapping("/{id}")
     public String update(@PathVariable int id, @RequestBody Actividad actividad) throws ActividadDaoException {
         actividad.setIdActividad(id);
@@ -44,4 +48,24 @@ public class ActividadController {
         actividadDao.delete(new ActividadPk(id));
         return "Actividad eliminada";
     }
+
+
+
+
+    //En el caso de que se vea necesario podemos agregar este otro create que devuelve un json algo así
+        // --------- POST que devuelve JSON del recurso creado ----------
+    // @PostMapping
+    // public ResponseEntity<Actividad> create(@RequestBody Actividad actividad) throws ActividadDaoException {
+    //     // Si no mandaron fecha desde el cliente, la seteamos en el servidor
+    //     if (actividad.getFecha() == null) {
+    //         actividad.setFecha(new Date());
+    //     }
+
+    //     // Insertar (si tu DAO setea el id en el dto, lo tendrás luego de insert)
+    //     ActividadPk pk = actividadDao.insert(actividad);
+
+    //     // Si el DAO rellena el id en 'actividad', devolvemos la entidad completa
+    //     // De lo contrario podés crear un objeto con el id devuelto desde pk
+    //     return ResponseEntity.status(HttpStatus.CREATED).body(actividad);
+    // }
 }
