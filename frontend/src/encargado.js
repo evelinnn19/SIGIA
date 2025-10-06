@@ -1,4 +1,5 @@
 import { getInsumos, deleteInsumo, updateInsumo, getInsumoById } from "./services/InsumoService.js";
+import { registrarActividad } from "./services/actividadUtilidad";
 
 const popupAgregar = document.getElementById("popupAgregar");
 const popupEliminar = document.getElementById("popupEliminar");
@@ -16,6 +17,8 @@ const btnCancelarEliminar = document.getElementById("btnCancelarEliminar");
 const btnConfirmarEliminar = document.getElementById("btnConfirmarEliminar");
 const btnCerrarExito = document.getElementById("btnCerrarExito");
 
+const usuarioActualRaw = localStorage.getItem('usuarioActual');
+const usuarioActual = usuarioActualRaw ? Number(usuarioActualRaw) : null;
 // Variable global para el insumo actual
 let insumoSeleccionado = null;
 
@@ -95,19 +98,25 @@ function manejarAccion(e) {
 // === Agregar cantidad ===
 btnConfirmarAgregar.addEventListener("click", async () => {
   const cantidad = parseInt(popupCantidad.value);
-  if (!cantidad || cantidad <= 0) return alert("Ingrese una cantidad válida.");
+  if (!cantidad || cantidad <= 0) return;
 
   try {
     const insumoActual = await getInsumoById(insumoSeleccionado.id);
     const nuevoStock = insumoActual.stockActual + cantidad;
     await updateInsumo(insumoSeleccionado.id, { ...insumoActual, stockActual: nuevoStock });
 
+    await registrarActividad(
+      usuarioActual,
+      "Actualización de cantidad",
+      `Ingreso ${cantidad} unidades al insumo "${insumoSeleccionado.nombre}"`,
+      "Depósito"
+    );
+
     popupAgregar.classList.add("hidden");
-    mostrarExito(`¡Cantidad actualizada correctamente!`);
+    mostrarExito("¡Cantidad actualizada correctamente!");
     cargarInsumos();
   } catch (err) {
     console.error("Error al actualizar cantidad:", err);
-    alert("No se pudo actualizar el insumo.");
   }
 });
 
@@ -115,15 +124,21 @@ btnConfirmarAgregar.addEventListener("click", async () => {
 btnConfirmarEliminar.addEventListener("click", async () => {
   try {
     await deleteInsumo(insumoSeleccionado.id);
+
+    await registrarActividad(
+      usuarioActual,
+      "Eliminación de insumo",
+      `Se eliminó el insumo "${insumoSeleccionado.nombre}"`,
+      "Depósito"
+    );
+
     popupEliminar.classList.add("hidden");
     mostrarExito("¡Insumo eliminado correctamente!");
     cargarInsumos();
   } catch (err) {
     console.error("Error al eliminar:", err);
-    alert("No se pudo eliminar el insumo.");
   }
 });
-
 // === Botones de cierre ===
 btnCancelarAgregar.addEventListener("click", () => popupAgregar.classList.add("hidden"));
 btnCancelarEliminar.addEventListener("click", () => popupEliminar.classList.add("hidden"));

@@ -13,6 +13,7 @@ const ESTADOS = [
   'rechazada',
   'entregada', // corregido
   'cancelada',
+  'entregado parcialmente'
 ];
 
 // Renderiza lista completa en el DOM
