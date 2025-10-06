@@ -25,6 +25,7 @@ document.querySelector('form').addEventListener('submit', async function (e) {
         const usuarioActual = usuarioData.idUsuario;
         console.log(usuarioActual);
         localStorage.setItem('usuarioActual',usuarioActual);
+        localStorage.setItem('rolActual',usuarioData.rol);
 
 
 

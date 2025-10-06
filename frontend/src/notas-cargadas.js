@@ -122,6 +122,11 @@ function crearFila(tramite) {
     select.appendChild(option);
   });
 
+  if(select.value === "aprobada"){
+    select.disabled = true;
+  }
+
+
   divSelect.appendChild(select);
   container.appendChild(divSelect);
 
