@@ -49,7 +49,8 @@ function attachEvents() {
   cont.addEventListener("change", async (e) => {
     const target = e.target;
     if (target.tagName.toLowerCase() === "select") {
-      const nuevoEstado = target.value;
+      const nuevoEstado =
+        target.value.charAt(0).toUpperCase() + target.value.slice(1);
       const id = target.dataset.id;
       console.log("Actualizar estado", id, nuevoEstado);
       target.disabled = true;
