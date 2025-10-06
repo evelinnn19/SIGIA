@@ -1,16 +1,53 @@
+import { registrarActividad } from "./services/actividadUtilidad";
 import {getInsumos}  from "./services/InsumoService";
+import { createSolicitud,getUltimaSolicitud} from "./services/SolicitudServices";
+// Importa los servicios necesarios al inicio del archivo
+import { createItemSolicitud } from "./services/ItemSolicitudService.js";
+
 
 const insumos = await getInsumos();
 console.log(insumos);
 
 
+// obtener usuarioActual de forma segura (fallback a null si no está)
+const usuarioActualRaw = localStorage.getItem('usuarioActual');
+const usuarioActual = usuarioActualRaw ? Number(usuarioActualRaw) : null;
+
 
 
 // // src/agregar-insumo.js
 // // Script mejorado para agregar-insumo.html
-const STORAGE_KEY_INSUMOS = 'sigia_insumos';
-const STORAGE_KEY_FORM = 'sigia_form_cargar_nota';
-const STORAGE_KEY_EDIT_INDEX = 'sigia_edit_index';
+const STORAGE_KEY_INSUMOS = 'sigia_insumos';  ///ESTE ES PARA LOS QUE VOY ELIGIENDO
+const STORAGE_KEY_FORM = 'sigia_form_cargar_nota';  //ESTO ES SOBRE LOS DATOS DE LA NOTA
+
+//Deberíamos guuardar en un localStorage los insumos que elegimos.
+// Función para almacenar insumos elegidos con datos completos
+function almacenarInsumosElegidos(nombreInsumo, cantidadElegida) {
+    // Obtener insumos ya guardados
+    let insumosElegidos = JSON.parse(localStorage.getItem(STORAGE_KEY_INSUMOS)) || [];
+    
+    // Buscar el insumo completo en la lista original
+    const insumoCompleto = insumos.find(insumo => insumo.nombre === nombreInsumo);
+    
+    if (insumoCompleto) {
+        // Crear objeto con datos completos del insumo + cantidad elegida
+        const insumoElegido = {
+            categoria: insumoCompleto.categoria,
+            critico: insumoCompleto.critico,
+            idInsumo: insumoCompleto.idInsumo,
+            nombre: insumoCompleto.nombre,
+            stockActual: insumoCompleto.stockActual - cantidadElegida,
+            stockMinimo: insumoCompleto.stockMinimo,
+
+        };
+        
+        // Agregar a la lista
+        insumosElegidos.push(insumoElegido);
+        
+        // Guardar en localStorage
+        localStorage.setItem(STORAGE_KEY_INSUMOS, JSON.stringify(insumosElegidos));
+    }
+}
 
 
 
@@ -71,6 +108,20 @@ inputCantidad.addEventListener('input', () => {
 });
 
 
+
+//Manipulacion del local storage
+// Función para obtener insumos guardados
+function getInsumosGuardados() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY_INSUMOS)) || [];
+}
+
+// Función para guardar insumos
+function guardarInsumos(insumos) {
+    localStorage.setItem(STORAGE_KEY_INSUMOS, JSON.stringify(insumos));
+}
+
+//Elementos para modales
+
 const modalConfirmacion = document.getElementById('modal-confirmacion');
 const modalExito = document.getElementById('modal-exito');
 const modalConfirmacionCarga = document.getElementById('modal-confirmacion-carga');
@@ -95,299 +146,201 @@ const modalCargaListaInsumos = document.getElementById('modal-carga-lista-insumo
 
 const form = document.querySelector('form');
 
-// // --- Helpers storage ---
-// // function getInsumos() {
-// //   try {
-// //     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_INSUMOS) || '[]');
-// //   } catch (e) {
-// //     console.warn('parse insumos', e);
-// //     return [];
-// //   }
-// // }
-// // function saveInsumos(arr) {
-// //   sessionStorage.setItem(STORAGE_KEY_INSUMOS, JSON.stringify(arr));
-// // }
-// // function getDatosNota() {
-// //   try {
-// //     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_FORM) || '{}');
-// //   } catch (e) {
-// //     return {};
-// //   }
-// // }
-// // function clearEditIndex() {
-// //   sessionStorage.removeItem(STORAGE_KEY_EDIT_INDEX);
-// // }
-// // function setEditIndex(i) {
-// //   sessionStorage.setItem(STORAGE_KEY_EDIT_INDEX, String(i));
-// // }
-// // function getEditIndex() {
-// //   const v = sessionStorage.getItem(STORAGE_KEY_EDIT_INDEX);
-// //   return v === null ? null : parseInt(v, 10);
-// // }
 
-// // Formato DD/MM/YYYY
-// function formatDateIsoToDDMMYYYY(iso) {
-//   if (!iso) return 'DD/MM/YYYY';
-//   // iso esperado: YYYY-MM-DD
-//   const parts = iso.split('-');
-//   if (parts.length !== 3) return iso;
-//   return `${parts[2]}/${parts[1]}/${parts[0]}`;
-// }
+// Evento del formulario - mostrar modal de confirmación
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const nombre = selectInsumo.value;
+    const cantidad = parseInt(inputCantidad.value);
+    const insumoSeleccionado = insumos.find(i => i.nombre === nombre);
+    
+    // Validaciones
+    if (!nombre || !cantidad) {
+        alert('Por favor completa todos los campos');
+        return;
+    }
+    
+    if (cantidad > insumoSeleccionado.stockActual) {
+        alert('La cantidad supera el stock disponible');
+        return;
+    }
+    
+    // Mostrar datos en el modal de confirmación
+    modalNombre.textContent = nombre;
+    modalCantidad.textContent = cantidad;
+    
+    // Mostrar modal
+    modalConfirmacion.style.display = 'flex';
+});
 
-// // Stock check
-// function verificarStock() {
-//   const insumo = selectInsumo.value;
-//   const cantidad = parseInt(inputCantidad.value) || 0;
-//   const stock = stockDisponible[insumo] || 0;
+// Botón cancelar del modal de confirmación
+btnCancelar.addEventListener('click', () => {
+    modalConfirmacion.style.display = 'none';
+});
 
-//   if (stock > 0 && cantidad > stock) {
-//     stockDiv.style.display = 'block';
-//   } else {
-//     stockDiv.style.display = 'none';
-//   }
-// }
+//Es lo que sale al apretar agregar
+// Botón confirmar del modal de confirmación
+btnConfirmar.addEventListener('click', () => {
+    const nombre = modalNombre.textContent;
+    const cantidad = parseInt(modalCantidad.textContent);
+    
+    almacenarInsumosElegidos(nombre,cantidad);
+    // Guardar el insumo
 
-// // --- Render lista dentro del modal de confirmación de carga ---
-// function renderModalListaInsumos() {
-//   const insumos = getInsumos();
-//   modalCargaListaInsumos.innerHTML = '';
+    
+    // Cerrar modal de confirmación y mostrar modal de éxito
+    modalConfirmacion.style.display = 'none';
+    modalExito.style.display = 'flex';
+    
+    // Limpiar formulario
+    inputCantidad.value = '';
+    stockDiv.style.display = 'none';
+});
 
-//   if (!insumos.length) {
-//     modalCargaListaInsumos.innerHTML = `<p class="text-center text-sm text-[#8A9A7A]">No hay insumos en la lista.</p>`;
-//     return;
-//   }
+// Botón agregar otro insumo
+btnAgregarOtro.addEventListener('click', () => {
+    modalExito.style.display = 'none';
+    // El formulario ya está limpio, solo enfocar el primer campo
+    selectInsumo.focus();
+});
 
-//   insumos.forEach((ins, idx) => {
-//     const insumoDiv = document.createElement('div');
-//     insumoDiv.className = 'bg-[#F7EEC3] rounded-xl px-4 py-2.5 flex items-center justify-between gap-4';
+// Botón confirmar listado - mostrar modal de confirmación de carga
+btnConfirmarListado.addEventListener('click', () => {
+    modalExito.style.display = 'none';
+    mostrarModalConfirmacionCarga();
+});
 
-//     insumoDiv.innerHTML = `
-//       <div class="flex items-center gap-3">
-//         <span class="font-bold text-[#4D3C2D]">${ins.cantidad}</span>
-//         <span class="text-[#4D3C2D] text-sm">${ins.nombre}</span>
-//       </div>
-//       <div class="flex gap-2">
-//         <button data-action="editar" data-index="${idx}" type="button" class="p-1" title="Editar">
-//           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-//           </svg>
-//         </button>
-//         <button data-action="eliminar" data-index="${idx}" type="button" class="p-1" title="Eliminar">
-//           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-//           </svg>
-//         </button>
-//       </div>
-//     `;
-//     modalCargaListaInsumos.appendChild(insumoDiv);
-//   });
+/// Función para mostrar el modal de confirmación de carga
+function mostrarModalConfirmacionCarga() {
+    // Cargar datos del formulario guardado (si existe)
+    const formData = JSON.parse(localStorage.getItem(STORAGE_KEY_FORM)) || {};
+    
+    // Llenar los datos del modal (usar datos por defecto si no hay guardados)
+    document.getElementById('modal-carga-tramite').textContent = formData.numeroTramite || '1515/2025';
+    document.getElementById('modal-carga-area').textContent = formData.areaSolicitante || 'Posgrado';
+    document.getElementById('modal-carga-nombre').textContent = formData.nombreSolicitante || 'Omar Luna';
+    
+    // Fecha actual
+    const fechaActual = new Date().toLocaleDateString('es-AR');
+    document.getElementById('modal-carga-fecha').textContent = fechaActual;
+    
+    // Mostrar lista de insumos
+    const insumosGuardados = getInsumosGuardados();
+    const listaInsumos = document.getElementById('modal-carga-lista-insumos');
+    listaInsumos.innerHTML = '';
+    
+    insumosGuardados.forEach(insumo => {
+    // Buscar el insumo original para calcular la cantidad elegida
+    const insumoOriginal = insumos.find(orig => orig.nombre === insumo.nombre);
+    const cantidadElegida = insumoOriginal.stockActual - insumo.stockActual;
+    
+    const insumoDiv = document.createElement('div');
+    insumoDiv.className = 'bg-[#F7EEC3] rounded-full px-4 py-2 flex justify-between items-center';
+    insumoDiv.innerHTML = `
+        <span class="font-medium">${insumo.nombre}</span>
+        <span class="font-bold">${cantidadElegida}</span>
+    `;
+    listaInsumos.appendChild(insumoDiv);
+});
+    
+    modalConfirmacionCarga.style.display = 'flex';
+}
 
-//   // Delegación de eventos para botones editar/eliminar
-//   modalCargaListaInsumos.querySelectorAll('button[data-action]').forEach(btn => {
-//     btn.addEventListener('click', (e) => {
-//       const action = btn.getAttribute('data-action');
-//       const index = parseInt(btn.getAttribute('data-index'), 10);
-//       if (action === 'editar') {
-//         editarInsumoModal(index);
-//       } else if (action === 'eliminar') {
-//         eliminarInsumoModal(index);
-//       }
-//     });
-//   });
-// }
+// Eventos del modal de confirmación de carga
+document.getElementById('btn-cancelar-carga').addEventListener('click', () => {
+    modalConfirmacionCarga.style.display = 'none';
+    modalExito.style.display = 'flex'; // Volver al modal anterior
+});
 
-// // --- Funciones editar/eliminar accesibles ---
-// function editarInsumoModal(index) {
-//   const insumos = getInsumos();
-//   if (!insumos[index]) return;
-//   // Cargamos en el formulario y marcamos edit index
-//   selectInsumo.value = insumos[index].nombre;
-//   inputCantidad.value = insumos[index].cantidad;
-//   verificarStock();
-//   setEditIndex(index);
-//   // Cerramos modal para que el usuario edite y confirme
-//   modalConfirmacionCarga.style.display = 'none';
-//   // poner foco en cantidad
-//   inputCantidad.focus();
-// }
+document.getElementById('btn-confirmar-carga').addEventListener('click', async () => {
+    try {
+        // Obtener datos del formulario y insumos guardados
+        const formData = JSON.parse(localStorage.getItem(STORAGE_KEY_FORM)) || {};
+        const insumosGuardados = getInsumosGuardados();
+        
+        const nroTramite = formData.numeroTramite || '1515/2025';
+        const areaSolicitante = formData.areaSolicitante || 'Posgrado';
+        const nombreSolicitante = formData.nombreSolicitante || 'Omar Luna';
+        const fechaActual = new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
+        const estado = "Pendiente"; // o el estado inicial que uses
+        
+        // Crear solicitud
+        const solicitud = {
+            // idSolicitud no se envía, lo asigna la BD
+            nroTramite: nroTramite,
+            fecha: fechaActual,
+            estado: estado,
+            area: areaSolicitante,
+            // Agrega otros campos que necesites como nombreSolicitante si está en tu modelo
+        };
+        
+        console.log('Creando solicitud:', solicitud);
+        
+        
+        // Crear la solicitud y obtener el ID generado
+        await createSolicitud(solicitud);
+        
+        const solicitudCreada = await getUltimaSolicitud();
+        console.log('Solicitud obtenida:', solicitudCreada);
 
-// function eliminarInsumoModal(index) {
-//   if (!confirm('¿Está seguro de eliminar este insumo?')) return;
-//   const insumos = getInsumos();
-//   insumos.splice(index, 1);
-//   saveInsumos(insumos);
-//   renderModalListaInsumos();
-//   if (insumos.length === 0) {
-//     modalConfirmacionCarga.style.display = 'none';
-//     alert('No hay insumos en la lista');
-//   }
-// }
+        
+        
+        // El backend debería devolver la solicitud con el ID asignado
+        // Si solo devuelve un mensaje, necesitarás modificar el backend o buscar otra forma de obtener el ID
+        
+        // Crear items de solicitud por cada insumo elegido
+        for (let insumoGuardado of insumosGuardados) {
+            // Buscar el insumo original para calcular la cantidad
+            const insumoOriginal = insumos.find(orig => orig.nombre === insumoGuardado.nombre);
+            const cantidadSolicitada = insumoOriginal.stockActual - insumoGuardado.stockActual;
+            
+            const itemSolicitud = {
+                // idItem no se envía, lo asigna la BD
+                idSolicitud: solicitudCreada.idSolicitud, // Esto depende de lo que devuelva tu backend
+                idInsumo: insumoGuardado.idInsumo,
+                cantSolicitada: cantidadSolicitada,
+                cantEntregada: cantidadSolicitada, // Asumiendo que se entrega todo lo solicitado
+            };
+            
+            console.log('Creando item solicitud:', itemSolicitud);
+            await createItemSolicitud(itemSolicitud);
+        }
+        
+        await registrarActividad(
+            usuarioActual,
+            "Carga de solicitud",
+            "Se cargó una solicitud en nota de entrada",
+            areaSolicitante
+        );
+        
+        console.log('Proceso completado exitosamente');
+        
+        // Limpiar localStorage
+        localStorage.removeItem(STORAGE_KEY_INSUMOS);
+        
+        // Cerrar modal y mostrar éxito final
+        modalConfirmacionCarga.style.display = 'none';
+        modalExitoFinal.style.display = 'flex';
+        
+    } catch (error) {
+        console.error('Error al procesar la solicitud:', error);
+        alert('Error al procesar la solicitud: ' + error.message);
+    }
+});
 
-// // --- Eventos del formulario principal (Agregar) ---
-// form.addEventListener('submit', (e) => {
-//   e.preventDefault();
+// Botón continuar del modal final
+document.getElementById('btn-continuar-final').addEventListener('click', () => {
+    modalExitoFinal.style.display = 'none';
+    // Redirigir o realizar otra acción
+    window.location.href = 'cargar-nota.html';
+});
 
-//   const insumo = selectInsumo.value;
-//   const cantidad = parseInt(inputCantidad.value) || 0;
-//   const stock = stockDisponible[insumo] || 0;
-
-//   if (cantidad <= 0) {
-//     alert('La cantidad debe ser mayor a 0');
-//     return;
-//   }
-//   if (cantidad > stock) {
-//     alert('No hay suficiente stock disponible');
-//     return;
-//   }
-
-//   // Mostrar modal de confirmación con los datos
-//   modalNombre.textContent = insumo;
-//   modalCantidad.textContent = cantidad;
-//   modalConfirmacion.style.display = 'flex';
-// });
-
-// // Cancelar modal confirmación
-// btnCancelar.addEventListener('click', () => {
-//   modalConfirmacion.style.display = 'none';
-// });
-
-// // Confirmar - Guardar insumo (o editar si viene índice)
-// btnConfirmar.addEventListener('click', () => {
-//   const insumo = selectInsumo.value;
-//   const cantidad = parseInt(inputCantidad.value) || 0;
-
-//   let insumos = getInsumos();
-//   const editIndex = getEditIndex();
-
-//   if (editIndex !== null && !isNaN(editIndex)) {
-//     // editar
-//     if (!insumos[editIndex]) {
-//       // índice inválido: fallback a push
-//       insumos.push({ nombre: insumo, cantidad });
-//     } else {
-//       insumos[editIndex] = { nombre: insumo, cantidad };
-//     }
-//     clearEditIndex();
-//   } else {
-//     // nuevo
-//     insumos.push({ nombre: insumo, cantidad });
-//   }
-
-//   saveInsumos(insumos);
-
-//   modalConfirmacion.style.display = 'none';
-//   modalExito.style.display = 'flex';
-// });
-
-// // Agregar otro
-// btnAgregarOtro.addEventListener('click', () => {
-//   modalExito.style.display = 'none';
-//   form.reset();
-//   // valores por defecto opcionales
-//   selectInsumo.value = 'Resma A4';
-//   inputCantidad.value = '2';
-//   verificarStock();
-//   clearEditIndex();
-//   // mantener select visible etc.
-// });
-
-// // Confirmar listado -> abrir modal de carga con datos y la lista
-// btnConfirmarListado.addEventListener('click', () => {
-//   const insumos = getInsumos();
-//   if (!insumos.length) {
-//     alert('Debe agregar al menos un insumo');
-//     return;
-//   }
-
-//   // Cargar datos de la nota
-//   const datosNota = getDatosNota();
-//   modalCargaTramite.textContent = datosNota.numero_tramite || datosNota.tramite || '—';
-//   modalCargaArea.textContent = datosNota.area || '—';
-//   modalCargaNombre.textContent = datosNota.nombre_solicitante || datosNota.nombre || '—';
-//   // fecha: usar fecha_solicitud si existe
-//   const fechaIso = datosNota.fecha_solicitud || datosNota.fecha || '';
-//   modalCargaFecha.textContent = formatDateIsoToDDMMYYYY(fechaIso);
-
-//   // Render lista dentro del modal de carga
-//   renderModalListaInsumos();
-
-//   modalExito.style.display = 'none';
-//   modalConfirmacionCarga.style.display = 'flex';
-// });
-
-// // Cancelar modal de carga
-// btnCancelarCarga.addEventListener('click', () => {
-//   modalConfirmacionCarga.style.display = 'none';
-// });
-
-// // Confirmar carga - (aquí harías POST a la API)
-// btnConfirmarCarga.addEventListener('click', async () => {
-//   // Ejemplo: crear payload
-//   const datosNota = getDatosNota();
-//   const insumos = getInsumos();
-
-//   const payload = {
-//     numero_tramite: datosNota.numero_tramite || datosNota.tramite || '',
-//     area: datosNota.area || '',
-//     nombre_solicitante: datosNota.nombre_solicitante || datosNota.nombre || '',
-//     fecha_solicitud: datosNota.fecha_solicitud || datosNota.fecha || '',
-//     insumos
-//   };
-
-//   // ------------------------------
-//   // Aquí podrías hacer fetch POST a tu backend, por ejemplo:
-//   // await fetch('/api/notas', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
-//   // .then(...)
-//   // .catch(...)
-//   // Para este ejemplo solo simulamos éxito.
-//   // ------------------------------
-
-//   // Simular éxito:
-//   modalConfirmacionCarga.style.display = 'none';
-//   modalExitoFinal.style.display = 'flex';
-// });
-
-// // Continuar final: limpiar y volver a cargar-nota.html
-// btnContinuarFinal.addEventListener('click', () => {
-//   // Limpiar datos temporales
-//   sessionStorage.removeItem(STORAGE_KEY_INSUMOS);
-//   sessionStorage.removeItem(STORAGE_KEY_FORM);
-//   clearEditIndex();
-//   modalExitoFinal.style.display = 'none';
-//   // Redirigir a cargar-nota
-//   window.location.href = 'cargar-nota.html';
-// });
-
-// // Cerrar modales al hacer click fuera
-// [modalConfirmacion, modalExito, modalConfirmacionCarga, modalExitoFinal].forEach(modal => {
-//   modal.addEventListener('click', function(e) {
-//     if (e.target === this) {
-//       this.style.display = 'none';
-//     }
-//   });
-// });
-
-// // Eventos para verificar stock en tiempo real
-// selectInsumo.addEventListener('change', verificarStock);
-// inputCantidad.addEventListener('input', verificarStock);
-// verificarStock();
-
-// // Si llegamos con edit index (viene desde cargar-nota -> Edit), precargamos el formulario
-// (function initFromEditIndex() {
-//   const idx = getEditIndex();
-//   if (idx === null) return;
-//   const insumos = getInsumos();
-//   if (!insumos[idx]) {
-//     clearEditIndex();
-//     return;
-//   }
-//   selectInsumo.value = insumos[idx].nombre;
-//   inputCantidad.value = insumos[idx].cantidad;
-//   verificarStock();
-//   // Dejamos el editIndex hasta que confirmen para que el botón Confirmar sepa que debe editar.
-// })();
-
-// // Exponer funciones (útiles para debug)
-// window._sigia_agregar_insumo = {
-//   getInsumos, saveInsumos, editarInsumoModal, eliminarInsumoModal, renderModalListaInsumos
-// };
+// Cerrar modales al hacer clic fuera de ellos
+[modalConfirmacion, modalExito, modalConfirmacionCarga, modalExitoFinal].forEach(modal => {
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+});
