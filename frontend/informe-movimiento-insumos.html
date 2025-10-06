@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SIGIA :: Administrador - Historial movimientos</title>
+    <title>SIGIA :: Administrador - Informe Movimientos </title>
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -56,17 +56,15 @@
       <div
         class="flex items-center gap-3 bg-[#C5DBA7] px-5 py-2.5 rounded-full"
       >
-        <img
-          src="imgs/logo-nodocente-encargado.svg"
-          alt="Administrador"
-          class="w-8 h-8 rounded-full"
-        />
+      <img src="imgs/logo-admin.svg" alt="Administrador" class="w-8 h-8 bg-[#8A9A7A] rounded-full flex items-center justify-center"/>
+
         <span class="font-bold text-lg">Administrador</span>
+        <img src="imgs/icon-logout.svg"  onclick="window.location.href='index.html'"   class="cursor-pointer hover:scale-110 transition">
       </div>
     </header>
     <div class="px-8 pt-6">
       <a
-        href="notas-cargadas.html"
+        href="informes.html"
         class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#4D3C2D] text-white no-underline font-extrabold rounded-2xl shadow-[0_8px_18px_rgba(0,0,0,0.14)] text-[17px] transition-all duration-75 hover:bg-[#3D3023] hover:-translate-y-0.5"
       >
         <img src="imgs/icon-back.svg" alt="Volver" class="w-5 h-5" />
@@ -87,9 +85,31 @@
         <form
           action="reporte-movimientos.html"
           method="get"
-          class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8"
+          class="mt-10 grid grid-cols- md:grid-cols-2 gap-8"
         >
-          <!-- Tipo -->
+
+            <div>
+                <label class="block text-sm font-bold mb-2">Insumo</label>
+                <input
+                type="text"
+                class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 outline-none"
+                />
+          </div>
+
+          <div>
+            <label class="block text-sm font-bold mb-2">Area Solicitante</label>
+            <input
+              class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 outline-none"
+            />
+          </div>
+
+           <div>
+            <label class="block text-sm font-bold mb-2">Categoría</label>
+            <input
+              class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 outline-none"
+            />
+          </div>
+
           <div>
             <label class="block text-sm font-bold mb-2"
               >Tipo de Movimiento</label
@@ -112,7 +132,7 @@
 
           <!-- Responsable -->
           <div>
-            <label class="block text-sm font-bold mb-2">Responsable</label>
+            <label class="block text-sm font-bold mb-2">Solicitante</label>
             <input
               type="text"
               name="responsable"
@@ -169,7 +189,7 @@
               </button>
 
               <a
-                href="informe-actividad.html"
+                href="informe-actividad-generado.html"
                 class="px-8 py-3 rounded-full bg-[#4D3C2D] text-white font-semibold hover:opacity-90 transition md:ml-[-10px] inline-block text-center"
               >
                 Generar Informe

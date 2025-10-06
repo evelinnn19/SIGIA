@@ -1,4 +1,5 @@
 import { createInsumo } from "./services/InsumoService.js";
+import { registrarActividad } from "./services/actividadUtilidad";
 
 const categoriaSelect = document.getElementById("categoria");
 const esCriticoSelect = document.getElementById("esCritico");
@@ -6,6 +7,13 @@ const stockMinimoContainer = document.getElementById("stockMinimoContainer");
 const stockMinimoInput = document.getElementById("stockMinimo");
 const form = document.querySelector("form");
 
+const popupExito = document.getElementById("popupExito");
+const popupMensajeExito = document.getElementById("popupMensajeExito");
+const btnCerrarExito = document.getElementById("btnCerrarExito");
+
+
+const usuarioActualRaw = localStorage.getItem('usuarioActual');
+const usuarioActual = usuarioActualRaw ? Number(usuarioActualRaw) : null;
 // === Cargar categorías ===
 function cargarCategorias() {
   const categorias = [
@@ -60,14 +68,34 @@ form.addEventListener("submit", async (e) => {
 
   try {
     await createInsumo(nuevoInsumo);
-    alert("✅ Insumo registrado correctamente.");
+    await registrarActividad(
+    usuarioActual,
+    "Registro de nuevo insumo",
+    `Ingreso de "${nombre}" en categoría ${categoriaNombre}`,
+    "Depósito"
+  );
+    mostrarPopup("✅ ¡Insumo registrado correctamente!");
     form.reset();
     stockMinimoContainer.classList.add("hidden");
   } catch (error) {
     console.error("❌ Error al registrar insumo:", error);
-    alert("No se pudo registrar el insumo. Revisá la consola.");
+    mostrarPopup("❌ No se pudo registrar el insumo.");
+
   }
 });
+// === Popup ===
+function mostrarPopup(mensaje) {
+  popupMensajeExito.textContent = mensaje;
+  popupExito.classList.remove("hidden");
+}
+
+btnCerrarExito.addEventListener("click", () => {
+  popupExito.classList.add("hidden");
+  window.location.href = "encargado.html";
+});
+
+
+
 
 // === Inicialización ===
 document.addEventListener("DOMContentLoaded", cargarCategorias);

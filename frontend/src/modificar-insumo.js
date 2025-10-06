@@ -1,4 +1,5 @@
 import { getInsumoById, updateInsumo } from "./services/InsumoService.js";
+import { registrarActividad } from "./services/actividadUtilidad";
 
 const form = document.querySelector("form");
 const nombreInput = document.getElementById("nombre_insumo");
@@ -8,6 +9,8 @@ const esCriticoSelect = document.getElementById("esCritico");
 const stockMinimoInput = document.getElementById("stockMinimo");
 const stockMinimoContainer = document.getElementById("stockMinimoContainer");
 
+const usuarioActualRaw = localStorage.getItem('usuarioActual');
+const usuarioActual = usuarioActualRaw ? Number(usuarioActualRaw) : null;
 // Popups
 const popupExito = document.getElementById("popupExito");
 const popupMensajeExito = document.getElementById("popupMensajeExito");
@@ -49,37 +52,7 @@ async function cargarInsumo() {
   }
 }
 
-// === 4️⃣ Enviar actualización ===
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
 
-  const categoria = categoriaSelect.value;
-  const cantidad = parseInt(cantidadInput.value);
-  const stockMinimo = parseInt(stockMinimoInput.value) || 0;
-
-  if (!categoria || !cantidad) {
-    mostrarPopup("⚠️ Complete todos los campos obligatorios.");
-    return;
-  }
-
-  const insumoActualizado = {
-  idInsumo: parseInt(insumoId),
-  nombre: nombreInput.value,        // lo enviamos igual aunque sea readonly
-  categoria: categoria,
-  stockActual: parseInt(cantidad),
-  stockMinimo: parseInt(stockMinimo),
-  critico: parseInt(esCriticoSelect.value), // 0 o 1
-};
-  
-
-  try {
-    await updateInsumo(insumoId, insumoActualizado);
-    mostrarPopup("¡Insumo modificado correctamente!");
-  } catch (error) {
-    console.error("Error al modificar insumo:", error);
-    mostrarPopup("No se pudo modificar el insumo.");
-  }
-});
 
 // === 5️⃣ Popup ===
 function mostrarPopup(mensaje) {
@@ -91,6 +64,40 @@ btnCerrarExito.addEventListener("click", () => {
   popupExito.classList.add("hidden");
   window.location.href = "encargado.html";
 });
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const categoria = categoriaSelect.value;
+  const cantidad = parseInt(cantidadInput.value);
+  const stockMinimo = parseInt(stockMinimoInput.value) || 0;
+
+  const insumoActualizado = {
+    idInsumo: parseInt(insumoId),
+    nombre: nombreInput.value,
+    categoria,
+    stockActual: cantidad,
+    stockMinimo,
+    critico: parseInt(esCriticoSelect.value),
+  };
+
+  try {
+    await updateInsumo(insumoId, insumoActualizado);
+
+    await registrarActividad(
+      usuarioActual,
+      "Modificación de insumo",
+      `Se modificó el insumo "${nombreInput.value}" (cantidad: ${cantidad}, stock mínimo: ${stockMinimo})`,
+      "Depósito"
+    );
+
+    mostrarPopup("¡Insumo modificado correctamente!");
+  } catch (error) {
+    console.error("Error al modificar insumo:", error);
+    mostrarPopup("No se pudo modificar el insumo.");
+  }
+});
+
 
 // === Inicialización ===
 document.addEventListener("DOMContentLoaded", () => {
