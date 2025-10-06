@@ -15,19 +15,21 @@ let todasLasSolicitudes = []; // cache local
 // 🔹 Cargar estados dinámicamente
 function cargarEstados() {
   const ESTADOS = [
-    "pendiente",
-    "aprobada",
-    "rechazada",
-    "entregada",
-    "cancelada",
-    "entregado parcialmente",
+    "Pendiente",
+    "Aprobada",
+    "Rechazada",
+    "Entregada",
+    "Cancelada",
+    "Entregado parcialmente",
   ];
 
   filtroEstado.innerHTML =
     '<option value="">Todos</option>' +
     ESTADOS.map(
       (estado) =>
-        `<option value="${estado}">${estado.charAt(0).toUpperCase() + estado.slice(1)}</option>`
+        `<option value="${estado}">${
+          estado.charAt(0).toUpperCase() + estado.slice(1)
+        }</option>`
     ).join("");
 }
 

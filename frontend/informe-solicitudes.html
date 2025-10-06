@@ -88,7 +88,10 @@
       </h1>
 
       <!-- Filtros -->
-      <form id="formFiltros" class="grid grid-cols-1 md:grid-cols-1 gap-6 mb-10">
+      <form
+        id="formFiltros"
+        class="grid grid-cols-1 md:grid-cols-1 gap-6 mb-10"
+      >
         <div>
           <label class="block font-semibold mb-2">Estado de Solicitud</label>
           <select
@@ -139,15 +142,7 @@
           >
             Limpiar filtros
           </button>
-
-          <button
-            type="submit"
-            class="px-8 py-3 rounded-full bg-[#4D3C2D] text-white font-semibold hover:opacity-90 transition"
-          >
-            Generar Informe
-          </button>
         </div>
-
       </form>
 
       <!-- Tabla -->
@@ -155,7 +150,10 @@
         class="border border-[#4D3C2D]/30 rounded-2xl overflow-hidden shadow-sm"
       >
         <div class="overflow-y-auto thin-scroll max-h-[420px]">
-          <table id="tablaSolicitudes" class="w-full text-sm md:text-base text-left">
+          <table
+            id="tablaSolicitudes"
+            class="w-full text-sm md:text-base text-left"
+          >
             <thead class="bg-[#4D3C2D] text-[#FDF2C5] sticky top-0">
               <tr>
                 <th class="px-4 py-3 font-extrabold">Nro Tramite</th>

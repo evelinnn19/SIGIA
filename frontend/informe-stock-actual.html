@@ -77,7 +77,10 @@
       </h1>
 
       <!-- Filtros -->
-      <form id="formFiltros" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
+      <form
+        id="formFiltros"
+        class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20"
+      >
         <div>
           <label class="block font-semibold mb-2">¿Es crítico?</label>
           <select
@@ -95,13 +98,9 @@
           <select
             id="filtroCategoria"
             class="w-full rounded-full px-5 py-3 bg-[#FDF2C5] outline-none text-[#4D3C2D]"
-          >
-          </select>
+          ></select>
         </div>
-
-       
-      </form>
-       <div class="flex items-center justify-center gap-4 ">
+        <div class="flex items-center justify-center gap-4">
           <button
             id="btnLimpiar"
             type="button"
@@ -109,25 +108,15 @@
           >
             Limpiar filtros
           </button>
-
-          <button
-            type="submit"
-            class="px-8 py-3 rounded-full bg-[#4D3C2D] text-white font-semibold hover:opacity-90 transition"
-          >
-            Generar Informe
-          </button>
         </div>
+      </form>
 
+      <h2 class="text-2xl font-extrabold text-left mb-3 mt-15">Informe</h2>
 
-        <h2 class="text-2xl font-extrabold text-left mb-3 mt-15">
-        Informe
-      </h2>
- 
       <!-- Tabla -->
       <div
         class="border border-[#4D3C2D]/30 rounded-2xl overflow-hidden shadow-sm"
       >
-
         <!-- Contenedor con scroll -->
         <div class="overflow-y-auto thin-scroll max-h-[420px]">
           <table id="tablaStock" class="w-full text-sm md:text-base text-left">
@@ -147,7 +136,7 @@
           </table>
         </div>
       </div>
-     
+
       <!-- Botones de exportación -->
       <section
         class="mt-8 bg-[#FDF2C5] rounded-2xl p-6 flex flex-wrap justify-center gap-6"

@@ -48,15 +48,15 @@ function renderTabla(insumos) {
         <td class="px-4 py-2">${i.nombre}</td>
         <td class="px-4 py-2">${i.categoria}</td>
         <td class="px-4 py-2 text-right">${i.stockActual}</td>
-        <td class="px-4 py-2 text-center">${
-          i.critico === 1 ? "Sí" : "No"
-        }</td>
+        <td class="px-4 py-2 text-center">${i.critico === 1 ? "Sí" : "No"}</td>
       </tr>
     `
     )
     .join("");
 }
 
+filtroCategoria.addEventListener("change", filtrarInsumos);
+filtroCritico.addEventListener("change", filtrarInsumos);
 // 🔹 Aplicar filtros (por categoría y crítico)
 async function filtrarInsumos(e) {
   e.preventDefault();
@@ -116,4 +116,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   await cargarCategorias();
   const insumos = await getInsumos();
   renderTabla(insumos);
+
+  const btnLimpiar = document.getElementById("btnLimpiar");
+
+  // 🔹 Limpiar filtros y recargar todas las solicitudes
+  btnLimpiar.addEventListener("click", () => {
+    filtroCategoria.value = "";
+    filtroCritico.value = "";
+
+    renderTabla(insumos);
+  });
 });
