@@ -1,6 +1,7 @@
 package com.SIGIApp.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.*;
 import com.SIGIApp.dao.TransaccionDao;
@@ -44,4 +45,6 @@ public class TransaccionController {
         transaccionDao.delete(new TransaccionPk(id));
         return "Transacción eliminada";
     }
+
+
 }

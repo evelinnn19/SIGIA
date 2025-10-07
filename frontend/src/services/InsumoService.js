@@ -44,3 +44,9 @@ export async function deleteInsumo(id) {
   if (!response.ok) throw new Error("Error al eliminar insumo");
   return true;
 }
+
+export async function getUltimoInsumoId() {
+  const insumos = await getInsumos();
+  // Ordenar por ID descendente y tomar la primera (más reciente)
+  return insumos.sort((a, b) => b.idInsumo - a.idInsumo)[0];
+}

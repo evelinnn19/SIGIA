@@ -4,200 +4,216 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SIGIA :: Administrador - Informe Movimientos </title>
+    <title>SIGIA :: Informe Historial de Movimientos</title>
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Fuente -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap"
       rel="stylesheet"
     />
 
     <!-- Favicon -->
-    <link
-      rel="shortcut icon"
-      href="public/imgs/favicon.ico"
-      type="image/x-icon"
-    />
+    <link rel="shortcut icon" href="public/imgs/favicon.ico" type="image/x-icon" />
 
     <style>
       body {
         font-family: "Plus Jakarta Sans", system-ui, sans-serif;
       }
-
-      /* Oculta el ícono nativo del date picker pero mantiene la funcionalidad */
-      input[type="date"]::-webkit-calendar-picker-indicator {
-        opacity: 0;
-        position: absolute;
-        right: 14px;
-        width: 24px;
-        height: 24px;
-        cursor: pointer;
+      .thin-scroll::-webkit-scrollbar {
+        width: 10px;
       }
-
-      input[type="date"]::-webkit-inner-spin-button {
-        display: none;
+      .thin-scroll::-webkit-scrollbar-track {
+        background: #a08f74;
+        border-radius: 8px;
+      }
+      .thin-scroll::-webkit-scrollbar-thumb {
+        background: #4d3c2d;
+        border-radius: 8px;
       }
     </style>
   </head>
 
   <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
     <!-- Header -->
-    <header
-      class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm"
-    >
+    <header class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm">
       <div class="flex items-center gap-3">
         <img src="imgs/LOGO.svg" alt="Logo Sigia" class="w-32 h-auto" />
       </div>
-      <div
-        class="flex items-center gap-3 bg-[#C5DBA7] px-5 py-2.5 rounded-full"
-      >
-      <img src="imgs/logo-admin.svg" alt="Administrador" class="w-8 h-8 bg-[#8A9A7A] rounded-full flex items-center justify-center"/>
 
+      <div class="flex items-center gap-3 bg-[#C5DBA7] px-5 py-2.5 rounded-full">
+        <img
+          src="imgs/logo-admin.svg"
+          alt="Administrador"
+          class="w-8 h-8 bg-[#8A9A7A] rounded-full"
+        />
         <span class="font-bold text-lg">Administrador</span>
-        <img src="imgs/icon-logout.svg"  onclick="window.location.href='index.html'"   class="cursor-pointer hover:scale-110 transition">
+        <img
+          src="imgs/icon-logout.svg"
+          alt="Cerrar sesión"
+          title="Cerrar sesión"
+          class="w-6 h-6 cursor-pointer hover:scale-110 transition"
+          onclick="window.location.href='index.html'"
+        />
       </div>
     </header>
-    <div class="px-8 pt-6">
-      <a
-        href="informes.html"
-        class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#4D3C2D] text-white no-underline font-extrabold rounded-2xl shadow-[0_8px_18px_rgba(0,0,0,0.14)] text-[17px] transition-all duration-75 hover:bg-[#3D3023] hover:-translate-y-0.5"
-      >
-        <img src="imgs/icon-back.svg" alt="Volver" class="w-5 h-5" />
-        Volver
-      </a>
-    </div>
+
     <!-- Main -->
-    <main class="px-8 pt-6 pb-12">
-      <div class="max-w-[960px] mx-auto">
-        <!-- Volver -->
+    <main class="px-6 md:px-8 pt-6 pb-14 max-w-[1120px] mx-auto">
+      <h1 class="text-4xl font-extrabold text-center mb-8">
+        Historial de Movimientos de Insumos
+      </h1>
 
-        <!-- Título -->
-        <h1 class="mt-10 text-4xl md:text-5xl font-extrabold text-center">
-          Historial de Movimientos de Insumos
-        </h1>
+      <!-- ===== FILTROS ===== -->
+      <form id="formFiltros" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+        <!-- Categoría -->
+        <div>
+          <label class="block font-semibold mb-2">Categoría</label>
+          <select
+            id="filtroCategoria"
+            class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3 outline-none"
+          >
+            <option value="">Seleccionar categoría</option>
+          </select>
+        </div>
 
-        <!-- Formulario -->
-        <form
-          action="reporte-movimientos.html"
-          method="get"
-          class="mt-10 grid grid-cols- md:grid-cols-2 gap-8"
+        <!-- Insumo -->
+        <div>
+          <label class="block font-semibold mb-2">Insumo</label>
+          <select
+            id="filtroInsumo"
+            class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3 outline-none"
+          >
+            <option value="">Seleccionar insumo</option>
+          </select>
+        </div>
+
+        <!-- Área solicitante -->
+        <div>
+          <label class="block font-semibold mb-2">Área Solicitante</label>
+          <select
+            id="filtroArea"
+            class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3 outline-none"
+          >
+            <option value="">Seleccionar área</option>
+          </select>
+        </div>
+
+        <!-- Tipo de movimiento -->
+        <div>
+          <label class="block font-semibold mb-2">Tipo de Movimiento</label>
+          <select
+            id="filtroTipo"
+            class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3 outline-none"
+          >
+            <option value="">Seleccionar tipo</option>
+          </select>
+        </div>
+
+        <!-- Fechas -->
+        <div class="md:col-span-2">
+          <p class="text-center font-bold mb-3">Rango de Fechas</p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-5">
+            <!-- Desde -->
+            <div class="relative w-full sm:w-72">
+              <input
+                type="date"
+                id="inputDesde"
+                class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 pr-14 outline-none"
+              />
+              <img
+                src="imgs/icon-calendar.svg"
+                class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 opacity-80"
+              />
+            </div>
+
+            <!-- Hasta -->
+            <div class="relative w-full sm:w-72">
+              <input
+                type="date"
+                id="inputHasta"
+                class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 pr-14 outline-none"
+              />
+              <img
+                src="imgs/icon-calendar.svg"
+                class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 opacity-80"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- ===== BOTONES ===== -->
+      <div class="flex items-center justify-center gap-4 mb-10">
+        <button
+          id="btnLimpiar"
+          type="button"
+          class="px-8 py-3 rounded-full border-2 border-[#4D3C2D] font-semibold hover:bg-[#4D3C2D]/5 transition"
         >
+          Limpiar filtros
+        </button>
 
-            <div>
-                <label class="block text-sm font-bold mb-2">Insumo</label>
-                <input
-                type="text"
-                class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 outline-none"
-                />
-          </div>
-
-          <div>
-            <label class="block text-sm font-bold mb-2">Area Solicitante</label>
-            <input
-              class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 outline-none"
-            />
-          </div>
-
-           <div>
-            <label class="block text-sm font-bold mb-2">Categoría</label>
-            <input
-              class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 outline-none"
-            />
-          </div>
-
-          <div>
-            <label class="block text-sm font-bold mb-2"
-              >Tipo de Movimiento</label
-            >
-            <div class="relative">
-              <select
-                name="tipo"
-                class="w-full appearance-none bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 pr-12 outline-none"
-              >
-                <option value="ingreso">Ingreso</option>
-                <option value="egreso">Egreso</option>
-                <option value="todos">Todos</option>
-              </select>
-              <span
-                class="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-xl"
-                >▾</span
-              >
-            </div>
-          </div>
-
-          <!-- Responsable -->
-          <div>
-            <label class="block text-sm font-bold mb-2">Solicitante</label>
-            <input
-              type="text"
-              name="responsable"
-              placeholder="Omar Luna"
-              class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 outline-none"
-            />
-          </div>
-
-          <!-- Rango Fechas -->
-          <div class="md:col-span-2">
-            <p class="text-center font-bold mb-3">Rango de Fechas</p>
-            <div
-              class="flex flex-col sm:flex-row items-center justify-center gap-5"
-            >
-              <!-- Desde -->
-              <div class="relative w-full sm:w-72">
-                <input
-                  type="date"
-                  name="desde"
-                  class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 pr-14 outline-none"
-                />
-                <img
-                  src="imgs/icon-calendar.svg"
-                  alt="Calendario"
-                  class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 opacity-80"
-                />
-              </div>
-
-              <!-- Hasta -->
-              <div class="relative w-full sm:w-72">
-                <input
-                  type="date"
-                  name="hasta"
-                  class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 pr-14 outline-none"
-                />
-                <img
-                  src="imgs/icon-calendar.svg"
-                  alt="Calendario"
-                  class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 opacity-80"
-                />
-              </div>
-            </div>
-          </div>
-
-          <!-- Botones -->
-          <div class="md:col-span-2">
-            <div class="w-fit mx-auto flex items-center gap-6 mt-2">
-              <button
-                type="button"
-                onclick="history.back()"
-                class="px-8 py-3 rounded-full border-2 border-[#4D3C2D] font-semibold hover:bg-[#4D3C2D]/5 transition"
-              >
-                Cancelar
-              </button>
-
-              <a
-                href="informe-actividad-generado.html"
-                class="px-8 py-3 rounded-full bg-[#4D3C2D] text-white font-semibold hover:opacity-90 transition md:ml-[-10px] inline-block text-center"
-              >
-                Generar Informe
-              </a>
-            </div>
-          </div>
-        </form>
+        <button
+          id="btnFiltrar"
+          type="button"
+          class="px-8 py-3 rounded-full bg-[#4D3C2D] text-white font-semibold hover:opacity-90 transition"
+        >
+          Generar Informe
+        </button>
       </div>
+
+      <!-- ===== TABLA ===== -->
+      <h2 class="text-2xl font-extrabold mb-3">Resultado</h2>
+
+      <div class="border border-[#4D3C2D]/30 rounded-2xl overflow-hidden shadow-sm">
+        <div class="overflow-y-auto thin-scroll max-h-[420px]">
+          <table id="tablaMovimientos" class="w-full text-sm md:text-base text-left">
+            <thead class="bg-[#4D3C2D] text-[#FDF2C5] sticky top-0">
+              <tr>
+                <th class="px-4 py-3 font-extrabold">Fecha</th>
+                <th class="px-4 py-3 font-extrabold">Insumo</th>
+                <th class="px-4 py-3 font-extrabold">Categoría</th>
+                <th class="px-4 py-3 font-extrabold">Área Solicitante</th>
+                <th class="px-4 py-3 font-extrabold">Tipo</th>
+                <th class="px-4 py-3 font-extrabold text-right">Cantidad</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyMovimientos" class="bg-[#6b5946] text-[#F0E5CD]">
+              <!-- filas dinámicas -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== EXPORTACIÓN ===== -->
+      <section
+        class="mt-8 bg-[#FDF2C5] rounded-2xl p-6 flex flex-wrap justify-center gap-6"
+      >
+        <button
+          id="btnPdf"
+          class="px-8 py-3.5 rounded-full border-2 border-[#4D3C2D] font-semibold hover:bg-[#4D3C2D]/10 transition flex items-center gap-3"
+        >
+          <img src="imgs/icon-download.svg" alt="" class="w-5 h-5" />
+          Descargar PDF
+        </button>
+        <button
+          id="btnExcel"
+          class="px-8 py-3.5 rounded-full border-2 border-[#4D3C2D] font-semibold hover:bg-[#4D3C2D]/10 transition flex items-center gap-3"
+        >
+          <img src="imgs/icon-download.svg" alt="" class="w-5 h-5" />
+          Descargar Excel
+        </button>
+      </section>
     </main>
+
+    <!-- Librerías -->
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <!-- Script -->
+    <script type="module" src="src/informe-movimiento-insumos-generado.js"></script>
   </body>
 </html>
