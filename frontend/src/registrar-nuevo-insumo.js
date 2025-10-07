@@ -78,9 +78,20 @@ form.addEventListener("submit", async (e) => {
 
   try {
     await createInsumo(nuevoInsumo);
+    let ultimoinsumoid = await getUltimoInsumoId();
+    let transaccion = {
+      tipo : "Ingreso",
+      fecha : new Date().toISOString().split('T')[0],
+      cantidad: cantidad,
+      areaDestino: "Depósito",
+      solicitante: "--",
+      idInsumo: ultimoinsumoid.idInsumo,
+      idUsuario: usuarioActual
+    }
+    await createTransaccion(transaccion);
     await registrarActividad(
     usuarioActual,
-    "Registro de nuevo insumo",
+    "Ingreso",
     `Ingreso de "${nombre}" en categoría ${categoriaNombre}`,
     "Depósito"
   );
@@ -92,7 +103,12 @@ form.addEventListener("submit", async (e) => {
     mostrarPopup("❌ No se pudo registrar el insumo.");
 
   }
+
+  
 });
+
+
+
 // === Popup ===
 function mostrarPopup(mensaje) {
   popupMensajeExito.textContent = mensaje;

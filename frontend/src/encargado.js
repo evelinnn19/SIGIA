@@ -23,8 +23,7 @@ const popupMensajeExito = document.getElementById("popupMensajeExito");
 // === Botones popups ===
 const btnCancelarAgregar = document.getElementById("btnCancelarAgregar");
 const btnConfirmarAgregar = document.getElementById("btnConfirmarAgregar");
-const btnCancelarEliminar = document.getElementById("btnCancelarEliminar");
-const btnConfirmarEliminar = document.getElementById("btnConfirmarEliminar");
+
 const btnCerrarExito = document.getElementById("btnCerrarExito");
 
 const usuarioActualRaw = localStorage.getItem('usuarioActual');
@@ -67,7 +66,6 @@ async function cargarInsumos() {
         <div class="flex justify-center gap-3">
           <img src="imgs/icon-add.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Agregar cantidad" data-action="add" data-id="${insumo.idInsumo}" data-nombre="${insumo.nombre}">
           <img src="imgs/icon-edit.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Editar" data-action="edit" data-id="${insumo.idInsumo}">
-          <img src="imgs/icon-delete.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Eliminar" data-action="delete" data-id="${insumo.idInsumo}" data-nombre="${insumo.nombre}">
         </div>
       `;
 
@@ -85,25 +83,24 @@ async function cargarInsumos() {
   }
 }
 
-// === Manejar clicks de íconos ===
 function manejarAccion(e) {
   const action = e.target.dataset.action;
   const id = e.target.dataset.id;
   const nombre = e.target.dataset.nombre;
 
-  insumoSeleccionado = { id, nombre };
+  // ✅ Guardar con el nombre correcto
+  insumoSeleccionado = { idInsumo: Number(id), nombre };
+  console.log("Insumo seleccionado:", insumoSeleccionado.idInsumo, insumoSeleccionado.nombre);
 
   if (action === "add") {
     popupNombre.value = nombre;
     popupCantidad.value = "";
     popupAgregar.classList.remove("hidden");
-  } else if (action === "delete") {
-    popupNombreEliminar.textContent = nombre;
-    popupEliminar.classList.remove("hidden");
   } else if (action === "edit") {
     window.location.href = `modificar-insumo.html?id=${id}`;
   }
 }
+
 
 // === Agregar cantidad ===
 btnConfirmarAgregar.addEventListener("click", async () => {
@@ -111,9 +108,9 @@ btnConfirmarAgregar.addEventListener("click", async () => {
   if (!cantidad || cantidad <= 0) return;
 
   try {
-    const insumoActual = await getInsumoById(insumoSeleccionado.id);
+    const insumoActual = await getInsumoById(insumoSeleccionado.idInsumo);
     const nuevoStock = insumoActual.stockActual + cantidad;
-    await updateInsumo(insumoSeleccionado.id, { ...insumoActual, stockActual: nuevoStock });
+    await updateInsumo(insumoSeleccionado.idInsumo, { ...insumoActual, stockActual: nuevoStock });
 
     await registrarActividad(
       usuarioActual,
@@ -130,25 +127,6 @@ btnConfirmarAgregar.addEventListener("click", async () => {
   }
 });
 
-// === Eliminar insumo ===
-btnConfirmarEliminar.addEventListener("click", async () => {
-  try {
-    await deleteInsumo(insumoSeleccionado.id);
-
-    await registrarActividad(
-      usuarioActual,
-      "Eliminación de insumo",
-      `Se eliminó el insumo "${insumoSeleccionado.nombre}"`,
-      "Depósito"
-    );
-
-    popupEliminar.classList.add("hidden");
-    mostrarExito("¡Insumo eliminado correctamente!");
-    cargarInsumos();
-  } catch (err) {
-    console.error("Error al eliminar:", err);
-  }
-});
 // === Botones de cierre ===
 btnCancelarAgregar.addEventListener("click", () => popupAgregar.classList.add("hidden"));
 btnCancelarEliminar.addEventListener("click", () => popupEliminar.classList.add("hidden"));

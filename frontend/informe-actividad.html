@@ -4,14 +4,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SIGIA :: Administrador - Informe Actividad </title>
+    <title>SIGIA :: Informe de Actividad</title>
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Fuente -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap"
       rel="stylesheet"
@@ -29,7 +27,6 @@
         font-family: "Plus Jakarta Sans", system-ui, sans-serif;
       }
 
-      /* Oculta el ícono nativo del date picker pero mantiene la funcionalidad */
       input[type="date"]::-webkit-calendar-picker-indicator {
         opacity: 0;
         position: absolute;
@@ -38,7 +35,6 @@
         height: 24px;
         cursor: pointer;
       }
-
       input[type="date"]::-webkit-inner-spin-button {
         display: none;
       }
@@ -53,8 +49,11 @@
       <div class="flex items-center gap-3">
         <img src="imgs/LOGO.svg" alt="Logo Sigia" class="w-32 h-auto" />
       </div>
+      
     </header>
-    <div class="px-8 pt-6">
+
+    <!-- Main -->
+    <main class="px-8 pt-8 pb-14 max-w-[1120px] mx-auto">
       <a
         href="informes.html"
         class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#4D3C2D] text-white no-underline font-extrabold rounded-2xl shadow-[0_8px_18px_rgba(0,0,0,0.14)] text-[17px] transition-all duration-75 hover:bg-[#3D3023] hover:-translate-y-0.5"
@@ -62,112 +61,109 @@
         <img src="imgs/icon-back.svg" alt="Volver" class="w-5 h-5" />
         Volver
       </a>
-    </div>
-    <!-- Main -->
-    <main class="px-8 pt-6 pb-12">
-      <div class="max-w-[960px] mx-auto">
-        <!-- Volver -->
 
-        <!-- Título -->
-        <h1 class="mt-10 text-4xl md:text-5xl font-extrabold text-center">
-          Historial de Movimientos de Insumos
-        </h1>
+      <!-- Título -->
+      <h1 class="text-4xl font-extrabold text-center my-10">
+        Informe de Actividad de Usuarios
+      </h1>
 
-        <!-- Formulario -->
-        <form
-          action="reporte-movimientos.html"
-          method="get"
-          class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8"
-        >
-          <!-- Tipo -->
-          <div>
-            <label class="block text-sm font-bold mb-2"
-              >Tipo de Movimiento</label
+      <!-- Formulario de filtros -->
+      <form id="formFiltros" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <!-- Usuario -->
+        <div>
+          <label for="filtroUsuario" class="block font-semibold mb-2">Usuario</label>
+          <div class="relative">
+            <select
+              id="filtroUsuario"
+              class="w-full appearance-none bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3 pr-12 outline-none"
             >
-            <div class="relative">
-              <select
-                name="tipo"
-                class="w-full appearance-none bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 pr-12 outline-none"
-              >
-                <option value="ingreso">Ingreso</option>
-                <option value="egreso">Egreso</option>
-                <option value="todos">Todos</option>
-              </select>
-              <span
-                class="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-xl"
-                >▾</span
-              >
-            </div>
+              <option value="">Todos</option>
+              <!-- opciones dinámicas cargadas desde JS -->
+            </select>
+            <span
+              class="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-xl"
+              >▾</span
+            >
           </div>
+        </div>
 
-          <!-- Responsable -->
-          <div>
-            <label class="block text-sm font-bold mb-2">Responsable</label>
+        <!-- Fecha desde -->
+        <div>
+          <label class="block font-semibold mb-2">Desde</label>
+          <div class="relative">
             <input
-              type="text"
-              name="responsable"
-              placeholder="Omar Luna"
-              class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 outline-none"
+              type="date"
+              id="inputDesde"
+              class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3 pr-12 outline-none"
+            />
+            <img
+              src="imgs/icon-calendar.svg"
+              alt="Calendario"
+              class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 opacity-80"
             />
           </div>
+        </div>
 
-          <!-- Rango Fechas -->
-          <div class="md:col-span-2">
-            <p class="text-center font-bold mb-3">Rango de Fechas</p>
-            <div
-              class="flex flex-col sm:flex-row items-center justify-center gap-5"
-            >
-              <!-- Desde -->
-              <div class="relative w-full sm:w-72">
-                <input
-                  type="date"
-                  name="desde"
-                  class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 pr-14 outline-none"
-                />
-                <img
-                  src="imgs/icon-calendar.svg"
-                  alt="Calendario"
-                  class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 opacity-80"
-                />
-              </div>
-
-              <!-- Hasta -->
-              <div class="relative w-full sm:w-72">
-                <input
-                  type="date"
-                  name="hasta"
-                  class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3.5 pr-14 outline-none"
-                />
-                <img
-                  src="imgs/icon-calendar.svg"
-                  alt="Calendario"
-                  class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 opacity-80"
-                />
-              </div>
-            </div>
+        <!-- Fecha hasta -->
+        <div>
+          <label class="block font-semibold mb-2">Hasta</label>
+          <div class="relative">
+            <input
+              type="date"
+              id="inputHasta"
+              class="w-full bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3 pr-12 outline-none"
+            />
+            <img
+              src="imgs/icon-calendar.svg"
+              alt="Calendario"
+              class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 opacity-80"
+            />
           </div>
+        </div>
+      </form>
 
-          <!-- Botones -->
-          <div class="md:col-span-2">
-            <div class="w-fit mx-auto flex items-center gap-6 mt-2">
-              <button
-                type="button"
-                onclick="history.back()"
-                class="px-8 py-3 rounded-full border-2 border-[#4D3C2D] font-semibold hover:bg-[#4D3C2D]/5 transition"
-              >
-                Cancelar
-              </button>
-
-              <a
-                href="informe-actividad-generado.html"
-                class="px-8 py-3 rounded-full bg-[#4D3C2D] text-white font-semibold hover:opacity-90 transition md:ml-[-10px] inline-block text-center"
-              >
-                Generar Informe
-              </a>
-            </div>
-          </div>
-        </form>
+      <!-- Botones -->
+      <div class="flex justify-center gap-5 mb-10">
+        <button
+          id="btnLimpiar"
+          type="button"
+          class="px-8 py-3 rounded-full border-2 border-[#4D3C2D] font-semibold hover:bg-[#4D3C2D]/5 transition"
+        >
+          Limpiar filtros
+        
       </div>
+
+
+
+      <!-- Tabla de resultados -->
+      <section id="contenedorTabla" class="mt-8"></section>
+
+       <section
+        class="mt-8 bg-[#FDF2C5] rounded-2xl p-6 flex flex-wrap justify-center gap-6"
+      >
+        <button
+          id="btnPdf"
+          class="px-8 py-3.5 rounded-full border-2 border-[#4D3C2D] font-semibold hover:bg-[#4D3C2D]/10 transition flex items-center gap-3"
+        >
+          <img src="imgs/icon-download.svg" alt="" class="w-5 h-5" />
+          Descargar PDF
+        </button>
+        <button
+          id="btnExcel"
+          class="px-8 py-3.5 rounded-full border-2 border-[#4D3C2D] font-semibold hover:bg-[#4D3C2D]/10 transition flex items-center gap-3"
+        >
+          <img src="imgs/icon-download.svg" alt="" class="w-5 h-5" />
+          Descargar Excel
+        </button>
+      </section>
     </main>
+
+    <!-- Librerías -->
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <!-- Script principal -->
+    <script type="module" src="src/informe-actividad-generado.js"></script>
   </body>
 </html>
