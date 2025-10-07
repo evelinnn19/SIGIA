@@ -1,6 +1,15 @@
 import { getActividades } from "./services/ActividadService.js";
 import { getUsuarios } from "./services/UsuarioService.js";
 
+//estetica
+     import { definirUsuario } from './services/usuarioEncabezado.js';
+
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log('DOM cargado, ejecutando definirUsuario...');
+        definirUsuario();
+    });
+//
+
 const filtroUsuario = document.getElementById("filtroUsuario");
 const inputDesde = document.getElementById("inputDesde");
 const inputHasta = document.getElementById("inputHasta");

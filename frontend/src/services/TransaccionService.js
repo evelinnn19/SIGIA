@@ -19,7 +19,16 @@ export async function createTransaccion(transaccion) {
     body: JSON.stringify(transaccion),
   });
   if (!res.ok) throw new Error("Error al crear transacción");
-  return res.json();
+  
+  // Clonar la respuesta para poder leerla dos veces
+  const resClone = res.clone();
+  
+  try {
+    return await res.json();
+  } catch {
+    // Si falla JSON, usar el clon para leer como texto
+    return await resClone.text();
+  }
 }
 
 export async function updateTransaccion(id, transaccion) {

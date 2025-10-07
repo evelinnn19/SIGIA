@@ -1,6 +1,15 @@
 import { getTransacciones, getNameInsumoById } from "./services/TransaccionService.js";
 import { getInsumos } from "./services/InsumoService.js";
 
+//estetica
+     import { definirUsuario } from './services/usuarioEncabezado.js';
+
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log('DOM cargado, ejecutando definirUsuario...');
+        definirUsuario();
+    });
+//
+
 // === Referencias DOM ===
 const filtroCategoria = document.getElementById("filtroCategoria");
 const filtroInsumo = document.getElementById("filtroInsumo");
