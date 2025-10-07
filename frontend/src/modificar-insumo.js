@@ -1,6 +1,15 @@
 import { getInsumoById, updateInsumo } from "./services/InsumoService.js";
 import { registrarActividad } from "./services/actividadUtilidad";
 
+//estetica
+     import { definirUsuario } from './services/usuarioEncabezado.js';
+
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log('DOM cargado, ejecutando definirUsuario...');
+        definirUsuario();
+    });
+//
+
 const form = document.querySelector("form");
 const nombreInput = document.getElementById("nombre_insumo");
 const categoriaSelect = document.getElementById("categoria");

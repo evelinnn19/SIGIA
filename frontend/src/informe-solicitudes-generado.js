@@ -1,5 +1,14 @@
 import { getSolicitudes } from "./services/SolicitudServices.js";
 
+//estetica
+     import { definirUsuario } from './services/usuarioEncabezado.js';
+
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log('DOM cargado, ejecutando definirUsuario...');
+        definirUsuario();
+    });
+//
+
 const tbody = document.getElementById("tbodySolicitudes");
 const filtroEstado = document.getElementById("filtroEstado");
 const inputDesde = document.getElementById("filtroDesde");

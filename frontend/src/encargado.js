@@ -1,6 +1,16 @@
 import { getInsumos, deleteInsumo, updateInsumo, getInsumoById } from "./services/InsumoService.js";
 import { registrarActividad } from "./services/actividadUtilidad";
 
+
+//estetica
+     import { definirUsuario } from './services/usuarioEncabezado.js';
+
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log('DOM cargado, ejecutando definirUsuario...');
+        definirUsuario();
+    });
+//
+
 const popupAgregar = document.getElementById("popupAgregar");
 const popupEliminar = document.getElementById("popupEliminar");
 const popupExito = document.getElementById("popupExito");

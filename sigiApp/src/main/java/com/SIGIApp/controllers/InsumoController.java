@@ -5,6 +5,7 @@ import com.SIGIApp.dto.Insumo;
 import com.SIGIApp.dto.InsumoPk;
 import com.SIGIApp.exceptions.InsumoDaoException;
 import com.SIGIApp.jdbc.InsumoDaoImpl;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.*;
 

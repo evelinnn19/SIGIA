@@ -1,6 +1,16 @@
 import { createInsumo } from "./services/InsumoService.js";
 import { registrarActividad } from "./services/actividadUtilidad";
 
+
+//estetica
+     import { definirUsuario } from './services/usuarioEncabezado.js';
+
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log('DOM cargado, ejecutando definirUsuario...');
+        definirUsuario();
+    });
+//
+
 const categoriaSelect = document.getElementById("categoria");
 const esCriticoSelect = document.getElementById("esCritico");
 const stockMinimoContainer = document.getElementById("stockMinimoContainer");
