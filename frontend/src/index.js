@@ -1,6 +1,8 @@
 import { getUsuarioByMail } from "./services/UsuarioService";
 
 
+
+
 document.querySelector('form').addEventListener('submit', async function (e) {
   e.preventDefault();
 
@@ -36,7 +38,7 @@ document.querySelector('form').addEventListener('submit', async function (e) {
           window.location.href = "../administrador.html"
         }
 
-        if(rol === "no_docente"){
+        if(rol === "No Docente"){
           window.location.href = "../notas-cargadas.html"
         }
 

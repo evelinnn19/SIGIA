@@ -2,7 +2,7 @@ import { getInsumoById, updateInsumo } from "./services/InsumoService.js";
 import { registrarActividad } from "./services/actividadUtilidad";
 
 //estetica
-    import { definirUsuario } from './src/services/usuarioEncabezado.js';
+     import { definirUsuario } from './services/usuarioEncabezado.js';
 
     document.addEventListener("DOMContentLoaded", () => {
         console.log('DOM cargado, ejecutando definirUsuario...');
