@@ -5,6 +5,15 @@ import {
 } from "./services/SolicitudServices"; // dejar solo la import necesaria
 import { registrarActividad } from "./services/actividadUtilidad";
 
+//estetica
+    import { definirUsuario } from './src/services/usuarioEncabezado.js';
+
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log('DOM cargado, ejecutando definirUsuario...');
+        definirUsuario();
+    });
+//
+
 // obtener usuarioActual de forma segura (fallback a null si no está)
 const usuarioActualRaw = localStorage.getItem("usuarioActual");
 const usuarioActual = usuarioActualRaw ? Number(usuarioActualRaw) : null;

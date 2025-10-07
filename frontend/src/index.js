@@ -17,15 +17,18 @@ document.querySelector('form').addEventListener('submit', async function (e) {
     // Ejemplo: si usuarioBD es un array (según tu backend)
     if (usuarioBD.length > 0) {
       const usuarioData = usuarioBD[0];
-      const rol = usuarioData.rol
+      const rol = usuarioData.rol;
+      const rolCapitalizado = rol.charAt(0).toUpperCase() + rol.slice(1);
       if (usuarioData.contrasena === password) {
         console.log(usuarioData.contrasena)
         console.log('Login exitoso');
+        console.log(rolCapitalizado);
 
         const usuarioActual = usuarioData.idUsuario;
         console.log(usuarioActual);
         localStorage.setItem('usuarioActual',usuarioActual);
-        localStorage.setItem('rolActual',usuarioData.rol);
+        
+        localStorage.setItem('rolActual',rolCapitalizado);
 
 
 

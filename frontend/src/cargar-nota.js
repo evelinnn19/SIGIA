@@ -2,7 +2,14 @@
 /* Módulo para la página cargar-nota.html
    Guarda los datos del formulario en sessionStorage y mantiene la lista de insumos.
 */
+//estetica
+    import { definirUsuario } from './src/services/usuarioEncabezado.js';
 
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log('DOM cargado, ejecutando definirUsuario...');
+        definirUsuario();
+    });
+//
 const STORAGE_KEY_FORM = 'sigia_form_cargar_nota';
 const STORAGE_KEY_INSUMOS = 'sigia_insumos';
 

@@ -1,30 +1,23 @@
-export function definirUsuario() {
-    const rolActual = localStorage.getItem('rolActual');
-    
-    if (!rolActual) {
-        console.warn('No se encontró rol en localStorage');
-        return;
-    }
-    
-    const encabezado = document.querySelector('header');
-    
-    if (!encabezado) {
-        console.warn('No se encontró el elemento header');
-        return;
-    }
-    
-    // Verificar si ya existe el div del usuario (para evitar duplicados)
-    const existingDiv = encabezado.querySelector('.user-role-div');
-    if (existingDiv) {
-        existingDiv.remove();
-    }
-    
-    const div = document.createElement('div');
-    div.className = "flex items-center gap-3 bg-[#C5DBA7] px-5 py-2.5 rounded-full user-role-div";
+export function definirUsuario(){
+    let rolActual = localStorage.getItem('rolActual');
+    let encabezado = document.querySelector('header');
+    let div = document.createElement('div');
+
+    let i = rolActual == "Administrador"? 1:0;
+
+    let img = ["imgs/logo-nodocente-encargado.svg","imgs/logo-admin.svg"]
+    div.setAttribute("class","flex items-center gap-3 bg-[#C5DBA7] px-5 py-2.5 rounded-full");
     div.innerHTML = `
-        <img src="imgs/logo-nodocente-encargado.svg" alt="${rolActual}" class="w-8 h-8 rounded-full"/>
-        <span class="font-bold text-lg text-[#4D3C2D]">${rolActual}</span>
+        <img src="${img[i]}" alt="${rolActual}" class="w-8 h-8 bg-[#8A9A7A] rounded-full flex items-center justify-center"/>
+        <span class="font-bold text-lg">${rolActual}</span>
+        <img src="imgs/icon-logout.svg"  onclick="window.location.href='index.html'"   class="cursor-pointer hover:scale-110 transition">
+
     `;
     
+    // Agregar al header
     encabezado.appendChild(div);
 }
+
+
+
+      
