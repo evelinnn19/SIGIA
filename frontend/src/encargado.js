@@ -90,7 +90,7 @@ function manejarAccion(e) {
 
   // ✅ Guardar con el nombre correcto
   insumoSeleccionado = { idInsumo: Number(id), nombre };
-  console.log("Insumo seleccionado:", insumoSeleccionado);
+  console.log("Insumo seleccionado:", insumoSeleccionado.idInsumo, insumoSeleccionado.nombre);
 
   if (action === "add") {
     popupNombre.value = nombre;
@@ -108,9 +108,9 @@ btnConfirmarAgregar.addEventListener("click", async () => {
   if (!cantidad || cantidad <= 0) return;
 
   try {
-    const insumoActual = await getInsumoById(insumoSeleccionado.id);
+    const insumoActual = await getInsumoById(insumoSeleccionado.idInsumo);
     const nuevoStock = insumoActual.stockActual + cantidad;
-    await updateInsumo(insumoSeleccionado.id, { ...insumoActual, stockActual: nuevoStock });
+    await updateInsumo(insumoSeleccionado.idInsumo, { ...insumoActual, stockActual: nuevoStock });
 
     await registrarActividad(
       usuarioActual,
