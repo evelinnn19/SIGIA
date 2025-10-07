@@ -7,6 +7,20 @@ import {
 // Importa los servicios necesarios al inicio del archivo
 import { createItemSolicitud } from "./services/ItemSolicitudService.js";
 
+
+//estetica
+    import { definirUsuario } from './services/usuarioEncabezado.js';
+
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log('DOM cargado, ejecutando definirUsuario...');
+        definirUsuario();
+    });
+//
+
+
+
+
+
 const insumos = await getInsumos();
 console.log(insumos);
 
