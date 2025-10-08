@@ -19,7 +19,6 @@
     </style>
   </head>
   <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
-    <!-- Header -->
     <header
       class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm"
     >
@@ -47,9 +46,7 @@
           Registrar Insumo
         </h2>
 
-        <!-- Formulario -->
         <form class="space-y-6">
-          <!-- Nombre insumo -->
           <div class="flex flex-col">
             <label class="font-bold text-base text-[#4D3C2D] mb-2">
               Nombre Insumo <span class="text-red-600">*</span>
@@ -64,8 +61,7 @@
             />
           </div>
 
-          <!-- Área solicitante y Cantidad -->
-         <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-2 gap-4">
             <div class="flex flex-col">
                 <label class="font-bold text-base text-[#4D3C2D] mb-2">
                 Categoría <span class="text-red-600">*</span>
@@ -122,14 +118,8 @@
             class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
             />
          </div>
-
-            
-            
-
-           
           </div>
 
-         <!-- Popup de Éxito -->
           <div id="popupExito" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
             <div class="bg-[#FDF2C5] rounded-3xl p-8 text-center shadow-lg w-[400px]">
               <h3 id="popupMensajeExito" class="text-2xl font-extrabold mb-6 text-[#4D3C2D]">
@@ -142,8 +132,6 @@
             </div>
           </div>
 
-
-          <!-- Botones -->
           <div class="flex items-center justify-center gap-4 pt-4">
             <button
               type="button"

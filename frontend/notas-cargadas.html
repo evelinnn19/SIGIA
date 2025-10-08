@@ -19,7 +19,6 @@
     </style>
   </head>
   <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
-    <!-- Header -->
     <header
       class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm"
     >
@@ -29,18 +28,14 @@
 
     </header>
 
-    <!-- Main Content -->
     <main class="px-6 py-8">
-      <!-- Títulos -->
       <div class="mb-8">
-        <!-- Item 1: Solicitar Insumo -->
         <h2 class="text-4xl font-extrabold text-[#4D3C2D] mb-2">
           <a href="solicitar-insumo.html" class="hover:underline">
             Solicitar Insumo
           </a>
         </h2>
 
-        <!-- Item 2: Cargar Nota (index de Notas Cargadas) -->
         <h3 class="text-3xl font-bold text-[#5D4C3D]">
           <a href="cargar-nota.html" class="hover:underline">
             Cargar Nota
@@ -48,13 +43,11 @@
         </h3>
       </div>
 
-      <!-- Card de Notas Cargadas -->
       <div class="max-w-2xl mx-auto bg-[#F7EEC3] rounded-3xl shadow-lg p-8">
         <h3 class="text-3xl font-extrabold text-[#4D3C2D] text-center mb-6">
           Notas cargadas
         </h3>
 
-        <!-- Buscador -->
         <div class="relative mb-6">
           <div class="absolute left-4 top-1/2 -translate-y-1/2">
             <svg
@@ -78,86 +71,17 @@
           />
         </div>
 
-        <!-- Tabla --> 
-         <!-- Esta tabla es la que sale en el menu de no docente --> 
         <div class="overflow-hidden">
-          <!-- Headers -->
           <div class="grid grid-cols-[1fr_1fr_auto] gap-4 mb-2 px-2">
             <div class="font-bold text-lg text-[#4D3C2D]">N° Tramite</div>
             <div class="font-bold text-lg text-[#4D3C2D]">Estado</div>
             <div class="w-8"></div>
           </div>
 
-          <!-- Divider -->
           <div class="border-t-2 border-[#4D3C2D] mb-4"></div>
 
-          <!-- Rows -->
           <div class="space-y-3" id="filas">
-            <!-- Row 1 -->
-            <div class="grid grid-cols-[1fr_1fr_auto] gap-4 items-center px-2">
-              <div class="text-lg font-medium text-[#4D3C2D]">123414</div>
-              <div>
-                <select
-                  title="Estado del trámite"
-                  class="bg-[#C5DBA7] text-[#4D3C2D] px-4 py-2 rounded-full text-sm font-bold border-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#8A9A7A]"
-                >
-                  <option>Pendiente</option>
-                  <option>Entregado</option>
-                  <option>Entregado parcialmente</option>
-                </select>
-              </div>
-              <div class="w-8"></div>
-            </div>
-
-            <!-- Row 2 -->
-            <div class="grid grid-cols-[1fr_1fr_auto] gap-4 items-center px-2">
-              <div class="text-lg font-medium text-[#4D3C2D]">4214515</div>
-              <div>
-                <select
-                  title="Estado del trámite"
-                  class="bg-[#C5DBA7] text-[#4D3C2D] px-4 py-2 rounded-full text-sm font-bold border-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#8A9A7A]"
-                >
-                  <option>Entregado</option>
-                  <option>Pendiente</option>
-                  <option>Entregado parcialmente</option>
-                </select>
-              </div>
-              <button
-                title="Ver detalles del trámite"
-                class="w-8 h-8 flex items-center justify-center hover:bg-[#E5D9B3] rounded-full transition-colors"
-              >
-                <img
-                  src="imgs/icon-download..svg"
-                  alt="Descargar"
-                  class="w-5 h-5"
-                />
-              </button>
-            </div>
-
-            <!-- Row 3 -->
-            <div class="grid grid-cols-[1fr_1fr_auto] gap-4 items-center px-2">
-              <div class="text-lg font-medium text-[#4D3C2D]">11111111111</div>
-              <div>
-                <select
-                  title="Estado del trámite"
-                  class="bg-[#C5DBA7] text-[#4D3C2D] px-4 py-2 rounded-full text-sm font-bold border-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#8A9A7A]"
-                >
-                  <option>Entregado parcialmente</option>
-                  <option>Pendiente</option>
-                  <option>Entregado</option>
-                </select>
-              </div>
-              <button
-                title="Ver detalles del trámite"
-                class="w-8 h-8 flex items-center justify-center hover:bg-[#E5D9B3] rounded-full transition-colors"
-              >
-                <img
-                  src="imgs/icon-download..svg"
-                  alt="Descargar"
-                  class="w-5 h-5"
-                />
-              </button>
-            </div>
+            
           </div>
         </div>
       </div>

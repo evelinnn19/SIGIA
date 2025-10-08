@@ -1,7 +1,6 @@
 import { getTransacciones, getNameInsumoById } from "./services/TransaccionService.js";
 import { getInsumos } from "./services/InsumoService.js";
 
-//estetica
      import { definirUsuario } from './services/usuarioEncabezado.js';
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -10,7 +9,6 @@ import { getInsumos } from "./services/InsumoService.js";
     });
 //
 
-// === Referencias DOM ===
 const filtroCategoria = document.getElementById("filtroCategoria");
 const filtroInsumo = document.getElementById("filtroInsumo");
 const filtroArea = document.getElementById("filtroArea");
@@ -23,12 +21,8 @@ const btnPdf = document.getElementById("btnPdf");
 const btnExcel = document.getElementById("btnExcel");
 const tbody = document.getElementById("tbodyMovimientos");
 
-// === Variables globales ===
 let todasLasTransacciones = [];
 
-// ================================================================
-// 🔹 Cargar Selects dinámicamente
-// ================================================================
 
 async function cargarSelects() {
   try {
@@ -37,19 +31,16 @@ async function cargarSelects() {
       getTransacciones(),
     ]);
 
-    // --- Categorías únicas ---
     const categorias = [...new Set(insumos.map((i) => i.categoria).filter(Boolean))];
     filtroCategoria.innerHTML =
       '<option value="">Todas</option>' +
       categorias.map((c) => `<option value="${c}">${c}</option>`).join("");
 
-    // --- Insumos únicos ---
     const nombresInsumos = [...new Set(insumos.map((i) => i.nombre).filter(Boolean))];
     filtroInsumo.innerHTML =
       '<option value="">Todos</option>' +
       nombresInsumos.map((n) => `<option value="${n}">${n}</option>`).join("");
 
-    // --- Áreas (área destino / solicitante) ---
     const areas = [
       ...new Set(transacciones.map((t) => t.areaDestino || t.areaSolicitante).filter(Boolean)),
     ];
@@ -57,7 +48,6 @@ async function cargarSelects() {
       '<option value="">Todas</option>' +
       areas.map((a) => `<option value="${a}">${a}</option>`).join("");
 
-    // --- Tipos de movimiento ---
     const tipos = [...new Set(transacciones.map((t) => t.tipoMovimiento).filter(Boolean))];
     filtroTipo.innerHTML =
       '<option value="">Egreso</option>' +
@@ -69,9 +59,6 @@ async function cargarSelects() {
   }
 }
 
-// ================================================================
-// 🔹 Renderizar tabla
-// ================================================================
 function renderTabla(movimientos) {
   if (!movimientos || movimientos.length === 0) {
     tbody.innerHTML = `
@@ -96,10 +83,6 @@ function renderTabla(movimientos) {
   ).join("");
 }
 
-
-// ================================================================
-// 🔹 Filtro de movimientos
-// ================================================================
 function aplicarFiltros() {
   const categoria = filtroCategoria.value;
   const insumo = filtroInsumo.value;
@@ -129,9 +112,6 @@ function aplicarFiltros() {
   renderTabla(filtradas);
 }
 
-// ================================================================
-// 🔹 Limpiar filtros
-// ================================================================
 function limpiarFiltros() {
   filtroCategoria.value = "";
   filtroInsumo.value = "";
@@ -142,9 +122,6 @@ function limpiarFiltros() {
   renderTabla(todasLasTransacciones);
 }
 
-// ================================================================
-// 🔹 Exportar PDF
-// ================================================================
 function exportarPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
@@ -158,9 +135,6 @@ function exportarPDF() {
   doc.save("informe_movimientos.pdf");
 }
 
-// ================================================================
-// 🔹 Exportar Excel
-// ================================================================
 function exportarExcel() {
   const tabla = document.getElementById("tablaMovimientos");
   const ws = XLSX.utils.table_to_sheet(tabla);
@@ -169,9 +143,7 @@ function exportarExcel() {
   XLSX.writeFile(wb, "informe_movimientos.xlsx");
 }
 
-// ================================================================
-// 🔹 Helpers
-// ================================================================
+
 function formatearFecha(iso) {
   if (!iso) return "-";
   const d = new Date(iso);
@@ -179,22 +151,16 @@ function formatearFecha(iso) {
   return fechaCorregida.toLocaleDateString("es-AR");
 }
 
-// ================================================================
-// 🔹 Eventos
-// ================================================================
 btnFiltrar.addEventListener("click", aplicarFiltros);
 btnLimpiar.addEventListener("click", limpiarFiltros);
 btnPdf.addEventListener("click", exportarPDF);
 btnExcel.addEventListener("click", exportarExcel);
 
-// Filtros dinámicos sin botón
 [filtroCategoria, filtroInsumo, filtroArea, filtroTipo, inputDesde, inputHasta].forEach((el) =>
   el.addEventListener("change", aplicarFiltros)
 );
 
-// ================================================================
-// 🔹 Inicialización
-// ================================================================
+
 document.addEventListener("DOMContentLoaded", async () => {
   const [insumos, transacciones] = await Promise.all([
     getInsumos(),
@@ -203,10 +169,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   await cargarSelects(insumos, transacciones);
 
-  // Mapa de insumos por ID para acceso rápido
 const mapaInsumos = new Map(insumos.map(i => [i.idInsumo, i]));
 
-  // Combinar datos de transacción + insumo
   todasLasTransacciones = transacciones.map(t => {
     const insumo = mapaInsumos.get(t.idInsumo);
     return {

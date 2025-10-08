@@ -17,7 +17,6 @@
 </head>
 <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
   
-  <!-- Header -->
   <header
       class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm"
     >
@@ -27,7 +26,6 @@
      
     </header>
 
-  <!-- Botón Volver -->
   <div class="px-8 pt-6">
     <a 
       href="notas-cargadas.html" 
@@ -38,14 +36,11 @@
     </a>
   </div>
 
-  <!-- Main Content -->
   <main class="px-8 py-6">
     <h2 class="text-4xl font-extrabold text-[#4D3C2D] mb-8 ml-4">Datos Nota</h2>
     
     <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 max-w-[1400px] mx-auto px-4">
-      <!-- Columna Izquierda: Formulario -->
       <div class="space-y-6">
-        <!-- N° de Tramite -->
         <div class="flex flex-col">
           <label for="numero_tramite" class="font-bold text-base text-[#4D3C2D] mb-2">
             N° de Tramite <span class="text-red-600">*</span>
@@ -55,13 +50,11 @@
             type="text" 
             name="numero_tramite" 
             placeholder="1234567" 
-            value="1234567"
             required 
             class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
           />
         </div>
 
-        <!-- Área solicitante -->
         <div class="flex flex-col">
           <label for="area" class="font-bold text-base text-[#4D3C2D] mb-2">
             Área solicitante <span class="text-red-600">*</span>
@@ -71,13 +64,11 @@
             type="text" 
             name="area" 
             placeholder="Posgrado" 
-            value="Posgrado"
             required 
             class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
           />
         </div>
 
-        <!-- Nombre del solicitante -->
         <div class="flex flex-col">
           <label for="nombre_solicitante" class="font-bold text-base text-[#4D3C2D] mb-2">
             Nombre del solicitante <span class="text-red-600">*</span>
@@ -87,13 +78,11 @@
             type="text" 
             name="nombre_solicitante" 
             placeholder="Omar Luna" 
-            value="Omar Luna"
             required 
             class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
           />
         </div>
 
-        <!-- Fecha de solicitud de nota -->
         <div class="flex flex-col">
           <label for="fecha_solicitud" class="font-bold text-base text-[#4D3C2D] mb-2">
             Fecha de solicitud de nota <span class="text-red-600">*</span>
@@ -108,7 +97,6 @@
         </div>
       </div>
 
-      <!-- Columna Derecha: Lista de Insumos -->
       <div class="bg-[#F7EEC3] rounded-3xl shadow-lg p-10 flex flex-col min-h-[500px]">
         <h3 class="text-2xl font-extrabold text-[#4D3C2D] text-center mb-8">Lista Insumos de la Nota</h3>
         

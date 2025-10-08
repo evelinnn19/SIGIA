@@ -6,8 +6,7 @@ export async function registrarActividad(idUsuario, accionRealizada, descripcion
     accionRealizada,
     descripcion,
     areaAfectada,
-    fecha: new Date().toISOString(), // opcional
-    // No mandamos fecha: que la asigne el backend
+    fecha: new Date().toISOString(), 
   };
 
   try {

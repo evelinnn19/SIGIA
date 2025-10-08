@@ -24,7 +24,6 @@
     </style>
   </head>
   <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
-    <!-- Header -->
     <header
       class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm"
     >
@@ -34,10 +33,9 @@
       
     </header>
 
-    <!-- Botón Volver -->
     <div class="px-6 pt-6">
       <a
-        href="encargado.html"
+        href="notas-cargadas.html"
         class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#4D3C2D] text-white no-underline font-extrabold rounded-2xl shadow-[0_8px_18px_rgba(0,0,0,0.14)] text-[17px] transition-all duration-75 hover:bg-[#3D3023] hover:-translate-y-0.5"
       >
         <img src="imgs/icon-back.svg" alt="Volver" class="w-5 h-5" />
@@ -45,7 +43,6 @@
       </a>
     </div>
 
-    <!-- Main Content -->
     <main
       class="px-6 py-8 flex items-center justify-center min-h-[calc(100vh-200px)]"
     >
@@ -54,9 +51,7 @@
           Solicitar Insumo
         </h2>
 
-        <!-- Formulario -->
         <form class="space-y-6">
-          <!-- Nombre insumo -->
           <div class="flex flex-col">
             <label class="font-bold text-base text-[#4D3C2D] mb-2">
               Nombre insumo <span class="text-red-600">*</span>
@@ -71,7 +66,6 @@
             </select>
           </div>
 
-          <!-- Área solicitante y Cantidad -->
           <div class="grid grid-cols-2 gap-4">
             <div class="flex flex-col">
             <label class="font-bold text-base text-[#4D3C2D] mb-2">
@@ -102,7 +96,6 @@
             </div>
           </div>
 
-          <!-- Nombre del Solicitante -->
           <div class="flex flex-col">
             <label class="font-bold text-base text-[#4D3C2D] mb-2">
               Nombre del Solicitante
@@ -116,7 +109,6 @@
             />
           </div>
 
-          <!-- Botones -->
           <div class="flex items-center justify-center gap-4 pt-4">
             <button
               type="button"

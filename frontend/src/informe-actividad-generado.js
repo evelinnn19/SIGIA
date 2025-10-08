@@ -1,7 +1,6 @@
 import { getActividades } from "./services/ActividadService.js";
 import { getUsuarios } from "./services/UsuarioService.js";
 
-//estetica
      import { definirUsuario } from './services/usuarioEncabezado.js';
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -19,11 +18,9 @@ const btnExcel = document.getElementById("btnExcel");
 const contenedorTabla = document.getElementById("contenedorTabla");
 
 let todasLasActividades = [];
-let mapaUsuarios = new Map(); // guardamos id → nombre
+let mapaUsuarios = new Map(); 
 
-// ================================================================
-// 🔹 Cargar usuarios para el dropdown
-// ================================================================
+
 async function cargarUsuarios() {
   try {
     const usuarios = await getUsuarios();
@@ -42,9 +39,7 @@ async function cargarUsuarios() {
   }
 }
 
-// ================================================================
-// 🔹 Renderizar tabla
-// ================================================================
+
 function renderTabla(actividades) {
   if (!actividades || actividades.length === 0) {
     contenedorTabla.innerHTML = `
@@ -88,9 +83,6 @@ function renderTabla(actividades) {
     </div>`;
 }
 
-// ================================================================
-// 🔹 Aplicar filtros
-// ================================================================
 function aplicarFiltros() {
   const idUsuario = filtroUsuario.value;
   const desde = inputDesde.value ? new Date(inputDesde.value) : null;
@@ -112,9 +104,7 @@ function aplicarFiltros() {
   renderTabla(filtradas);
 }
 
-// ================================================================
-// 🔹 Limpiar filtros
-// ================================================================
+
 function limpiarFiltros() {
   filtroUsuario.value = "";
   inputDesde.value = "";
@@ -122,9 +112,7 @@ function limpiarFiltros() {
   renderTabla(todasLasActividades);
 }
 
-// ================================================================
-// 🔹 Exportar PDF
-// ================================================================
+
 function exportarPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
@@ -138,9 +126,7 @@ function exportarPDF() {
   doc.save("informe_actividad.pdf");
 }
 
-// ================================================================
-// 🔹 Exportar Excel
-// ================================================================
+
 function exportarExcel() {
   const tabla = document.getElementById("tablaActividad");
   const ws = XLSX.utils.table_to_sheet(tabla);
@@ -149,18 +135,14 @@ function exportarExcel() {
   XLSX.writeFile(wb, "informe_actividad.xlsx");
 }
 
-// ================================================================
-// 🔹 Helper: formatear fecha
-// ================================================================
+
 function formatearFecha(iso) {
   if (!iso) return "-";
   const d = new Date(iso);
   return d.toLocaleDateString("es-AR");
 }
 
-// ================================================================
-// 🔹 Eventos
-// ================================================================
+
 [filtroUsuario, inputDesde, inputHasta].forEach((el) =>
   el.addEventListener("change", aplicarFiltros)
 );
@@ -168,14 +150,11 @@ btnLimpiar.addEventListener("click", limpiarFiltros);
 btnPdf.addEventListener("click", exportarPDF);
 btnExcel.addEventListener("click", exportarExcel);
 
-// ================================================================
-// 🔹 Inicialización
-// ================================================================
+
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     await cargarUsuarios();
 
-    // Cargar todas las actividades
     todasLasActividades = await getActividades();
 
     renderTabla(todasLasActividades);
