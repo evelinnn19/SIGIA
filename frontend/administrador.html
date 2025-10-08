@@ -17,40 +17,41 @@
   </head>
 
   <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
-    <!-- Header -->
     <header class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm">
       <div class="flex items-center gap-3">
         <img src="imgs/LOGO.svg" alt="Logo Sigia" class="w-32 h-auto"/>
       </div>
-      <div class="flex items-center gap-3 bg-[#C5DBA7] px-5 py-2.5 rounded-full">
-        <img src="imgs/logo-admin.svg" alt="Administrador" class="w-8 h-8 rounded-full"/>
-        <span class="font-bold text-lg">Administrador</span>
-      </div>
     </header>
 
-    <!-- Main -->
     <main class="px-8 py-12">
       <div class="max-w-[1120px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-y-16 md:gap-y-24">
-        <!-- Columna izquierda -->
         <nav class="space-y-16">
-          <a href="insumos.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">Insumos</a>
-          <a href="usuarios.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">Usuarios</a>
+          <a href="encargado.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">Insumos</a>
+          <a href="registrar-usuario.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">Usuarios</a>
           <a href="informes.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">Informes</a>
         </nav>
 
-        <!-- Columna derecha -->
         <div class="space-y-16">
-          <a href="solicitar-insumo-por-nota.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">
+          <a href="notas-cargadas.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">
             Solicitar Insumo por Nota
           </a>
-          <a href="modificar-solicitud-nota.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">
+          <a href="notas-cargadas.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">
             Modificar Solicitud Nota
           </a>
-          <a href="solicitar-insumo.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">
+          <a href="notas-cargadas.html" class="block text-3xl md:text-[28px] font-extrabold hover:opacity-80 transition">
             Solicitar Insumo
           </a>
         </div>
       </div>
     </main>
+
+    <script  type="module">
+    import { definirUsuario } from './src/services/usuarioEncabezado.js';
+
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log('DOM cargado, ejecutando definirUsuario...');
+        definirUsuario();
+    });
+    </script>
   </body>
 </html>

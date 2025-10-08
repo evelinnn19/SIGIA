@@ -3,16 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SIGIA :: Solicitar Insumo</title>
+    <title>SIGIA :: Registrar Nuevo Insumo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="shortcut icon" href="public/imgs/favicon.ico" type="image/x-icon">
-    <link
-      rel="shortcut icon"
-      href="public/imgs/favicon.ico"
-      type="image/x-icon"
-    />
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap"
       rel="stylesheet"
@@ -35,10 +30,10 @@
 
     <div class="px-6 pt-6">
       <a
-        href="notas-cargadas.html"
+        href="encargado.html"
         class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#4D3C2D] text-white no-underline font-extrabold rounded-2xl shadow-[0_8px_18px_rgba(0,0,0,0.14)] text-[17px] transition-all duration-75 hover:bg-[#3D3023] hover:-translate-y-0.5"
       >
-        <img src="imgs/icon-back.svg" alt="Volver" class="w-5 h-5" />
+      <img src="imgs/icon-back.svg" alt="Volver" class="w-5 h-5" />
         Volver
       </a>
     </div>
@@ -48,65 +43,93 @@
     >
       <div class="w-full max-w-lg">
         <h2 class="text-4xl font-extrabold text-[#4D3C2D] text-center mb-8">
-          Solicitar Insumo
+          Registrar Insumo
         </h2>
 
         <form class="space-y-6">
           <div class="flex flex-col">
             <label class="font-bold text-base text-[#4D3C2D] mb-2">
-              Nombre insumo <span class="text-red-600">*</span>
+              Nombre Insumo <span class="text-red-600">*</span>
             </label>
-            <select
+            <input
+              type="text"
               name="nombre_insumo"
+              placeholder="Resma A4"
               required
-              class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md appearance-none cursor-pointer"
+              class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
               style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif"
-            >
-
-            </select>
+            />
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div class="flex flex-col">
-            <label class="font-bold text-base text-[#4D3C2D] mb-2">
-              Área solicitante <span class="text-red-600">*</span>
-            </label>
-            <select
-              name="area"
-              required
-              class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md appearance-none cursor-pointer"
-              style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif"
-            >
-
-            </select>
+                <label class="font-bold text-base text-[#4D3C2D] mb-2">
+                Categoría <span class="text-red-600">*</span>
+                </label>
+                <select
+                id="categoria"
+                name="categoria"
+                required
+                class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md"
+                >
+                <option value="">Seleccione una categoría</option>
+                </select>
             </div>
 
-            <div class="flex flex-col">
+             <div class="flex flex-col">
               <label class="font-bold text-base text-[#4D3C2D] mb-2">
                 Cantidad <span class="text-red-600">*</span>
               </label>
               <input
                 type="number"
                 name="cantidad"
-                placeholder="2"
+                placeholder="10"
                 required
                 class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
                 style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif"
               />
             </div>
-          </div>
 
-          <div class="flex flex-col">
+             <div class="flex flex-col">
+                <label class="font-bold text-base text-[#4D3C2D] mb-2">
+                ¿Es crítico? <span class="text-red-600">*</span>
+                </label>
+                <select
+                id="esCritico"
+                name="esCritico"
+                required
+                class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md"
+                >
+                <option value="">Seleccione</option>
+                <option value="1">Sí</option>
+                <option value="0">No</option>
+                </select>
+         </div>
+
+          <div class="flex flex-col hidden" id="stockMinimoContainer">
             <label class="font-bold text-base text-[#4D3C2D] mb-2">
-              Nombre del Solicitante
+            Stock mínimo <span class="text-red-600">*</span>
             </label>
             <input
-              type="text"
-              name="nombre_solicitante"
-              placeholder="Ingrese nombre completo"
-              class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
-              style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif"
+            type="number"
+            id="stockMinimo"
+            name="stockMinimo"
+            placeholder="2"
+            class="w-full h-[54px] px-6 border-none rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
             />
+         </div>
+          </div>
+
+          <div id="popupExito" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+            <div class="bg-[#FDF2C5] rounded-3xl p-8 text-center shadow-lg w-[400px]">
+              <h3 id="popupMensajeExito" class="text-2xl font-extrabold mb-6 text-[#4D3C2D]">
+                ¡Insumo registrado correctamente!
+              </h3>
+              <button id="btnCerrarExito"
+                class="px-8 py-2 bg-[#4D3C2D] text-white font-bold rounded-full hover:bg-[#3D3023]">
+                Continuar
+              </button>
+            </div>
           </div>
 
           <div class="flex items-center justify-center gap-4 pt-4">
@@ -126,6 +149,6 @@
         </form>
       </div>
     </main>
-    <script src="src/solicitar-insumo.js" type="module"></script>
+    <script type="module"src="../../src/registrar-nuevo-insumo.js"></script>
   </body>
 </html>

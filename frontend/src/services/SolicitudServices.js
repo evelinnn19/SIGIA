@@ -19,7 +19,15 @@ export async function createSolicitud(solicitud) {
     body: JSON.stringify(solicitud),
   });
   if (!res.ok) throw new Error("Error al crear solicitud");
-  return res.json();
+  
+  const message = await res.text();
+  console.log(message); 
+  return message;
+}
+
+export async function getUltimaSolicitud() {
+  const solicitudes = await getSolicitudes();
+  return solicitudes.sort((a, b) => b.idSolicitud - a.idSolicitud)[0];
 }
 
 export async function updateSolicitud(id, solicitud) {

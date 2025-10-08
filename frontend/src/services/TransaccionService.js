@@ -19,7 +19,14 @@ export async function createTransaccion(transaccion) {
     body: JSON.stringify(transaccion),
   });
   if (!res.ok) throw new Error("Error al crear transacción");
-  return res.json();
+  
+  const resClone = res.clone();
+  
+  try {
+    return await res.json();
+  } catch {
+    return await resClone.text();
+  }
 }
 
 export async function updateTransaccion(id, transaccion) {
@@ -36,4 +43,11 @@ export async function deleteTransaccion(id) {
   const res = await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
   if (!res.ok) throw new Error("Error al eliminar transacción");
   return true;
+}
+
+export async function getNameInsumoById(id) {
+  const res = await fetch(`${BASE_URL}/${id}`);
+  if (!res.ok) throw new Error("Error al obtener insumo");
+  const insumo = await res.json();
+  return insumo.nombre;
 }

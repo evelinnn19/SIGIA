@@ -6,10 +6,12 @@ import com.SIGIApp.dto.UsuarioPk;
 import com.SIGIApp.exceptions.UsuarioDaoException;
 import com.SIGIApp.jdbc.UsuarioDaoImpl;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -29,12 +31,17 @@ public class UsuarioController {
     public Usuario getById(@PathVariable int id) throws UsuarioDaoException {
         return usuarioDao.findByPrimaryKey(id);
     }
-
+    
     @PostMapping
-    public String create(@RequestBody Usuario usuario) throws UsuarioDaoException {
+    public ResponseEntity<Map<String, String>> create(@RequestBody Usuario usuario) throws UsuarioDaoException {
         usuarioDao.insert(usuario);
-        return "Usuario creado con éxito";
+
+        Map<String, String> respuesta = new HashMap<>();
+        respuesta.put("mensaje", "Usuario creado con éxito");
+
+        return ResponseEntity.ok(respuesta);
     }
+
 
     @PutMapping("/{id}")
     public String update(@PathVariable int id, @RequestBody Usuario usuario) throws UsuarioDaoException {

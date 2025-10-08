@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIGIA :: Encargado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="shortcut icon" href="public/imgs/favicon.ico" type="image/x-icon">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
+    <header
+      class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm"
+    >
+      <div class="flex items-center gap-3">
+        <img src="imgs/LOGO.svg" alt="Logo Sigia" class="w-32 h-auto" />
+      </div>
+     
+    </header>
+
+
+    <main class="px-6 py-8">
+      <div class="mb-8">
+        <h2 class="text-4xl font-extrabold text-[#4D3C2D] mb-2 text-center">
+            Insumos
+        </h2>
+      <div class="max-w-2xl mx-auto bg-[#F7EEC3] rounded-3xl shadow-lg p-8 mt-10">
+        <h3 class="text-3xl font-extrabold text-[#4D3C2D] text-center mb-6">
+          Lista Insumos Registrados
+        </h3>
+
+        <div class="relative mb-6">
+          <div class="absolute left-4 top-1/2 -translate-y-1/2">
+            <svg
+              class="w-5 h-5 text-[#F7EEC3]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </div>
+          <input
+            type="text"
+            placeholder="Buscar por Insumo"
+            class="w-full bg-[#4D3C2D] text-[#F7EEC3] placeholder:text-[#B5A999] px-12 py-3.5 rounded-full text-base font-medium focus:outline-none focus:ring-2 focus:ring-[#5D4C3D]"
+          />
+        </div>
+
+        <div id="listaInsumos" class="space-y-3"></div>
+
+        <div class="text-center mt-8">
+          <a
+            href="registar-nuevo-insumo.html"
+            class="inline-block bg-[#4D3C2D] text-[#F7EEC3] font-bold px-6 py-3 rounded-full hover:bg-[#5E4A38] transition-colors"
+          >
+            Agregar Nuevo Insumo
+          </a>
+        </div>
+      </div>
+
+    <div id="popupAgregar" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+      <div class="bg-[#FDF2C5] rounded-3xl p-8 text-center shadow-lg w-[500px]">
+        <h3 class="text-2xl font-extrabold mb-6 text-[#4D3C2D]">Registrar Insumo Existente</h3>
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div class="flex flex-col">
+            <label class="font-bold mb-2 text-[#4D3C2D]">Nombre</label>
+            <input id="popupNombre" type="text" readonly
+              class="w-full h-[50px] bg-[#DCE0B9] rounded-full px-4 text-[#4D3C2D]" />
+          </div>
+          <div class="flex flex-col">
+            <label class="font-bold mb-2 text-[#4D3C2D]">Cantidad *</label>
+            <input id="popupCantidad" type="number" min="1"
+              class="w-full h-[50px] bg-[#DCE0B9] rounded-full px-4 text-[#4D3C2D]" />
+          </div>
+        </div>
+        <div class="flex justify-center gap-4">
+          <button id="btnCancelarAgregar"
+            class="px-8 py-2 border-2 border-[#4D3C2D] rounded-full font-bold text-[#4D3C2D] hover:bg-[#4D3C2D] hover:text-white">
+            Cancelar
+          </button>
+          <button id="btnConfirmarAgregar"
+            class="px-8 py-2 bg-[#4D3C2D] text-white font-bold rounded-full hover:bg-[#3D3023]">
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="popupEliminar" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+      <div class="bg-[#FDF2C5] rounded-3xl p-8 text-center shadow-lg w-[480px]">
+        <h3 class="text-2xl font-extrabold mb-6 text-[#4D3C2D]">¿Confirma la eliminación de este insumo?</h3>
+        <p id="popupNombreEliminar" class="text-lg font-medium mb-6 text-[#4D3C2D]">Trapo de piso</p>
+        <div class="flex justify-center gap-4">
+          <button id="btnCancelarEliminar"
+            class="px-8 py-2 border-2 border-[#4D3C2D] rounded-full font-bold text-[#4D3C2D] hover:bg-[#4D3C2D] hover:text-white">
+            Cancelar
+          </button>
+          <button id="btnConfirmarEliminar"
+            class="px-8 py-2 bg-[#4D3C2D] text-white font-bold rounded-full hover:bg-[#3D3023]">
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="popupExito" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+      <div class="bg-[#FDF2C5] rounded-3xl p-8 text-center shadow-lg w-[400px]">
+        <h3 id="popupMensajeExito" class="text-2xl font-extrabold mb-6 text-[#4D3C2D]">
+          ¡Insumo eliminado correctamente!
+        </h3>
+        <button id="btnCerrarExito"
+          class="px-8 py-2 bg-[#4D3C2D] text-white font-bold rounded-full hover:bg-[#3D3023]">
+          Continuar
+        </button>
+      </div>
+    </div>
+    </main>
+    <script type="module"src="../../src/encargado.js"></script>
+  </body>
+</html>

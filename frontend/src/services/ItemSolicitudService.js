@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080/api/itemsolicitudes";
+const BASE_URL = "http://localhost:8080/api/item-solicitudes";
 
 export async function getItemSolicitudes() {
   const res = await fetch(BASE_URL);
@@ -19,7 +19,10 @@ export async function createItemSolicitud(item) {
     body: JSON.stringify(item),
   });
   if (!res.ok) throw new Error("Error al crear item de solicitud");
-  return res.json();
+  
+  const message = await res.text();
+  console.log(message); 
+  return message;
 }
 
 export async function updateItemSolicitud(id, item) {
