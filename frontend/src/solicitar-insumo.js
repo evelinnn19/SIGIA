@@ -29,12 +29,10 @@ const Areas = [
 "GaME", 
 "Académica",
 "Consejo",
-"Extension",
 "RRHH",
 "Agrimensura",
 "Ciencia y Tecnica",
 "Dpto Alumnos",
-"Bedelia",
 ]
 
 
