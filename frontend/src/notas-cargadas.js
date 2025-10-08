@@ -1,9 +1,7 @@
-// solicitudes.js (o el archivo donde tenés este código)
-import { getItemSolicitudes } from "./services/ItemSolicitudService.js";
-import {
-  getSolicitudes,
-  updateEstadoSolicitud,
-} from "./services/SolicitudServices"; 
+import { getInsumos,updateInsumo } from "./services/InsumoService.js";
+import { getItemSolicitudes, updateItemSolicitud } from "./services/ItemSolicitudService.js";
+import { createTransaccion } from "./services/TransaccionService.js";
+import {getSolicitudById, getSolicitudes, updateEstadoSolicitud} from "./services/SolicitudServices"; 
 import { registrarActividad } from "./services/actividadUtilidad";
 
      import { definirUsuario } from './services/usuarioEncabezado.js';
@@ -88,12 +86,82 @@ function attachEvents() {
 
 //Aprobar la solicitud entregando los elementos
 async function  entregarElementosSolicitados(id){
-  let itemSolicitados = await getItemSolicitudes();
-  let itemsaProcesar = itemSolicitados.filter(item => item.idSolicitud == id);
+    try {
+    console.log("aHORA SE PEDIRA LA SOLICITUD");
+    
+    let solicitud = await getSolicitudById(id);
+    console.log("Solicitud obtenida:", solicitud);
+    
+    let itemSolicitados = await getItemSolicitudes();
+    console.log("Items solicitados:", itemSolicitados);
+    
+    let itemsaProcesar = itemSolicitados.filter(item => item.idSolicitud == id);
+    console.log("Items a procesar:", itemsaProcesar);
+    
+    let todosInsumos = await getInsumos();
+    let insumosaProcesar = todosInsumos.filter(insumo => 
+      itemsaProcesar.some(item => item.idInsumo == insumo.idInsumo)
+    );
+    
+    let resultados = [];
+    
+    for (let i = 0; i < itemsaProcesar.length; i++) {
+      let itemSol = itemsaProcesar[i];
+      let insumo = insumosaProcesar.find(ins => ins.idInsumo == itemSol.idInsumo);
+      
+      if (!insumo) {
+        console.error(`Insumo no encontrado: ${itemSol.idInsumo}`);
+        continue;
+      }
+      
+      // Usar cantSolicitada
+      let cantidadEntregar = Math.min(itemSol.cantSolicitada, insumo.stockActual);
+      
+      resultados.push({
+        item: itemSol,
+        insumo: insumo,
+        cantidadEntregar: cantidadEntregar
+      });
+    }
+    
+    // Procesar las entregas
+    for (let resultado of resultados) {
+      console.log("=== PROCESANDO RESULTADO ===", resultado);
+      let { item, insumo, cantidadEntregar } = resultado;
+      
+      if (cantidadEntregar > 0) {
+       
+        item.cantEntregada = cantidadEntregar;
+        await updateItemSolicitud(item.idItem, item); 
+        
+        insumo.stockActual -= cantidadEntregar;
+        await updateInsumo(insumo.idInsumo, insumo);
+        
+        let transaccion = {
+          tipo: "egreso",
+          fecha: new Date().toISOString().split('T')[0],
+          cantidad: Number(cantidadEntregar), 
+          areaDestino: solicitud.area,    
+          solicitante: solicitud.solicitante, 
+          idInsumo: insumo.idInsumo,
+          idUsuario: usuarioActual
+        };
 
+        console.log("📄 Transacción a crear:", transaccion);
+        await createTransaccion(transaccion);
+        console.log(`✅ Entregado: ${cantidadEntregar} de ${insumo.nombre}`);
+      }
+    }
+    
+    return { exito: true, mensaje: "Elementos entregados correctamente" };
+    
+  } catch (error) {
+    console.error('Error detallado:', error);
+    return { exito: false, mensaje: `Error: ${error.message}` };
+  }
 }
 
-// Inicialización: fetch + render + attach events
+
 async function initTabla() {
   attachEvents();
   try {
