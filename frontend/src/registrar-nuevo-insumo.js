@@ -29,7 +29,7 @@ function cargarCategorias() {
     "Papelería",
     "Oficina",
     "Mantenimiento",
-    "Informática",
+    "Eléctrico",
   ];
 
   categoriaSelect.innerHTML = '<option value="">Seleccione una categoría</option>';

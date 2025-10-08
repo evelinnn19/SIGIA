@@ -25,7 +25,6 @@ function cargarEstados() {
     "Rechazada",
     "Entregada",
     "Cancelada",
-    "Entregado parcialmente",
   ];
 
   filtroEstado.innerHTML =

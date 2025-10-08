@@ -28,7 +28,7 @@ const params = new URLSearchParams(window.location.search);
 const insumoId = params.get("id");
 
 function cargarCategorias() {
-  const categorias = ["Limpieza", "Papelería", "Oficina", "Mantenimiento", "Informática"];
+  const categorias = ["Limpieza", "Papelería", "Oficina", "Mantenimiento", "Eléctrico"];
   categorias.forEach((nombre) => {
     const option = document.createElement("option");
     option.value = nombre;
