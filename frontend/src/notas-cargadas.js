@@ -1,4 +1,5 @@
 // solicitudes.js (o el archivo donde tenés este código)
+import { getItemSolicitudes } from "./services/ItemSolicitudService.js";
 import {
   getSolicitudes,
   updateEstadoSolicitud,
@@ -60,10 +61,17 @@ function attachEvents() {
     if (target.tagName.toLowerCase() === "select") {
       const nuevoEstado =
         target.value.charAt(0).toUpperCase() + target.value.slice(1);
+
+
       const id = target.dataset.id;
       console.log("Actualizar estado", id, nuevoEstado);
       target.disabled = true;
+
+      if(nuevoEstado == "Aprobada"){
+          entregarElementosSolicitados(id);
+        }
       try {
+
         await updateEstadoSolicitud(id, nuevoEstado);
         console.log("Estado actualizado OK");
         // opcional: mostrar toast o cambiar visual
@@ -82,6 +90,14 @@ function attachEvents() {
       }
     }
   });
+}
+
+
+//Aprobar la solicitud entregando los elementos
+async function  entregarElementosSolicitados(id){
+  let itemSolicitados = await getItemSolicitudes();
+  let itemsaProcesar = itemSolicitados.filter(item => item.idSolicitud == id);
+
 }
 
 // Inicialización: fetch + render + attach events
