@@ -1,20 +1,15 @@
-// src/cargar-nota.js
-/* Módulo para la página cargar-nota.html
-   Guarda los datos del formulario en sessionStorage y mantiene la lista de insumos.
-*/
-//estetica
-     import { definirUsuario } from './services/usuarioEncabezado.js';
 
-    document.addEventListener("DOMContentLoaded", () => {
+import { definirUsuario } from './services/usuarioEncabezado.js';
+
+document.addEventListener("DOMContentLoaded", () => {
         console.log('DOM cargado, ejecutando definirUsuario...');
         definirUsuario();
-    });
-//
+      });
+
 const STORAGE_KEY_FORM = 'sigia_form_cargar_nota';
 const STORAGE_KEY_INSUMOS = 'sigia_insumos';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Inputs
   const numeroInput = document.getElementById('numero_tramite');
   const areaInput = document.getElementById('area');
   const nombreInput = document.getElementById('nombre_solicitante');
@@ -23,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const addInsumoAnchor = document.querySelector('a[href="agregar-insumo.html"]');
 
-  // --- Utilidades de storage ---
   function saveFormToStorage() {
     const payload = {
       numero_tramite: numeroInput.value || '',
@@ -63,22 +57,16 @@ document.addEventListener('DOMContentLoaded', () => {
     sessionStorage.setItem(STORAGE_KEY_INSUMOS, JSON.stringify(insumos));
   }
 
-  // --- Renderizado de la lista ---
   function renderInsumos() {
     const insumos = getInsumosFromStorage();
 
-    // Encuentra el contenedor correcto (dentro del panel derecho)
     const panel = document.querySelector('.bg-[#F7EEC3].rounded-3xl') || document.querySelector('.bg-[#F7EEC3]');
     if (!panel) {
       console.error('No se encontró el panel derecho para renderizar insumos.');
       return;
     }
-
-    // Reemplazamos la sección central (dentro del panel) que mostraba "No hay insumos agregados"
-    // Buscamos el elemento .flex-1 que ya existe en tu HTML
     const contentArea = panel.querySelector('.flex-1') || panel.querySelector('div');
 
-    // Limpiamos contenido
     contentArea.innerHTML = '';
 
     if (!insumos || insumos.length === 0) {
@@ -89,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Creamos una lista
     const ul = document.createElement('ul');
     ul.className = 'w-full space-y-4 divide-y divide-[#E8E2C6]';
 
@@ -119,10 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
       editBtn.className = 'px-4 py-2 rounded-full bg-[#E7D9A7] font-medium';
       editBtn.textContent = 'Editar';
       editBtn.addEventListener('click', () => {
-        // Para editar: guardamos índice y redirigimos a agregar-insumo.html con query ?edit=index
         sessionStorage.setItem('sigia_edit_index', String(idx));
         saveFormToStorage();
-        // navegamos
         window.location.href = 'agregar-insumo.html';
       });
 
@@ -149,38 +134,29 @@ document.addEventListener('DOMContentLoaded', () => {
     contentArea.appendChild(ul);
   }
 
-  // --- Inicialización ---
-  // Si no hay fecha, poner hoy como valor por defecto (opcional)
   if (!fechaInput.value) {
     const hoy = new Date();
-    const iso = hoy.toISOString().slice(0, 10); // YYYY-MM-DD
+    const iso = hoy.toISOString().slice(0, 10); 
     fechaInput.value = iso;
   }
 
-  // Cargar datos previos si existen
+  
   loadFormFromStorage();
   renderInsumos();
 
-  // Guardar cada vez que cambian los inputs (para preservar estado)
   [numeroInput, areaInput, nombreInput, fechaInput].forEach(inp => {
     inp.addEventListener('input', saveFormToStorage);
-    // también guardar on blur para mayor seguridad
     inp.addEventListener('blur', saveFormToStorage);
   });
 
-  // Interceptar click en "Agregar Insumo" para guardar el formulario antes de redirigir
   if (addInsumoAnchor) {
     addInsumoAnchor.addEventListener('click', (e) => {
-      // Guardamos estado actual del form y permitimos navegación
       saveFormToStorage();
-      // Nota: no preventDefault, dejamos que vaya a agregar-insumo.html
-      // Si quieres abrir en nueva pestaña: addInsumoAnchor.target = '_blank'
     });
   } else {
     console.warn('No se encontró el enlace Agregar Insumo (a href="agregar-insumo.html")');
   }
 
-  // Exponer funciones útiles para debugging en consola (opcional)
   window._sigia = {
     saveFormToStorage,
     loadFormFromStorage,

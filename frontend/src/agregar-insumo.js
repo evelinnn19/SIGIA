@@ -163,7 +163,6 @@ const modalCargaListaInsumos = document.getElementById(
 
 const form = document.querySelector("form");
 
-// Evento del formulario - mostrar modal de confirmación
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -171,7 +170,6 @@ form.addEventListener("submit", (e) => {
   const cantidad = parseInt(inputCantidad.value);
   const insumoSeleccionado = insumos.find((i) => i.nombre === nombre);
 
-  // Validaciones
   if (!nombre || !cantidad) {
     alert("Por favor completa todos los campos");
     return;
@@ -182,56 +180,43 @@ form.addEventListener("submit", (e) => {
     return;
   }
 
-  // Mostrar datos en el modal de confirmación
   modalNombre.textContent = nombre;
   modalCantidad.textContent = cantidad;
 
-  // Mostrar modal
   modalConfirmacion.style.display = "flex";
 });
 
-// Botón cancelar del modal de confirmación
 btnCancelar.addEventListener("click", () => {
   modalConfirmacion.style.display = "none";
 });
 
-//Es lo que sale al apretar agregar
-// Botón confirmar del modal de confirmación
+
 btnConfirmar.addEventListener("click", () => {
   const nombre = modalNombre.textContent;
   const cantidad = parseInt(modalCantidad.textContent);
 
   almacenarInsumosElegidos(nombre, cantidad);
-  // Guardar el insumo
 
-  // Cerrar modal de confirmación y mostrar modal de éxito
   modalConfirmacion.style.display = "none";
   modalExito.style.display = "flex";
 
-  // Limpiar formulario
   inputCantidad.value = "";
   stockDiv.style.display = "none";
 });
 
-// Botón agregar otro insumo
 btnAgregarOtro.addEventListener("click", () => {
   modalExito.style.display = "none";
-  // El formulario ya está limpio, solo enfocar el primer campo
   selectInsumo.focus();
 });
 
-// Botón confirmar listado - mostrar modal de confirmación de carga
 btnConfirmarListado.addEventListener("click", () => {
   modalExito.style.display = "none";
   mostrarModalConfirmacionCarga();
 });
 
-/// Función para mostrar el modal de confirmación de carga
 function mostrarModalConfirmacionCarga() {
-  // Cargar datos del formulario guardado (si existe)
   const formData = JSON.parse(localStorage.getItem(STORAGE_KEY_FORM)) || {};
 
-  // Llenar los datos del modal (usar datos por defecto si no hay guardados)
   document.getElementById("modal-carga-tramite").textContent =
     formData.numeroTramite || "1515/2025";
   document.getElementById("modal-carga-area").textContent =
@@ -239,17 +224,14 @@ function mostrarModalConfirmacionCarga() {
   document.getElementById("modal-carga-nombre").textContent =
     formData.nombreSolicitante || "Omar Luna";
 
-  // Fecha actual
   const fechaActual = new Date().toLocaleDateString("es-AR");
   document.getElementById("modal-carga-fecha").textContent = fechaActual;
 
-  // Mostrar lista de insumos
   const insumosGuardados = getInsumosGuardados();
   const listaInsumos = document.getElementById("modal-carga-lista-insumos");
   listaInsumos.innerHTML = "";
 
   insumosGuardados.forEach((insumo) => {
-    // Buscar el insumo original para calcular la cantidad elegida
     const insumoOriginal = insumos.find(
       (orig) => orig.nombre === insumo.nombre
     );
@@ -268,51 +250,40 @@ function mostrarModalConfirmacionCarga() {
   modalConfirmacionCarga.style.display = "flex";
 }
 
-// Eventos del modal de confirmación de carga
 document.getElementById("btn-cancelar-carga").addEventListener("click", () => {
   modalConfirmacionCarga.style.display = "none";
-  modalExito.style.display = "flex"; // Volver al modal anterior
+  modalExito.style.display = "flex"; 
 });
 
 document
   .getElementById("btn-confirmar-carga")
   .addEventListener("click", async () => {
     try {
-      // Obtener datos del formulario y insumos guardados
       const formData = JSON.parse(localStorage.getItem(STORAGE_KEY_FORM)) || {};
       const insumosGuardados = getInsumosGuardados();
 
       const nroTramite = formData.numeroTramite || "1515/2025";
       const areaSolicitante = formData.areaSolicitante || "Posgrado";
       const nombreSolicitante = formData.nombreSolicitante || "Omar Luna";
-      const fechaActual = new Date().toISOString().split("T")[0]; // Formato YYYY-MM-DD
-      const estado = "Pendiente"; // o el estado inicial que uses
+      const fechaActual = new Date().toISOString().split("T")[0]; 
+      const estado = "Pendiente"; 
 
-      // Crear solicitud
       const solicitud = {
-        // idSolicitud no se envía, lo asigna la BD
         nroTramite: nroTramite,
         fecha: fechaActual,
         estado: estado,
         area: areaSolicitante,
         solicitante: nombreSolicitante,
-        // Agrega otros campos que necesites como nombreSolicitante si está en tu modelo
       };
 
       console.log("Creando solicitud:", solicitud);
 
-      // Crear la solicitud y obtener el ID generado
       await createSolicitud(solicitud);
 
       const solicitudCreada = await getUltimaSolicitud();
       console.log("Solicitud obtenida:", solicitudCreada);
 
-      // El backend debería devolver la solicitud con el ID asignado
-      // Si solo devuelve un mensaje, necesitarás modificar el backend o buscar otra forma de obtener el ID
-
-      // Crear items de solicitud por cada insumo elegido
       for (let insumoGuardado of insumosGuardados) {
-        // Buscar el insumo original para calcular la cantidad
         const insumoOriginal = insumos.find(
           (orig) => orig.nombre === insumoGuardado.nombre
         );
@@ -320,11 +291,10 @@ document
           insumoOriginal.stockActual - insumoGuardado.stockActual;
 
         const itemSolicitud = {
-          // idItem no se envía, lo asigna la BD
-          idSolicitud: solicitudCreada.idSolicitud, // Esto depende de lo que devuelva tu backend
+          idSolicitud: solicitudCreada.idSolicitud, 
           idInsumo: insumoGuardado.idInsumo,
           cantSolicitada: cantidadSolicitada,
-          cantEntregada: cantidadSolicitada, // Asumiendo que se entrega todo lo solicitado
+          cantEntregada: cantidadSolicitada, 
         };
 
         console.log("Creando item solicitud:", itemSolicitud);
@@ -340,10 +310,8 @@ document
 
       console.log("Proceso completado exitosamente");
 
-      // Limpiar localStorage
       localStorage.removeItem(STORAGE_KEY_INSUMOS);
 
-      // Cerrar modal y mostrar éxito final
       modalConfirmacionCarga.style.display = "none";
       modalExitoFinal.style.display = "flex";
     } catch (error) {
@@ -352,14 +320,11 @@ document
     }
   });
 
-// Botón continuar del modal final
 document.getElementById("btn-continuar-final").addEventListener("click", () => {
   modalExitoFinal.style.display = "none";
-  // Redirigir o realizar otra acción
   window.location.href = "cargar-nota.html";
 });
 
-// Cerrar modales al hacer clic fuera de ellos
 [
   modalConfirmacion,
   modalExito,

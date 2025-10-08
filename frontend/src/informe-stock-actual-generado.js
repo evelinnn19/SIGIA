@@ -1,6 +1,5 @@
 import { getInsumos } from "./services/InsumoService.js";
 
-//estetica
      import { definirUsuario } from './services/usuarioEncabezado.js';
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -16,14 +15,11 @@ const formFiltros = document.getElementById("formFiltros");
 const btnPdf = document.getElementById("btnPdf");
 const btnExcel = document.getElementById("btnExcel");
 
-// =================== FUNCIONES PRINCIPALES ===================
 
-// 🔹 Cargar categorías dinámicas desde los insumos existentes
 async function cargarCategorias() {
   try {
     const insumos = await getInsumos();
 
-    // Obtener categorías únicas
     const categoriasUnicas = [
       ...new Set(insumos.map((i) => i.categoria).filter(Boolean)),
     ];
@@ -38,7 +34,6 @@ async function cargarCategorias() {
   }
 }
 
-// 🔹 Renderizar tabla con los insumos
 function renderTabla(insumos) {
   if (!insumos || insumos.length === 0) {
     tbody.innerHTML = `
@@ -66,7 +61,6 @@ function renderTabla(insumos) {
 
 filtroCategoria.addEventListener("change", filtrarInsumos);
 filtroCritico.addEventListener("change", filtrarInsumos);
-// 🔹 Aplicar filtros (por categoría y crítico)
 async function filtrarInsumos(e) {
   e.preventDefault();
 
@@ -88,9 +82,7 @@ async function filtrarInsumos(e) {
   }
 }
 
-// =================== EXPORTAR PDF / EXCEL ===================
 
-// 🔹 Exportar PDF con jspdf-autotable
 function exportarPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
@@ -104,7 +96,6 @@ function exportarPDF() {
   doc.save("informe_stock.pdf");
 }
 
-// 🔹 Exportar Excel con xlsx
 function exportarExcel() {
   const tabla = document.getElementById("tablaStock");
   const ws = XLSX.utils.table_to_sheet(tabla);
@@ -113,13 +104,11 @@ function exportarExcel() {
   XLSX.writeFile(wb, "informe_stock.xlsx");
 }
 
-// =================== EVENTOS ===================
 
 formFiltros.addEventListener("submit", filtrarInsumos);
 btnPdf.addEventListener("click", exportarPDF);
 btnExcel.addEventListener("click", exportarExcel);
 
-// =================== INICIALIZACIÓN ===================
 
 document.addEventListener("DOMContentLoaded", async () => {
   await cargarCategorias();
@@ -128,7 +117,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const btnLimpiar = document.getElementById("btnLimpiar");
 
-  // 🔹 Limpiar filtros y recargar todas las solicitudes
   btnLimpiar.addEventListener("click", () => {
     filtroCategoria.value = "";
     filtroCritico.value = "";

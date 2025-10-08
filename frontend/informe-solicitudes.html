@@ -6,10 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SIGIA :: Informe de Solicitudes</title>
 
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Fuente -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,7 +15,6 @@
       rel="stylesheet"
     />
 
-    <!-- Favicon -->
     <link
       rel="shortcut icon"
       href="public/imgs/favicon.ico"
@@ -54,7 +51,6 @@
   </head>
 
   <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
-    <!-- Header -->
     <header
       class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm"
     >
@@ -62,21 +58,22 @@
         <img src="imgs/LOGO.svg" alt="Logo Sigia" class="w-32 h-auto" />
       </div>
     </header>
-
-    <!-- Main -->
-    <main class="px-6 md:px-8 pt-6 pb-14 max-w-[1120px] mx-auto">
-      <a
+    
+     <div class="px-8 pt-6">
+        <a
         href="informes.html"
         class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#4D3C2D] text-white no-underline font-extrabold rounded-2xl shadow-[0_8px_18px_rgba(0,0,0,0.14)] text-[17px] transition-all duration-75 hover:bg-[#3D3023] hover:-translate-y-0.5"
       >
         <img src="imgs/icon-back.svg" alt="Volver" class="w-5 h-5" />
         Volver
       </a>
+    </div>
+    <main class="px-6 md:px-8 pt-6 pb-14 max-w-[1120px] mx-auto">
+      
       <h1 class="text-4xl font-extrabold text-center mb-8 mt-10">
         Informe de Solicitudes
       </h1>
 
-      <!-- Filtros -->
       <form
         id="formFiltros"
         class="grid grid-cols-1 md:grid-cols-1 gap-6 mb-10"
@@ -91,7 +88,6 @@
           </select>
         </div>
 
-        <!-- Fechas -->
         <div class="md:col-span-2 flex flex-col items-center gap-4">
           <p class="font-bold text-center">Rango de Fechas</p>
           <div class="flex flex-col sm:flex-row justify-center gap-4">
@@ -134,7 +130,6 @@
         </div>
       </form>
 
-      <!-- Tabla -->
       <div
         class="border border-[#4D3C2D]/30 rounded-2xl overflow-hidden shadow-sm"
       >
@@ -152,13 +147,11 @@
               </tr>
             </thead>
             <tbody id="tbodySolicitudes" class="bg-[#6b5946] text-[#F0E5CD]">
-              <!-- Filas dinámicas -->
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- Botones de exportación -->
       <section
         class="mt-8 bg-[#FDF2C5] rounded-2xl p-6 flex flex-wrap justify-center gap-6"
       >
@@ -179,12 +172,10 @@
       </section>
     </main>
 
-    <!-- Librerías -->
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
-    <!-- Script principal -->
     <script type="module" src="src/informe-solicitudes-generado.js"></script>
   </body>
 </html>

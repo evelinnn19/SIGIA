@@ -20,13 +20,11 @@ export async function createTransaccion(transaccion) {
   });
   if (!res.ok) throw new Error("Error al crear transacción");
   
-  // Clonar la respuesta para poder leerla dos veces
   const resClone = res.clone();
   
   try {
     return await res.json();
   } catch {
-    // Si falla JSON, usar el clon para leer como texto
     return await resClone.text();
   }
 }

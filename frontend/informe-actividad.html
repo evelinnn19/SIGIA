@@ -6,16 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SIGIA :: Informe de Actividad</title>
 
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Fuente -->
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Favicon -->
     <link
       rel="shortcut icon"
       href="public/imgs/favicon.ico"
@@ -42,7 +39,6 @@
   </head>
 
   <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
-    <!-- Header -->
     <header
       class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm"
     >
@@ -52,24 +48,23 @@
       
     </header>
 
-    <!-- Main -->
-    <main class="px-8 pt-8 pb-14 max-w-[1120px] mx-auto">
-      <a
+    <div class="px-8 pt-6">
+        <a
         href="informes.html"
         class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#4D3C2D] text-white no-underline font-extrabold rounded-2xl shadow-[0_8px_18px_rgba(0,0,0,0.14)] text-[17px] transition-all duration-75 hover:bg-[#3D3023] hover:-translate-y-0.5"
       >
         <img src="imgs/icon-back.svg" alt="Volver" class="w-5 h-5" />
         Volver
       </a>
-
-      <!-- Título -->
+    </div>
+   
+    <main class="px-8 pt-8 pb-14 max-w-[1120px] mx-auto">
+     
       <h1 class="text-4xl font-extrabold text-center my-10">
         Informe de Actividad de Usuarios
       </h1>
 
-      <!-- Formulario de filtros -->
       <form id="formFiltros" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <!-- Usuario -->
         <div>
           <label for="filtroUsuario" class="block font-semibold mb-2">Usuario</label>
           <div class="relative">
@@ -78,7 +73,6 @@
               class="w-full appearance-none bg-[#FDF2C5] text-[#4D3C2D] rounded-full px-5 py-3 pr-12 outline-none"
             >
               <option value="">Todos</option>
-              <!-- opciones dinámicas cargadas desde JS -->
             </select>
             <span
               class="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-xl"
@@ -87,7 +81,6 @@
           </div>
         </div>
 
-        <!-- Fecha desde -->
         <div>
           <label class="block font-semibold mb-2">Desde</label>
           <div class="relative">
@@ -104,7 +97,6 @@
           </div>
         </div>
 
-        <!-- Fecha hasta -->
         <div>
           <label class="block font-semibold mb-2">Hasta</label>
           <div class="relative">
@@ -122,7 +114,6 @@
         </div>
       </form>
 
-      <!-- Botones -->
       <div class="flex justify-center gap-5 mb-10">
         <button
           id="btnLimpiar"
@@ -133,9 +124,6 @@
         
       </div>
 
-
-
-      <!-- Tabla de resultados -->
       <section id="contenedorTabla" class="mt-8"></section>
 
        <section
@@ -158,12 +146,10 @@
       </section>
     </main>
 
-    <!-- Librerías -->
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
-    <!-- Script principal -->
     <script type="module" src="src/informe-actividad-generado.js"></script>
   </body>
 </html>

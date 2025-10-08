@@ -12,7 +12,6 @@ export async function getSolicitudById(id) {
   return res.json();
 }
 
-// Modifica tu servicio para manejar el string
 export async function createSolicitud(solicitud) {
   const res = await fetch(BASE_URL, {
     method: "POST",
@@ -21,16 +20,13 @@ export async function createSolicitud(solicitud) {
   });
   if (!res.ok) throw new Error("Error al crear solicitud");
   
-  // Como devuelve texto plano, no parseamos JSON
   const message = await res.text();
-  console.log(message); // "Solicitud creada"
+  console.log(message); 
   return message;
 }
 
-// Agregar función para obtener la última solicitud
 export async function getUltimaSolicitud() {
   const solicitudes = await getSolicitudes();
-  // Ordenar por ID descendente y tomar la primera (más reciente)
   return solicitudes.sort((a, b) => b.idSolicitud - a.idSolicitud)[0];
 }
 

@@ -2,7 +2,6 @@ import { getInsumos, deleteInsumo, updateInsumo, getInsumoById } from "./service
 import { registrarActividad } from "./services/actividadUtilidad";
 
 
-//estetica
      import { definirUsuario } from './services/usuarioEncabezado.js';
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -20,7 +19,6 @@ const popupCantidad = document.getElementById("popupCantidad");
 const popupNombreEliminar = document.getElementById("popupNombreEliminar");
 const popupMensajeExito = document.getElementById("popupMensajeExito");
 
-// === Botones popups ===
 const btnCancelarAgregar = document.getElementById("btnCancelarAgregar");
 const btnConfirmarAgregar = document.getElementById("btnConfirmarAgregar");
 
@@ -28,20 +26,17 @@ const btnCerrarExito = document.getElementById("btnCerrarExito");
 
 const usuarioActualRaw = localStorage.getItem('usuarioActual');
 const usuarioActual = usuarioActualRaw ? Number(usuarioActualRaw) : null;
-// Variable global para el insumo actual
 let insumoSeleccionado = null;
 
 const contenedor = document.getElementById("listaInsumos");
 
 
-// ====================== CARGAR INSUMOS ======================
 async function cargarInsumos() {
-  contenedor.innerHTML = ""; // limpiar contenido
+  contenedor.innerHTML = ""; 
 
   try {
     const insumos = await getInsumos();
 
-    // === Crear encabezado ===
     const header = document.createElement("div");
     header.className =
       "grid grid-cols-[2fr_1fr_auto] items-center font-extrabold text-[#4D3C2D] border-b-2 border-[#4D3C2D] pb-2 mb-2";
@@ -52,7 +47,6 @@ async function cargarInsumos() {
     `;
     contenedor.appendChild(header);
 
-    // === Crear cada fila ===
     insumos.forEach((insumo) => {
       const row = document.createElement("div");
       row.className =
@@ -72,7 +66,6 @@ async function cargarInsumos() {
       contenedor.appendChild(row);
     });
 
-    // === Agregar listeners ===
     document.querySelectorAll("[data-action]").forEach((el) => {
       el.addEventListener("click", manejarAccion);
     });
@@ -88,7 +81,6 @@ function manejarAccion(e) {
   const id = e.target.dataset.id;
   const nombre = e.target.dataset.nombre;
 
-  // ✅ Guardar con el nombre correcto
   insumoSeleccionado = { idInsumo: Number(id), nombre };
   console.log("Insumo seleccionado:", insumoSeleccionado.idInsumo, insumoSeleccionado.nombre);
 
@@ -102,7 +94,6 @@ function manejarAccion(e) {
 }
 
 
-// === Agregar cantidad ===
 btnConfirmarAgregar.addEventListener("click", async () => {
   const cantidad = parseInt(popupCantidad.value);
   if (!cantidad || cantidad <= 0) return;
@@ -127,7 +118,6 @@ btnConfirmarAgregar.addEventListener("click", async () => {
   }
 });
 
-// === Botones de cierre ===
 btnCancelarAgregar.addEventListener("click", () => popupAgregar.classList.add("hidden"));
 btnCancelarEliminar.addEventListener("click", () => popupEliminar.classList.add("hidden"));
 btnCerrarExito.addEventListener("click", () => popupExito.classList.add("hidden"));

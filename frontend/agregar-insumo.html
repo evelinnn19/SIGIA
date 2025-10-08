@@ -17,7 +17,6 @@
 </head>
 <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
   
- <!-- Header -->
   <header
       class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm"
     >
@@ -27,7 +26,6 @@
 
     </header>
 
-  <!-- Botón Volver -->
   <div class="px-8 pt-6">
     <a 
       href="cargar-nota.html" 
@@ -38,7 +36,6 @@
     </a>
   </div>
 
-   <!-- Modal de Confirmación de Insumo -->
   <div id="modal-confirmacion" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
     <div class="bg-[#FDF2C5] rounded-3xl p-8 w-full max-w-md mx-4 shadow-2xl">
       <h2 class="text-xl font-bold text-[#4D3C2D] text-center mb-6">
@@ -46,7 +43,6 @@
       </h2>
       
       <div class="flex gap-4 mb-6">
-        <!-- Nombre -->
         <div class="flex-1">
           <label class="block text-sm font-bold text-[#4D3C2D] mb-2">Nombre</label>
           <div id="modal-nombre" class="bg-[#C5DBA7] rounded-full px-5 py-3 text-[#4D3C2D] text-center font-medium">
@@ -54,7 +50,6 @@
           </div>
         </div>
         
-        <!-- Cantidad -->
         <div class="flex-1">
           <label class="block text-sm font-bold text-[#4D3C2D] mb-2">Cantidad</label>
           <div id="modal-cantidad" class="bg-[#C5DBA7] rounded-full px-5 py-3 text-[#4D3C2D] text-center font-medium">
@@ -82,7 +77,6 @@
     </div>
   </div>
 
-  <!-- Modal de Éxito -->
   <div id="modal-exito" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
     <div class="bg-[#FDF2C5] rounded-3xl p-8 w-full max-w-md mx-4 shadow-2xl">
       <h2 class="text-2xl font-bold text-[#4D3C2D] text-center mb-8">
@@ -108,7 +102,6 @@
     </div>
   </div>
 
-  <!-- Modal de Confirmación de Carga de Nota -->
   <div id="modal-confirmacion-carga" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" style="display: none;">
     <div class="bg-[#FDF2C5] rounded-3xl p-8 w-full max-w-4xl shadow-2xl max-h-[90vh] overflow-y-auto">
       <h2 class="text-2xl font-bold text-[#4D3C2D] text-center mb-8">
@@ -116,7 +109,6 @@
       </h2>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Columna Izquierda: Datos -->
         <div class="space-y-4">
           <div>
             <label class="block text-sm font-bold text-[#4D3C2D] mb-2">Nro Trámite</label>
@@ -147,13 +139,11 @@
           </div>
         </div>
         
-        <!-- Columna Derecha: Lista de Insumos -->
         <div class="bg-[#C5DBA7] rounded-3xl p-6">
           <h3 class="text-lg font-bold text-[#4D3C2D] text-center mb-4">
             Lista Insumos de la Nota
           </h3>
           <div id="modal-carga-lista-insumos" class="space-y-3 max-h-[300px] overflow-y-auto">
-            <!-- Los insumos se agregarán dinámicamente aquí -->
           </div>
         </div>
       </div>
@@ -177,7 +167,6 @@
     </div>
   </div>
 
-  <!-- Modal de Éxito Final -->
   <div id="modal-exito-final" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
     <div class="bg-[#FDF2C5] rounded-3xl p-8 w-full max-w-md mx-4 shadow-2xl">
       <h2 class="text-2xl font-bold text-[#4D3C2D] text-center mb-8">
@@ -196,12 +185,9 @@
     </div>
   </div>
 
-  <!-- Main Content -->
   <main class="px-8 py-12 flex items-center justify-center min-h-[calc(100vh-200px)]">
     <div class="w-full max-w-md">
-      <!-- Formulario -->
       <form class="space-y-6">
-        <!-- Nombre insumo -->
         <div class="flex flex-col">
           <label class="font-bold text-base text-[#4D3C2D] mb-2">
             Nombre insumo <span class="text-red-600">*</span>
@@ -221,7 +207,6 @@
           </select>
         </div>
 
-        <!-- Cantidad -->
         <div class="flex flex-col">
           <label class="font-bold text-base text-[#4D3C2D] mb-2">
             Cantidad <span class="text-red-600">*</span>
@@ -240,7 +225,6 @@
           </div>
         </div>
 
-        <!-- Botón Agregar -->
         <div class="flex justify-center pt-4">
           <button 
             type="submit" 

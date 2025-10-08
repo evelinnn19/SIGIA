@@ -2,7 +2,6 @@ import { createInsumo } from "./services/InsumoService.js";
 import { registrarActividad } from "./services/actividadUtilidad";
 
 
-//estetica
      import { definirUsuario } from './services/usuarioEncabezado.js';
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -24,7 +23,6 @@ const btnCerrarExito = document.getElementById("btnCerrarExito");
 
 const usuarioActualRaw = localStorage.getItem('usuarioActual');
 const usuarioActual = usuarioActualRaw ? Number(usuarioActualRaw) : null;
-// === Cargar categorías ===
 function cargarCategorias() {
   const categorias = [
     "Limpieza",
@@ -43,14 +41,12 @@ function cargarCategorias() {
   });
 }
 
-// === Mostrar / ocultar stock mínimo ===
 esCriticoSelect.addEventListener("change", (e) => {
   const esCritico = e.target.value === "1";
   stockMinimoContainer.classList.toggle("hidden", !esCritico);
   if (!esCritico) stockMinimoInput.value = "";
 });
 
-// === Enviar formulario ===
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -65,13 +61,12 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
-  // 🔹 Objeto EXACTO que espera tu backend
   const nuevoInsumo = {
     nombre: nombre,
     categoria: categoriaNombre,
     stockActual: cantidad,
     stockMinimo: stockMinimo,
-    critico: critico, // 0 o 1 (short)
+    critico: critico, 
   };
 
   console.log("🧾 Enviando insumo al backend:", nuevoInsumo);
@@ -109,7 +104,6 @@ form.addEventListener("submit", async (e) => {
 
 
 
-// === Popup ===
 function mostrarPopup(mensaje) {
   popupMensajeExito.textContent = mensaje;
   popupExito.classList.remove("hidden");
@@ -121,7 +115,4 @@ btnCerrarExito.addEventListener("click", () => {
 });
 
 
-
-
-// === Inicialización ===
 document.addEventListener("DOMContentLoaded", cargarCategorias);

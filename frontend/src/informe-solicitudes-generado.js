@@ -1,6 +1,5 @@
 import { getSolicitudes } from "./services/SolicitudServices.js";
 
-//estetica
      import { definirUsuario } from './services/usuarioEncabezado.js';
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -17,11 +16,8 @@ const formFiltros = document.getElementById("formFiltros");
 const btnPdf = document.getElementById("btnPdf");
 const btnExcel = document.getElementById("btnExcel");
 
-let todasLasSolicitudes = []; // cache local
+let todasLasSolicitudes = []; 
 
-// =================== FUNCIONES PRINCIPALES ===================
-
-// 🔹 Cargar estados dinámicamente
 function cargarEstados() {
   const ESTADOS = [
     "Pendiente",
@@ -42,7 +38,6 @@ function cargarEstados() {
     ).join("");
 }
 
-// 🔹 Renderizar tabla
 function renderTabla(solicitudes) {
   if (!solicitudes || solicitudes.length === 0) {
     tbody.innerHTML = `
@@ -67,15 +62,12 @@ function renderTabla(solicitudes) {
     .join("");
 }
 
-// 🔹 Convertir string 'YYYY-MM-DD' en fecha local sin timezone
 function parseFechaLocal(fechaStr) {
   if (!fechaStr) return null;
   const [year, month, day] = fechaStr.split("-").map(Number);
-  // new Date(year, monthIndex, day) usa zona horaria local
   return new Date(year, month - 1, day);
 }
 
-// 🔹 Aplicar filtros (estado + rango de fechas)
 function aplicarFiltros() {
   const estado = filtroEstado.value;
   const desde = inputDesde.value ? parseFechaLocal(inputDesde.value) : null;
@@ -97,14 +89,12 @@ function aplicarFiltros() {
   renderTabla(filtradas);
 }
 
-// 🔹 Formatear fecha (manteniendo la fecha local correcta)
 function formatearFecha(fechaISO) {
   if (!fechaISO) return "-";
   const [y, m, d] = fechaISO.split("T")[0].split("-");
   return `${d}/${m}/${y}`;
 }
 
-// =================== EXPORTAR PDF / EXCEL ===================
 
 function exportarPDF() {
   const { jsPDF } = window.jspdf;
@@ -127,21 +117,16 @@ function exportarExcel() {
   XLSX.writeFile(wb, "informe_solicitudes.xlsx");
 }
 
-// =================== EVENTOS ===================
 
-// 🔸 Actualiza la tabla automáticamente al cambiar filtros
 [filtroEstado, inputDesde, inputHasta].forEach((el) =>
   el.addEventListener("change", aplicarFiltros)
 );
 
-// 🔸 Botones de exportar
 btnPdf.addEventListener("click", exportarPDF);
 btnExcel.addEventListener("click", exportarExcel);
 
-// 🔸 Evita recarga al enviar formulario
 formFiltros.addEventListener("submit", (e) => e.preventDefault());
 
-// =================== INICIALIZACIÓN ===================
 
 document.addEventListener("DOMContentLoaded", async () => {
   cargarEstados();
@@ -156,11 +141,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 const btnLimpiar = document.getElementById("btnLimpiar");
 
-// 🔹 Limpiar filtros y recargar todas las solicitudes
 btnLimpiar.addEventListener("click", () => {
   filtroEstado.value = "";
   inputDesde.value = "";
   inputHasta.value = "";
 
-  renderTabla(todasLasSolicitudes); // volver a mostrar todo
+  renderTabla(todasLasSolicitudes); 
 });

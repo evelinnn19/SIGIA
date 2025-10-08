@@ -1,7 +1,7 @@
 import { getInsumoById, updateInsumo } from "./services/InsumoService.js";
 import { registrarActividad } from "./services/actividadUtilidad";
 
-//estetica
+
      import { definirUsuario } from './services/usuarioEncabezado.js';
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -20,16 +20,13 @@ const stockMinimoContainer = document.getElementById("stockMinimoContainer");
 
 const usuarioActualRaw = localStorage.getItem('usuarioActual');
 const usuarioActual = usuarioActualRaw ? Number(usuarioActualRaw) : null;
-// Popups
 const popupExito = document.getElementById("popupExito");
 const popupMensajeExito = document.getElementById("popupMensajeExito");
 const btnCerrarExito = document.getElementById("btnCerrarExito");
 
-// === 1️⃣ Obtener ID del insumo desde la URL ===
 const params = new URLSearchParams(window.location.search);
 const insumoId = params.get("id");
 
-// === 2️⃣ Cargar categorías ===
 function cargarCategorias() {
   const categorias = ["Limpieza", "Papelería", "Oficina", "Mantenimiento", "Informática"];
   categorias.forEach((nombre) => {
@@ -40,7 +37,6 @@ function cargarCategorias() {
   });
 }
 
-// === 3️⃣ Cargar datos del insumo ===
 async function cargarInsumo() {
   try {
     const insumo = await getInsumoById(insumoId);
@@ -62,8 +58,6 @@ async function cargarInsumo() {
 }
 
 
-
-// === 5️⃣ Popup ===
 function mostrarPopup(mensaje) {
   popupMensajeExito.textContent = mensaje;
   popupExito.classList.remove("hidden");
@@ -108,7 +102,6 @@ form.addEventListener("submit", async (e) => {
 });
 
 
-// === Inicialización ===
 document.addEventListener("DOMContentLoaded", () => {
   cargarCategorias();
   cargarInsumo();

@@ -19,7 +19,6 @@
     </style>
   </head>
   <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
-    <!-- Header -->
     <header
       class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm"
     >
@@ -29,22 +28,17 @@
      
     </header>
 
-    
 
-    <!-- Main Content -->
     <main class="px-6 py-8">
-      <!-- Títulos -->
       <div class="mb-8">
         <h2 class="text-4xl font-extrabold text-[#4D3C2D] mb-2 text-center">
             Insumos
         </h2>
-      <!-- Card de Notas Cargadas -->
       <div class="max-w-2xl mx-auto bg-[#F7EEC3] rounded-3xl shadow-lg p-8 mt-10">
         <h3 class="text-3xl font-extrabold text-[#4D3C2D] text-center mb-6">
           Lista Insumos Registrados
         </h3>
 
-        <!-- Buscador -->
         <div class="relative mb-6">
           <div class="absolute left-4 top-1/2 -translate-y-1/2">
             <svg
@@ -80,8 +74,6 @@
         </div>
       </div>
 
-
-        <!-- Popup de Agregar Cantidad -->
     <div id="popupAgregar" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
       <div class="bg-[#FDF2C5] rounded-3xl p-8 text-center shadow-lg w-[500px]">
         <h3 class="text-2xl font-extrabold mb-6 text-[#4D3C2D]">Registrar Insumo Existente</h3>
@@ -110,7 +102,6 @@
       </div>
     </div>
 
-    <!-- Popup de Confirmar Eliminación -->
     <div id="popupEliminar" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
       <div class="bg-[#FDF2C5] rounded-3xl p-8 text-center shadow-lg w-[480px]">
         <h3 class="text-2xl font-extrabold mb-6 text-[#4D3C2D]">¿Confirma la eliminación de este insumo?</h3>
@@ -128,7 +119,6 @@
       </div>
     </div>
 
-    <!-- Popup de Éxito -->
     <div id="popupExito" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
       <div class="bg-[#FDF2C5] rounded-3xl p-8 text-center shadow-lg w-[400px]">
         <h3 id="popupMensajeExito" class="text-2xl font-extrabold mb-6 text-[#4D3C2D]">

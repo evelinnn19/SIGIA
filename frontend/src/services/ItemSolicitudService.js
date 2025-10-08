@@ -20,9 +20,8 @@ export async function createItemSolicitud(item) {
   });
   if (!res.ok) throw new Error("Error al crear item de solicitud");
   
-  // Cambiar de res.json() a res.text() porque devuelve string
   const message = await res.text();
-  console.log(message); // "Item de solicitud creado"
+  console.log(message); 
   return message;
 }
 

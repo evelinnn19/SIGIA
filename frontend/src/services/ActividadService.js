@@ -19,11 +19,10 @@ export async function createActividad(actividad) {
     body: JSON.stringify(actividad),
   });
 
-  // no intentamos parsear como JSON
   const text = await res.text();
 
   if (!res.ok) throw new Error(`Error al crear actividad: ${text}`);
-  return text; // será "Actividad creada"
+  return text; 
 }
 
 
