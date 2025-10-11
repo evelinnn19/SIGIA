@@ -3,6 +3,7 @@ import { getItemSolicitudes, updateItemSolicitud } from "./services/ItemSolicitu
 import { createTransaccion } from "./services/TransaccionService.js";
 import {getSolicitudById, getSolicitudes, updateEstadoSolicitud} from "./services/SolicitudServices"; 
 import { registrarActividad } from "./services/actividadUtilidad";
+import { renderSimpleComprobantePDF} from "./services/comprobanteUtilidad.js"
 
      import { definirUsuario } from './services/usuarioEncabezado.js';
 
@@ -81,7 +82,146 @@ function attachEvents() {
       }
     }
   });
+
+  // Event listener para el botón de descarga
+  cont.addEventListener("click", async (e) => {
+    const target = e.target.closest("button");
+    if (target && target.dataset.id) {
+      const id = target.dataset.id;
+      console.log("🔽 ID del botón clickeado:", id);
+      
+      // Aquí puedes llamar a tu función
+      manejarClickBoton(id);
+      // O cualquier otra función que necesites
+    }
+  });
 }
+
+async function manejarClickBoton(id){
+       try {
+    let solicitud = await getSolicitudById(id);
+    console.log("Solicitud obtenida:", solicitud);
+    
+    let itemSolicitados = await getItemSolicitudes();
+    console.log("Items solicitados:", itemSolicitados);
+    
+    let itemsaProcesar = itemSolicitados.filter(item => item.idSolicitud == id);
+    console.log("Items a procesar:", itemsaProcesar);
+    
+    let todosInsumos = await getInsumos();
+    let insumosaProcesar = todosInsumos.filter(insumo => 
+      itemsaProcesar.some(item => item.idInsumo == insumo.idInsumo)
+    );
+
+    // Preparar datos para el comprobante
+    const datosComprobante = [];
+    
+    for (let item of itemsaProcesar) {
+      const insumo = insumosaProcesar.find(ins => ins.idInsumo == item.idInsumo);
+      if (insumo) {
+        datosComprobante.push({
+          nombre: insumo.nombre || 'N/A',
+          area: solicitud.area || 'N/A',
+          solicitante: solicitud.solicitante || 'N/A',
+          cantidadSolicitada: item.cantSolicitada || 0,
+          cantidadEntregada: item.cantEntregada || 0
+        });
+      }
+    }
+
+    console.log("Datos para comprobante:", datosComprobante);
+
+    // Mostrar opciones al usuario
+    mostrarOpcionesDescarga(solicitud, datosComprobante);
+
+  } catch (error) {
+    console.error('Error al obtener datos para comprobante:', error);
+    alert('Error al generar el comprobante. Intente nuevamente.');
+  }
+
+
+}
+
+function mostrarOpcionesDescarga(solicitud, datosComprobante) {
+  // Intentar obtener contenedor existente
+  let cont = document.querySelector('#comprobanteWrap');
+
+  // Si no existe, creamos un modal y un contenedor dentro
+  let modalCreado = false;
+  if (!cont) {
+    modalCreado = true;
+    const modal = document.createElement('div');
+    modal.id = 'comprobanteModal';
+    modal.style.cssText = `
+      position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.45); z-index: 9999; padding: 20px;
+    `;
+
+    const panel = document.createElement('div');
+    panel.style.cssText = `
+      background: white; width: 100%; max-width: 900px; max-height: 90vh; overflow:auto;
+      border-radius: 8px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    `;
+    panel.id = 'comprobantePanel';
+
+    // Botón cerrar
+    const closeBtn = document.createElement('button');
+    closeBtn.textContent = 'Cerrar';
+    closeBtn.style.cssText = 'position:absolute; right:18px; top:12px; padding:6px 10px; cursor:pointer;';
+    closeBtn.addEventListener('click', () => {
+      if (modal && modal.parentNode) modal.parentNode.removeChild(modal);
+    });
+
+    // Contenedor donde renderizaremos la tabla + botones
+    cont = document.createElement('div');
+    cont.id = 'comprobanteWrap';
+    cont.style.cssText = 'padding-top: 10px;';
+
+    panel.appendChild(closeBtn);
+    panel.appendChild(cont);
+    modal.appendChild(panel);
+    document.body.appendChild(modal);
+
+    // Cerrar modal al click fuera del panel
+    modal.addEventListener('click', (ev) => {
+      if (ev.target === modal) {
+        if (modal.parentNode) modal.parentNode.removeChild(modal);
+      }
+    });
+  } else {
+    // si existe, vaciarlo
+    cont.innerHTML = '';
+  }
+
+  // Ahora llamamos a la función que crea la tabla y el botón PDF.
+  // Asumo que ya definiste renderSimpleComprobantePDF (la función que te pasé antes).
+  try {
+    renderSimpleComprobantePDF('#comprobanteWrap', solicitud, datosComprobante);
+  } catch (err) {
+    console.error('Error al renderizar comprobante:', err);
+    cont.innerHTML = `<p style="color: #b91c1c;">Error al renderizar comprobante: ${err.message}</p>`;
+  }
+
+  // Si querés auto-remover el modal después de descargar, podés enganchar el botón.
+  // Buscamos el botón "Descargar PDF" que la función crea y le agregamos lógica para cerrar el modal luego de guardar.
+  setTimeout(() => {
+    const modal = document.getElementById('comprobanteModal');
+    const btnPdf = document.querySelector('#comprobanteWrap button'); // primer botón dentro del wrap
+    if (btnPdf && modal) {
+      btnPdf.addEventListener('click', () => {
+        // esperar un poco para que html2pdf termine (html2pdf retorna promesa si querés)
+        // aquí cerramos el modal tras un pequeño delay; si preferís, usar la promesa de html2pdf.
+        setTimeout(() => {
+          if (modal.parentNode) modal.parentNode.removeChild(modal);
+        }, 600);
+      }, { once: true });
+    }
+  }, 200);
+}
+
+
+
+  
 
 
 //Aprobar la solicitud entregando los elementos
@@ -236,6 +376,8 @@ function crearFila(tramite) {
 
   return container;
 }
+
+//Crear la tabla de insumos para esa solicitud
 
 
 document.addEventListener("DOMContentLoaded", initTabla);

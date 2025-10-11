@@ -31,37 +31,87 @@ const usuarioActual = usuarioActualRaw ? Number(usuarioActualRaw) : null;
 // // src/agregar-insumo.js
 // // Script mejorado para agregar-insumo.html
 const STORAGE_KEY_INSUMOS = "sigia_insumos"; ///ESTE ES PARA LOS QUE VOY ELIGIENDO
-const STORAGE_KEY_FORM = "sigia_form_cargar_nota"; //ESTO ES SOBRE LOS DATOS DE LA NOTA
+const STORAGE_KEY_FORM = 'sigia_form_cargar_nota'; //ESTO ES SOBRE LOS DATOS DE LA NOTA
 
 //Deberíamos guuardar en un localStorage los insumos que elegimos.
 // Función para almacenar insumos elegidos con datos completos
 function almacenarInsumosElegidos(nombreInsumo, cantidadElegida) {
+
+  //ASEGURAR TIPO
+   cantidadElegida = Number(cantidadElegida) || 0;
+  if (cantidadElegida <= 0) {
+    alert('Cantidad inválida');
+    return false;
+  }
+
+
+
   // Obtener insumos ya guardados
-  let insumosElegidos =
-    JSON.parse(localStorage.getItem(STORAGE_KEY_INSUMOS)) || [];
+  let insumosElegidos = getInsumosGuardados(); // usa tu helper
 
   // Buscar el insumo completo en la lista original
-  const insumoCompleto = insumos.find(
-    (insumo) => insumo.nombre === nombreInsumo
+  const insumoCompleto = insumos.find(i => i.nombre === nombreInsumo);
+  if (!insumoCompleto) {
+    console.warn('No se encontró el insumo original:', nombreInsumo);
+    return false;
+  }
+
+  const stockOriginal = Number(insumoCompleto.stockActual) || 0;
+
+   const idxExistente = insumosElegidos.findIndex(
+    x => (x.idInsumo != null && x.idInsumo === insumoCompleto.idInsumo) || (x.nombre === nombreInsumo)
   );
 
-  if (insumoCompleto) {
-    // Crear objeto con datos completos del insumo + cantidad elegida
-    const insumoElegido = {
+    if (idxExistente >= 0) {
+    // Ya hay un registro: calculamos cuánto ya se pidió
+    const almacenado = insumosElegidos[idxExistente];
+    const solicitadoExistente = Number(insumoCompleto.stockActual) - Number(almacenado.stockActual);
+
+    const nuevoSolicitado = solicitadoExistente + cantidadElegida;
+
+    if (nuevoSolicitado > stockOriginal) {
+      alert(`No hay suficiente stock. Ya solicitaste ${solicitadoExistente} y pediste ${cantidadElegida}. Stock disponible total: ${stockOriginal}.`);
+      return false;
+    }
+
+
+    
+    // Actualizamos el stock restante guardado
+    almacenado.stockActual = stockOriginal - nuevoSolicitado;
+
+    // Por precaución, actualizamos otros campos por si cambiaron
+    almacenado.categoria = insumoCompleto.categoria;
+    almacenado.critico = insumoCompleto.critico;
+    almacenado.stockMinimo = insumoCompleto.stockMinimo;
+    almacenado.idInsumo = insumoCompleto.idInsumo;
+    // no cambiamos nombre
+
+    // Guardamos y retornamos
+    insumosElegidos[idxExistente] = almacenado;
+    guardarInsumos(insumosElegidos);
+    return true;
+  } else {
+    // No existe aún: verificamos que la cantidad pedida no supere el stock
+    if (cantidadElegida > stockOriginal) {
+      alert(`La cantidad solicitada (${cantidadElegida}) supera el stock disponible (${stockOriginal}).`);
+      return false;}
+
+      const nuevoRegistro = {
       categoria: insumoCompleto.categoria,
       critico: insumoCompleto.critico,
       idInsumo: insumoCompleto.idInsumo,
       nombre: insumoCompleto.nombre,
-      stockActual: insumoCompleto.stockActual - cantidadElegida,
-      stockMinimo: insumoCompleto.stockMinimo,
+      // guardamos stock restante (como venías haciendo)
+      stockActual: stockOriginal - cantidadElegida,
+      stockMinimo: insumoCompleto.stockMinimo
     };
 
-    // Agregar a la lista
-    insumosElegidos.push(insumoElegido);
-
-    // Guardar en localStorage
-    localStorage.setItem(STORAGE_KEY_INSUMOS, JSON.stringify(insumosElegidos));
+    insumosElegidos.push(nuevoRegistro);
+    guardarInsumos(insumosElegidos);
+    return true;
   }
+
+
 }
 
 // // Elementos del DOM
@@ -161,6 +211,14 @@ const modalCargaListaInsumos = document.getElementById(
   "modal-carga-lista-insumos"
 );
 
+
+let datoForm = JSON.parse(localStorage.getItem(STORAGE_KEY_FORM) || '{}');
+modalCargaTramite.textContent = datoForm.numeroTramite || '';
+modalCargaArea.textContent = datoForm.areaSolicitante || '';
+modalCargaNombre.textContent = datoForm.nombreSolicitante || '';
+modalCargaFecha.textContent = datoForm.fechaSolicitud || '';
+
+
 const form = document.querySelector("form");
 
 form.addEventListener("submit", (e) => {
@@ -217,12 +275,11 @@ btnConfirmarListado.addEventListener("click", () => {
 function mostrarModalConfirmacionCarga() {
   const formData = JSON.parse(localStorage.getItem(STORAGE_KEY_FORM)) || {};
 
-  document.getElementById("modal-carga-tramite").textContent =
-    formData.numeroTramite || "1515/2025";
-  document.getElementById("modal-carga-area").textContent =
-    formData.areaSolicitante || "Posgrado";
-  document.getElementById("modal-carga-nombre").textContent =
-    formData.nombreSolicitante || "Omar Luna";
+  modalCargaTramite.textContent = formData.numero_tramite || '';
+  modalCargaArea.textContent = formData.area || '';
+  modalCargaNombre.textContent = formData.nombre_solicitante || '';
+  modalCargaFecha.textContent = formData.fecha_solicitud
+  || '';
 
   const fechaActual = new Date().toLocaleDateString("es-AR");
   document.getElementById("modal-carga-fecha").textContent = fechaActual;
@@ -262,10 +319,10 @@ document
       const formData = JSON.parse(localStorage.getItem(STORAGE_KEY_FORM)) || {};
       const insumosGuardados = getInsumosGuardados();
 
-      const nroTramite = formData.numeroTramite || "1515/2025";
-      const areaSolicitante = formData.areaSolicitante || "Posgrado";
-      const nombreSolicitante = formData.nombreSolicitante || "Omar Luna";
-      const fechaActual = new Date().toISOString().split("T")[0]; 
+      const nroTramite = formData.numero_tramite || "1515/2025";
+      const areaSolicitante = formData.area || "Posgrado";
+      const nombreSolicitante = formData.nombre_solicitante || "Omar Luna";
+      const fechaActual = formData.fecha_solicitud; 
       const estado = "Pendiente"; 
 
       const solicitud = {
