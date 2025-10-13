@@ -41,15 +41,15 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const datos = Object.fromEntries(new FormData(form).entries());
-
+  console.log("Datos del formulario:", datos);
   const nuevoUsuario = {
-    dni: Number(datos.cantidad),
+    dni: datos.dni,
     nombre: datos.nombre_apellido.trim(),
     correo: datos.correo.trim().toLowerCase(),
     contrasena: datos.contraseña.trim(),
     rol: datos.rol.toLowerCase()
   };
-
+  console.log("Nuevo usuario a registrar:", nuevoUsuario);
   try {
     await createUsuario(nuevoUsuario);
 

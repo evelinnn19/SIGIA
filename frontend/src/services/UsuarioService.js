@@ -25,7 +25,9 @@ export async function createUsuario(usuario) {
     body: JSON.stringify(usuario),
   });
   if (!res.ok) throw new Error("Error al crear usuario");
-  return res.json();
+  const message = await res.text();
+  console.log(message); 
+  return message;
 }
 
 export async function updateUsuario(id, usuario) {

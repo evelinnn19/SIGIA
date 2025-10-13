@@ -26,6 +26,44 @@ const btnCerrarExito = document.getElementById("btnCerrarExito");
 
 const usuarioActualRaw = localStorage.getItem('usuarioActual');
 const usuarioActual = usuarioActualRaw ? Number(usuarioActualRaw) : null;
+
+
+const buscador = document.getElementById("Buscar");
+buscador.addEventListener("change", async (e) => {
+  const termino = e.target.value.toLowerCase();
+  if (termino.trim() !== "") {
+    const insumos = await getInsumos();
+    const filtrados = insumos.filter(insumo => insumo.nombre.toLowerCase().includes(termino));
+    mostrarInsumos(filtrados);
+  }else{
+    cargarInsumos();
+  }
+});
+
+function mostrarInsumos(filtrados) {
+  contenedor.innerHTML = "";
+  if (filtrados.length === 0) {
+    contenedor.innerHTML = '<p class="text-center text-gray-600 font-semibold">No se encontraron insumos.</p>';
+    return;
+  }
+ //Este es el que muestra los insumos filtrados
+  filtrados.forEach(insumo => {
+    const div = document.createElement("div");
+    div.className = "grid grid-cols-[2fr_1fr_auto] items-center py-2 border-b border-[#4D3C2D]";
+    div.innerHTML = `
+      <span class="font-medium text-[#4D3C2D]">${insumo.nombre}</span>
+        <span class="text-center text-[#4D3C2D] font-semibold">${
+          insumo.stockActual ?? 0
+        }</span>
+        <div class="flex justify-center gap-3">
+          <img src="imgs/icon-add.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Agregar cantidad" data-action="add" data-id="${insumo.idInsumo}" data-nombre="${insumo.nombre}">
+          <img src="imgs/icon-edit.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Editar" data-action="edit" data-id="${insumo.idInsumo}">
+        </div>
+        `;
+    contenedor.appendChild(div);
+  });
+}
+
 let insumoSeleccionado = null;
 
 const contenedor = document.getElementById("listaInsumos");
