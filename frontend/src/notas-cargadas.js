@@ -21,7 +21,6 @@ const ESTADOS = [
   "Rechazada",
   "Entregada", 
   "Cancelada",
-  "Entregado parcialmente",
 ];
 
 
