@@ -47,7 +47,8 @@ form.addEventListener("submit", async (e) => {
     nombre: datos.nombre_apellido.trim(),
     correo: datos.correo.trim().toLowerCase(),
     contrasena: datos.contraseña.trim(),
-    rol: datos.rol.toLowerCase()
+    rol: datos.rol.toLowerCase(),
+    estado: 1
   };
   console.log("Nuevo usuario a registrar:", nuevoUsuario);
   try {
