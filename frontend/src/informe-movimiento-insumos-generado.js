@@ -77,8 +77,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       const tipos = [...new Set(transacciones.map((t) => t.tipo).filter(Boolean))];
       filtroTipo.innerHTML =
         '<option value="">Todos</option>' +
-        '<option value="Egreso">Egreso</option>' +
-        '<option value="Ingreso">Ingreso</option>' +
         tipos.map((t) => `<option value="${t}">${t}</option>`).join("");
     } catch (error) {
       console.error("❌ Error cargando selects:", error);

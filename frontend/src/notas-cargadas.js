@@ -277,7 +277,7 @@ async function  entregarElementosSolicitados(id){
         await updateInsumo(insumo.idInsumo, insumo);
         
         let transaccion = {
-          tipo: "egreso",
+          tipo: "Egreso",
           fecha: new Date().toISOString().split('T')[0],
           cantidad: Number(cantidadEntregar), 
           areaDestino: solicitud.area,    
