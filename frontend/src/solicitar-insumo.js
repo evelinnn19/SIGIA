@@ -130,7 +130,7 @@ form.addEventListener('submit', async function(e) {
     console.log(insumoSeleccionado.idInsumo)
     try {
         let transacción = {
-            tipo: "egreso",
+            tipo: "Egreso",
             fecha: new Date().toISOString().split('T')[0],
             cantidad: Number(cantidad.value), 
             areaDestino: areaSelect.value,

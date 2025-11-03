@@ -1,4 +1,5 @@
-import { createInsumo } from "./services/InsumoService.js";
+import { createInsumo, getUltimoInsumoId} from "./services/InsumoService.js";
+import {createTransaccion} from "./services/TransaccionService.js"
 import { registrarActividad } from "./services/actividadUtilidad";
 
 
@@ -84,6 +85,7 @@ form.addEventListener("submit", async (e) => {
       idUsuario: usuarioActual
     }
     await createTransaccion(transaccion);
+    console.log(transaccion);
     await registrarActividad(
     usuarioActual,
     "Ingreso",

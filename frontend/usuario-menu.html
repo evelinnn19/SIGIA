@@ -32,11 +32,11 @@
     <main class="px-6 py-8">
       <div class="mb-8">
         <h2 class="text-4xl font-extrabold text-[#4D3C2D] mb-2 text-center">
-            Insumos
+            Usuarios
         </h2>
       <div class="max-w-2xl mx-auto bg-[#F7EEC3] rounded-3xl shadow-lg p-8 mt-10">
         <h3 class="text-3xl font-extrabold text-[#4D3C2D] text-center mb-6">
-          Lista Insumos Registrados
+          Lista de Usuarios Activos
         </h3>
 
         <div class="relative mb-6">
@@ -58,19 +58,19 @@
           <input
             type="text"
             id="Buscar"
-            placeholder="Buscar por Insumo"
+            placeholder="Buscar usuario"
             class="w-full bg-[#4D3C2D] text-[#F7EEC3] placeholder:text-[#B5A999] px-12 py-3.5 rounded-full text-base font-medium focus:outline-none focus:ring-2 focus:ring-[#5D4C3D]"
           />
         </div>
 
-        <div id="listaInsumos" class="space-y-3"></div>
+        <div id="listaUsuarios" class="space-y-3"></div>
 
         <div class="text-center mt-8">
           <a
-            href="registar-nuevo-insumo.html"
+            href="registrar-usuario.html"
             class="inline-block bg-[#4D3C2D] text-[#F7EEC3] font-bold px-6 py-3 rounded-full hover:bg-[#5E4A38] transition-colors"
           >
-            Agregar Nuevo Insumo
+            Registrar nuevo usuario
           </a>
         </div>
       </div>
@@ -123,7 +123,7 @@
     <div id="popupExito" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
       <div class="bg-[#FDF2C5] rounded-3xl p-8 text-center shadow-lg w-[400px]">
         <h3 id="popupMensajeExito" class="text-2xl font-extrabold mb-6 text-[#4D3C2D]">
-          ¡Insumo eliminado correctamente!
+          !Usuario dado de baja correctamente¡
         </h3>
         <button id="btnCerrarExito"
           class="px-8 py-2 bg-[#4D3C2D] text-white font-bold rounded-full hover:bg-[#3D3023]">
@@ -132,6 +132,6 @@
       </div>
     </div>
     </main>
-    <script type="module"src="../../src/encargado.js"></script>
+    <script type="module" src="src/usuario-menu.js"></script>
   </body>
 </html>

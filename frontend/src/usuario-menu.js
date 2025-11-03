@@ -1,4 +1,5 @@
 import { getInsumos, deleteInsumo, updateInsumo, getInsumoById } from "./services/InsumoService.js";
+import { getUsuarioById, getUsuarios, updateUsuario } from "./services/UsuarioService.js";
 import { registrarActividad } from "./services/actividadUtilidad";
 
 
@@ -7,6 +8,7 @@ import { registrarActividad } from "./services/actividadUtilidad";
     document.addEventListener("DOMContentLoaded", () => {
         console.log('DOM cargado, ejecutando definirUsuario...');
         definirUsuario();
+        cargarUsuarios();
     });
 //
 
@@ -20,7 +22,7 @@ const popupNombreEliminar = document.getElementById("popupNombreEliminar");
 const popupMensajeExito = document.getElementById("popupMensajeExito");
 
 const btnCancelarAgregar = document.getElementById("btnCancelarAgregar");
-const btnConfirmarAgregar = document.getElementById("btnConfirmarAgregar");
+const btnConfirmarAgregar = document.getElementById("btnConfirmarEliminar");
 
 const btnCerrarExito = document.getElementById("btnCerrarExito");
 
@@ -32,15 +34,15 @@ const buscador = document.getElementById("Buscar");
 buscador.addEventListener("change", async (e) => {
   const termino = e.target.value.toLowerCase();
   if (termino.trim() !== "") {
-    const insumos = await getInsumos();
-    const filtrados = insumos.filter(insumo => insumo.nombre.toLowerCase().includes(termino));
-    mostrarInsumos(filtrados);
+    const usuarios = await getUsuarios();
+    const filtrados = usuarios.filter(usuario => usuario.nombre.toLowerCase().includes(termino) && usuario.estado === 1);
+    mostrarUsuarios(filtrados);
   }else{
-    cargarInsumos();
+    cargarUsuarios();
   }
 });
 
-function mostrarInsumos(filtrados) {
+function mostrarUsuarios(filtrados) {
   contenedor.innerHTML = "";
   if (filtrados.length === 0) {
     contenedor.innerHTML = '<p class="text-center text-gray-600 font-semibold">No se encontraron insumos.</p>';
@@ -56,7 +58,7 @@ function mostrarInsumos(filtrados) {
           insumo.stockActual ?? 0
         }</span>
         <div class="flex justify-center gap-3">
-          <img src="imgs/icon-add.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Agregar cantidad" data-action="add" data-id="${insumo.idInsumo}" data-nombre="${insumo.nombre}">
+          <img src="imgs/icon-delete.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Agregar cantidad" data-action="delete" data-id="${insumo.idInsumo}" data-nombre="${insumo.nombre}">
           <img src="imgs/icon-edit.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Editar" data-action="edit" data-id="${insumo.idInsumo}">
         </div>
         `;
@@ -64,40 +66,41 @@ function mostrarInsumos(filtrados) {
   });
 }
 
-let insumoSeleccionado = null;
+let usuarioSeleccionado = null;
 
-const contenedor = document.getElementById("listaInsumos");
+const contenedor = document.getElementById("listaUsuarios");
 
 
-async function cargarInsumos() {
+async function cargarUsuarios() {
   contenedor.innerHTML = ""; 
 
   try {
-    const insumos = await getInsumos();
+    const usuarios = await getUsuarios();
 
     const header = document.createElement("div");
     header.className =
       "grid grid-cols-[2fr_1fr_auto] items-center font-extrabold text-[#4D3C2D] border-b-2 border-[#4D3C2D] pb-2 mb-2";
     header.innerHTML = `
-      <span>Insumo</span>
-      <span class="text-center">Cantidad</span>
+      <span>Nombre</span>
+      <span class="text-center">Rol</span>
       <span class="text-center">Acciones</span>
     `;
     contenedor.appendChild(header);
 
-    insumos.forEach((insumo) => {
+    usuarios.filter(usuario => usuario.estado == 1)
+    .forEach((usuario) => {
       const row = document.createElement("div");
       row.className =
         "grid grid-cols-[2fr_1fr_auto] items-center py-2 border-b border-[#4D3C2D]";
 
       row.innerHTML = `
-        <span class="font-medium text-[#4D3C2D]">${insumo.nombre}</span>
+        <span class="font-medium text-[#4D3C2D]">${usuario.nombre}</span>
         <span class="text-center text-[#4D3C2D] font-semibold">${
-          insumo.stockActual ?? 0
+          usuario.rol
         }</span>
         <div class="flex justify-center gap-3">
-          <img src="imgs/icon-add.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Agregar cantidad" data-action="add" data-id="${insumo.idInsumo}" data-nombre="${insumo.nombre}">
-          <img src="imgs/icon-edit.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Editar" data-action="edit" data-id="${insumo.idInsumo}">
+          <img src="imgs/icon-delete.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Dar de baja" data-action="delete" data-id="${usuario.idUsuario}" data-nombre="${usuario.nombre}">
+          <img src="imgs/icon-edit.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Editar" data-action="edit" data-id="${usuario.idUsuario}">
         </div>
       `;
 
@@ -108,7 +111,7 @@ async function cargarInsumos() {
       el.addEventListener("click", manejarAccion);
     });
   } catch (err) {
-    console.error("Error al cargar insumos:", err);
+    console.error("Error al cargar Usuarios:", err);
     contenedor.innerHTML =
       '<p class="text-center text-red-600 font-semibold">No se pudieron cargar los insumos.</p>';
   }
@@ -119,42 +122,42 @@ function manejarAccion(e) {
   const id = e.target.dataset.id;
   const nombre = e.target.dataset.nombre;
 
-  insumoSeleccionado = { idInsumo: Number(id), nombre };
-  console.log("Insumo seleccionado:", insumoSeleccionado.idInsumo, insumoSeleccionado.nombre);
+  usuarioSeleccionado = { idUsuario: Number(id), nombre };
+  console.log("Usuario seleccionado:", usuarioSeleccionado.idUsuario, usuarioSeleccionado.nombre);
 
-  if (action === "add") {
-    popupNombre.value = nombre;
-    popupCantidad.value = "";
-    popupAgregar.classList.remove("hidden");
+  if (action === "delete") {
+    // abre popupEliminar y muestra nombre
+    popupNombreEliminar.textContent = nombre;
+    popupEliminar.classList.remove("hidden");
   } else if (action === "edit") {
-    window.location.href = `modificar-insumo.html?id=${id}`;
+    window.location.href = `usuario-modificar.html?id=${id}`;
   }
 }
 
 
+
 btnConfirmarAgregar.addEventListener("click", async () => {
-  const cantidad = parseInt(popupCantidad.value);
-  if (!cantidad || cantidad <= 0) return;
-
+  // si lo usás como 'confirmar baja' renombrar variable y flujo:
   try {
-    const insumoActual = await getInsumoById(insumoSeleccionado.idInsumo);
-    const nuevoStock = insumoActual.stockActual + cantidad;
-    await updateInsumo(insumoSeleccionado.idInsumo, { ...insumoActual, stockActual: nuevoStock });
-
+    const usuarioModificar = await getUsuarioById(usuarioSeleccionado.idUsuario);
+    usuarioModificar.estado = 0;
+    usuarioModificar.estadoNull = false;
+    console.log(usuarioModificar);
+    await updateUsuario(usuarioSeleccionado.idUsuario,usuarioModificar); // implementa en UsuarioService
     await registrarActividad(
       usuarioActual,
-      "Actualización de cantidad",
-      `Ingreso ${cantidad} unidades al insumo "${insumoSeleccionado.nombre}"`,
-      "Depósito"
+      "Baja de usuario",
+      `Se dio de baja al usuario "${usuarioSeleccionado.nombre}"`,
+      "Administración"
     );
-
-    popupAgregar.classList.add("hidden");
-    mostrarExito("¡Cantidad actualizada correctamente!");
-    cargarInsumos();
+    popupEliminar.classList.add("hidden"); 
+    mostrarExito("Usuario dado de baja correctamente!");
+    cargarUsuarios();
   } catch (err) {
-    console.error("Error al actualizar cantidad:", err);
+    console.error("Error al dar de baja usuario:", err);
   }
 });
+
 
 btnCancelarAgregar.addEventListener("click", () => popupAgregar.classList.add("hidden"));
 btnCancelarEliminar.addEventListener("click", () => popupEliminar.classList.add("hidden"));
@@ -165,4 +168,3 @@ function mostrarExito(mensaje) {
   popupExito.classList.remove("hidden");
 }
 
-document.addEventListener("DOMContentLoaded", cargarInsumos);
