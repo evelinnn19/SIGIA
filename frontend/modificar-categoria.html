@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIGIA :: Modificar Categoria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="shortcut icon" href="/imgs/favicon.ico" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
+    </style>
+  </head>
+  <body class="bg-[#C5DBA7] text-[#4D3C2D] min-h-screen">
+    <header class="bg-[#FDF2C5] px-6 py-5 flex items-center justify-between shadow-sm">
+      <div class="flex items-center gap-3">
+        <img src="/imgs/LOGO.svg" alt="Logo Sigia" class="w-32 h-auto" />
+      </div>
+    </header>
+
+    <div class="px-6 pt-6">
+      <a href="categoria-menu.html"
+         class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#4D3C2D] text-white no-underline font-extrabold rounded-2xl shadow text-[17px] hover:bg-[#3D3023]">
+        <img src="/imgs/icon-back.svg" alt="Volver" class="w-5 h-5" />
+        Volver
+      </a>
+    </div>
+
+    <main class="px-6 py-8 flex items-center justify-center min-h-[calc(100vh-200px)]">
+      <div class="w-full max-w-lg">
+        <h2 id="tituloPagina" class="text-4xl font-extrabold text-[#4D3C2D] text-center mb-8">
+          Modificar Categoría
+        </h2>
+
+        <form id="formCategoria" class="space-y-6">
+          <div class="flex flex-col">
+            <label class="font-bold text-base text-[#4D3C2D] mb-2">
+              Nombre de la categoría <span class="text-red-600">*</span>
+            </label>
+            <input
+              id="inputNombre"
+              name="nombre"
+              type="text"
+              placeholder="Oficina"
+              required
+              class="w-full h-[54px] px-6 rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md placeholder:text-[#A89A7A]"
+            />
+          </div>
+
+          <div class="flex flex-col">
+            <label class="font-bold text-base text-[#4D3C2D] mb-2">
+              Estado <span class="text-red-600">*</span>
+            </label>
+            <select id="selectEstado" name="estado" required
+              class="w-full h-[54px] px-6 rounded-full bg-[#F7EEC3] text-[#4D3C2D] text-base shadow-sm outline outline-2 outline-transparent transition-all duration-150 focus:outline-[rgba(77,60,45,0.35)] focus:shadow-md">
+              <option value="1">Activa</option>
+              <option value="0">Inactiva</option>
+            </select>
+          </div>
+
+          <!-- Popups -->
+          <div id="popupExito" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+            <div class="bg-[#FDF2C5] rounded-3xl p-8 text-center shadow-lg w-[420px]">
+              <h3 id="popupMensajeExito" class="text-2xl font-extrabold mb-6 text-[#4D3C2D]">
+                ¡Categoría actualizada correctamente!
+              </h3>
+              <button id="btnCerrarExito" class="px-8 py-2 bg-[#4D3C2D] text-white font-bold rounded-full hover:bg-[#3D3023]">
+                Continuar
+              </button>
+            </div>
+          </div>
+
+          <div id="popupError" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+            <div class="bg-[#FDF2C5] rounded-3xl p-8 text-center shadow-lg w-[420px]">
+              <h3 id="popupMensajeError" class="text-2xl font-extrabold mb-6 text-[#B91C1C]">
+                Error
+              </h3>
+              <button id="btnCerrarError" class="px-8 py-2 bg-[#4D3C2D] text-white font-bold rounded-full hover:bg-[#3D3023]">
+                Cerrar
+              </button>
+            </div>
+          </div>
+
+          <!-- Botones -->
+          <div class="flex items-center justify-center gap-4 pt-4">
+            <button id="btnCancelar" type="button"
+              class="px-10 py-3.5 text-base font-extrabold text-[#4D3C2D] bg-transparent border-2 border-[#4D3C2D] rounded-full hover:bg-[#4D3C2D] hover:text-white">
+              Cancelar
+            </button>
+            <button id="btnGuardar" type="submit"
+              class="px-10 py-3.5 text-base font-extrabold text-white bg-[#4D3C2D] rounded-full shadow hover:bg-[#3D3023]">
+              Guardar cambios
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <script type="module" src="../src/modificar-categoria.js"></script>
+  </body>
+</html>
