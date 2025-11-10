@@ -202,13 +202,13 @@ async function  cargarCategorias() {
     const categoriasActivas = categorias.filter(cat => cat.estado === 1);
 
 
-    filtroCategoria.innerHTML = '<option value="">Seleccione una categoría</option>';
+    FiltroCategoria.innerHTML = '<option value="">Seleccione una categoría</option>';
 
     categoriasActivas.forEach((cat) => {
       const option = document.createElement("option");
       option.value = cat.nombre;
       option.textContent = cat.nombre;
-      filtroCategoria.appendChild(option);
+      FiltroCategoria.appendChild(option);
     });
   } catch (error) {
     console.error("❌ Error al cargar categorías:", error);
