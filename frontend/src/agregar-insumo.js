@@ -128,7 +128,7 @@ stockDiv.innerHTML = "";
 // Creás el <p> y lo configurás
 const p = document.createElement("p");
 p.setAttribute("class", "text-[#B91C1C] text-sm font-bold");
-p.textContent = "no hay suficiente stock"; // o el texto dinámico que quieras
+ // o el texto dinámico que quieras
 
 // Lo agregás al div
 stockDiv.appendChild(p);
