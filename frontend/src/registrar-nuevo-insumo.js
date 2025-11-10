@@ -5,12 +5,16 @@ import { getCategorias } from "./services/CategoriaService.js";
 
 
      import { definirUsuario } from './services/usuarioEncabezado.js';
+import { alertasStockMinimo } from "./services/AlertasUtilidad.js";
 
     document.addEventListener("DOMContentLoaded", () => {
         console.log('DOM cargado, ejecutando definirUsuario...');
         definirUsuario();
+        
     });
 //
+
+
 
 const categoriaSelect = document.getElementById("categoria");
 const esCriticoSelect = document.getElementById("esCritico");
