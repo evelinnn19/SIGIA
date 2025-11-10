@@ -132,9 +132,22 @@
             </div>
           </div>
 
+          <!-- POPUP ERROR -->
+<div id="popupError" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+  <div class="bg-[#FDF2C5] rounded-3xl p-8 text-center shadow-lg w-[420px]">
+    <h3 id="popupMensajeError" class="text-2xl font-extrabold mb-4 text-[#B91C1C]">Error</h3>
+    <p id="popupDetalleError" class="mb-6 text-sm text-[#4D3C2D]"></p>
+    <button id="btnCerrarError" class="px-8 py-2 bg-[#4D3C2D] text-white font-bold rounded-full hover:bg-[#3D3023]">
+      Cerrar
+    </button>
+  </div>
+</div>
+
+
           <div class="flex items-center justify-center gap-4 pt-4">
             <button
               type="button"
+              id = "btnCancelar"
               class="px-10 py-3.5 text-base font-extrabold text-[#4D3C2D] bg-transparent border-2 border-[#4D3C2D] rounded-full transition-all duration-75 hover:bg-[#4D3C2D] hover:text-white"
             >
               Cancelar

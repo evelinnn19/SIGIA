@@ -1,4 +1,4 @@
-import { createInsumo, getUltimoInsumoId} from "./services/InsumoService.js";
+import { createInsumo, getInsumos, getUltimoInsumoId} from "./services/InsumoService.js";
 import {createTransaccion} from "./services/TransaccionService.js"
 import { registrarActividad } from "./services/actividadUtilidad";
 import { getCategorias } from "./services/CategoriaService.js";
@@ -21,6 +21,12 @@ const form = document.querySelector("form");
 const popupExito = document.getElementById("popupExito");
 const popupMensajeExito = document.getElementById("popupMensajeExito");
 const btnCerrarExito = document.getElementById("btnCerrarExito");
+
+const btnCancelar = document.getElementById("btnCancelar");
+
+btnCancelar.addEventListener('click', () => {
+  window.history.back();
+});
 
 
 const usuarioActualRaw = localStorage.getItem('usuarioActual');
@@ -54,7 +60,14 @@ esCriticoSelect.addEventListener("change", (e) => {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const nombre = form.nombre_insumo.value.trim();
+  const insumosComprobar = await getInsumos();
+
+const nombre = form.nombre_insumo.value.trim().toLowerCase();
+
+if (insumosComprobar.find(insumo => insumo.nombre.trim().toLowerCase() === nombre)) {
+  mostrarPopup("El insumo ya existe");
+  return;
+}
   const categoriaNombre = categoriaSelect.value;
   const cantidad = parseInt(form.cantidad.value);
   const critico = parseInt(esCriticoSelect.value); // 0 o 1
