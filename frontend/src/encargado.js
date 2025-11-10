@@ -1,5 +1,6 @@
 import { getInsumos, deleteInsumo, updateInsumo, getInsumoById } from "./services/InsumoService.js";
 import { registrarActividad } from "./services/actividadUtilidad";
+import { getCategorias } from "./services/CategoriaService.js";
 
 
      import { definirUsuario } from './services/usuarioEncabezado.js';
@@ -7,6 +8,7 @@ import { registrarActividad } from "./services/actividadUtilidad";
     document.addEventListener("DOMContentLoaded", () => {
         console.log('DOM cargado, ejecutando definirUsuario...');
         definirUsuario();
+        cargarCategorias();
     });
 //
 
@@ -191,6 +193,28 @@ function manejarAccion(e) {
     window.location.href = `modificar-insumo.html?id=${id}`;
   }
 }
+
+
+async function  cargarCategorias() {
+    try {
+    const categorias = await getCategorias();
+
+    const categoriasActivas = categorias.filter(cat => cat.estado === 1);
+
+
+    filtroCategoria.innerHTML = '<option value="">Seleccione una categoría</option>';
+
+    categoriasActivas.forEach((cat) => {
+      const option = document.createElement("option");
+      option.value = cat.nombre;
+      option.textContent = cat.nombre;
+      filtroCategoria.appendChild(option);
+    });
+  } catch (error) {
+    console.error("❌ Error al cargar categorías:", error);
+  }
+}
+
 
 
 btnConfirmarAgregar.addEventListener("click", async () => {
