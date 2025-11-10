@@ -1,7 +1,7 @@
 import { getInsumos, deleteInsumo, updateInsumo, getInsumoById } from "./services/InsumoService.js";
 import { registrarActividad } from "./services/actividadUtilidad";
 import { getCategorias } from "./services/CategoriaService.js";
-
+import { alertasStockMinimo } from "./services/AlertasUtilidad.js";
 
      import { definirUsuario } from './services/usuarioEncabezado.js';
 
@@ -9,8 +9,15 @@ import { getCategorias } from "./services/CategoriaService.js";
         console.log('DOM cargado, ejecutando definirUsuario...');
         definirUsuario();
         cargarCategorias();
+        cargarInsumos();
+        alertas();
     });
 //
+
+async function alertas() {
+  await alertasStockMinimo();
+}
+
 
 const popupAgregar = document.getElementById("popupAgregar");
 const popupEliminar = document.getElementById("popupEliminar");
@@ -249,5 +256,3 @@ function mostrarExito(mensaje) {
   popupMensajeExito.textContent = mensaje;
   popupExito.classList.remove("hidden");
 }
-
-document.addEventListener("DOMContentLoaded", cargarInsumos);

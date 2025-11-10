@@ -3,6 +3,7 @@ import { definirUsuario } from './services/usuarioEncabezado.js';
 import { getInsumos, updateInsumo } from './services/InsumoService.js';
 import { createTransaccion } from './services/TransaccionService.js';
 import { registrarActividad } from './services/actividadUtilidad.js';
+import { alertasStockMinimo } from './services/AlertasUtilidad.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   definirUsuario();
@@ -210,6 +211,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // construir transacción
+    
     const transaccion = {
       tipo: "Egreso",
       fecha: new Date().toISOString().split('T')[0],
@@ -245,11 +247,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.warn("No se pudo registrar actividad:", warn);
       }
 
+
+
       // mostrar popup éxito, limpiar formulario
       mostrarExito(`Solicitud procesada con exito `);
       form.reset();
       insumoSeleccionado = null;
       deshabilitarBoton(true);
+      await alertasStockMinimo();
 
     } catch (err) {
       console.error('Error al procesar solicitud:', err);
