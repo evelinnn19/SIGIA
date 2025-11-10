@@ -29,6 +29,7 @@ const usuarioActual = usuarioActualRaw ? Number(usuarioActualRaw) : null;
 
 
 const buscador = document.getElementById("Buscar");
+const FiltroCategoria = document.getElementById("FiltroCategoria")
 buscador.addEventListener("change", async (e) => {
   const termino = e.target.value.toLowerCase();
   if (termino.trim() !== "") {
@@ -40,6 +41,29 @@ buscador.addEventListener("change", async (e) => {
   }
 });
 
+FiltroCategoria.addEventListener("change", async (e) => {
+  const categoria = e.target.value;
+  const termino = buscador.value.toLowerCase().trim();
+  const insumos = await getInsumos();
+
+  let filtrados = insumos;
+
+  // Filtra por nombre si hay texto
+  if (termino !== "") {
+    filtrados = filtrados.filter(insumo => 
+      insumo.nombre.toLowerCase().includes(termino)
+    );
+  }
+
+  // Filtra por categoría si se seleccionó una
+  if (categoria !== "") {
+    filtrados = filtrados.filter(insumo => insumo.categoria === categoria);
+  }
+
+  mostrarInsumos(filtrados);
+});
+
+
 function mostrarInsumos(filtrados) {
   contenedor.innerHTML = "";
   if (filtrados.length === 0) {
@@ -47,21 +71,48 @@ function mostrarInsumos(filtrados) {
     return;
   }
  //Este es el que muestra los insumos filtrados
-  filtrados.forEach(insumo => {
-    const div = document.createElement("div");
-    div.className = "grid grid-cols-[2fr_1fr_auto] items-center py-2 border-b border-[#4D3C2D]";
-    div.innerHTML = `
-      <span class="font-medium text-[#4D3C2D]">${insumo.nombre}</span>
-        <span class="text-center text-[#4D3C2D] font-semibold">${
-          insumo.stockActual ?? 0
-        }</span>
-        <div class="flex justify-center gap-3">
-          <img src="imgs/icon-add.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Agregar cantidad" data-action="add" data-id="${insumo.idInsumo}" data-nombre="${insumo.nombre}">
-          <img src="imgs/icon-edit.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Editar" data-action="edit" data-id="${insumo.idInsumo}">
-        </div>
-        `;
-    contenedor.appendChild(div);
-  });
+  const header = document.createElement("div");
+header.className =
+  "grid grid-cols-[2fr_1fr_1fr_auto] items-center font-extrabold text-[#4D3C2D] border-b-2 border-[#4D3C2D] pb-2 mb-2";
+header.innerHTML = `
+  <span>Insumo</span>
+  <span class="text-center">Cantidad</span>
+  <span class="text-center">Categoría</span>
+  <span class="text-center">Acciones</span>
+`;
+contenedor.appendChild(header);
+
+// Filas de insumos
+filtrados.forEach(insumo => {
+  const div = document.createElement("div");
+  div.className = "grid grid-cols-[2fr_1fr_1fr_auto] items-center py-2 border-b border-[#4D3C2D]";
+
+  div.innerHTML = `
+    <span class="font-medium text-[#4D3C2D]">${insumo.nombre}</span>
+
+    <span class="text-center text-[#4D3C2D] font-semibold">
+      ${insumo.stockActual ?? 0}
+    </span>
+
+    <div class="flex justify-center">
+      <span class="px-3 py-1 text-xs bg-[#DCE0B9] rounded-full font-medium">
+        ${insumo.categoria ?? "Sin categoría"}
+      </span>
+    </div>
+
+    <div class="flex justify-center gap-3">
+      <img src="/imgs/icon-add.svg" alt="Agregar" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Agregar cantidad" data-action="add" data-id="${insumo.idInsumo}" data-nombre="${insumo.nombre}">
+      <img src="/imgs/icon-edit.svg" alt="Editar" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Editar" data-action="edit" data-id="${insumo.idInsumo}">
+    </div>
+  `;
+
+  contenedor.appendChild(div);
+
+   document.querySelectorAll("[data-action]").forEach((el) => {
+      el.addEventListener("click", manejarAccion);
+    });
+  
+});
 }
 
 let insumoSeleccionado = null;
@@ -76,33 +127,43 @@ async function cargarInsumos() {
     const insumos = await getInsumos();
 
     const header = document.createElement("div");
-    header.className =
-      "grid grid-cols-[2fr_1fr_auto] items-center font-extrabold text-[#4D3C2D] border-b-2 border-[#4D3C2D] pb-2 mb-2";
-    header.innerHTML = `
-      <span>Insumo</span>
-      <span class="text-center">Cantidad</span>
-      <span class="text-center">Acciones</span>
-    `;
-    contenedor.appendChild(header);
+header.className =
+  "grid grid-cols-[2fr_1fr_1fr_auto] items-center font-extrabold text-[#4D3C2D] border-b-2 border-[#4D3C2D] pb-2 mb-2";
+header.innerHTML = `
+  <span>Insumo</span>
+  <span class="text-center">Cantidad</span>
+  <span class="text-center">Categoría</span>
+  <span class="text-center">Acciones</span>
+`;
+contenedor.appendChild(header);
 
-    insumos.forEach((insumo) => {
-      const row = document.createElement("div");
-      row.className =
-        "grid grid-cols-[2fr_1fr_auto] items-center py-2 border-b border-[#4D3C2D]";
+// Filas de insumos
+insumos.forEach((insumo) => {
+  const row = document.createElement("div");
+  row.className =
+    "grid grid-cols-[2fr_1fr_1fr_auto] items-center py-2 border-b border-[#4D3C2D]";
 
-      row.innerHTML = `
-        <span class="font-medium text-[#4D3C2D]">${insumo.nombre}</span>
-        <span class="text-center text-[#4D3C2D] font-semibold">${
-          insumo.stockActual ?? 0
-        }</span>
-        <div class="flex justify-center gap-3">
-          <img src="imgs/icon-add.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Agregar cantidad" data-action="add" data-id="${insumo.idInsumo}" data-nombre="${insumo.nombre}">
-          <img src="imgs/icon-edit.svg" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Editar" data-action="edit" data-id="${insumo.idInsumo}">
-        </div>
-      `;
+  row.innerHTML = `
+    <span class="font-medium text-[#4D3C2D]">${insumo.nombre}</span>
 
-      contenedor.appendChild(row);
-    });
+    <span class="text-center text-[#4D3C2D] font-semibold">
+      ${insumo.stockActual ?? 0}
+    </span>
+
+    <div class="flex justify-center">
+      <span class="px-3 py-1 text-xs bg-[#DCE0B9] rounded-full font-medium">
+        ${insumo.categoria ?? "Sin categoría"}
+      </span>
+    </div>
+
+    <div class="flex justify-center gap-3">
+      <img src="/imgs/icon-add.svg" alt="Agregar" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Agregar cantidad" data-action="add" data-id="${insumo.idInsumo}" data-nombre="${insumo.nombre}">
+      <img src="/imgs/icon-edit.svg" alt="Editar" class="w-5 h-5 cursor-pointer hover:scale-110 transition" title="Editar" data-action="edit" data-id="${insumo.idInsumo}">
+    </div>
+  `;
+
+  contenedor.appendChild(row);
+});
 
     document.querySelectorAll("[data-action]").forEach((el) => {
       el.addEventListener("click", manejarAccion);

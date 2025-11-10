@@ -1,10 +1,21 @@
 import { getInsumos } from "./services/InsumoService.js";
+import { getCategorias } from "./services/CategoriaService.js";
 
      import { definirUsuario } from './services/usuarioEncabezado.js';
 
     document.addEventListener("DOMContentLoaded", () => {
         console.log('DOM cargado, ejecutando definirUsuario...');
         definirUsuario();
+         // Obtener la fecha de hoy en formato YYYY-MM-DD
+    const hoy = new Date().toISOString().split("T")[0];
+
+    // Seleccionar todos los inputs de tipo date
+    const inputsFecha = document.querySelectorAll('input[type="date"]');
+
+    // Aplicar el atributo max a cada uno
+    inputsFecha.forEach((input) => {
+      input.setAttribute("max", hoy);
+    });
     });
 //
 
@@ -16,19 +27,21 @@ const btnPdf = document.getElementById("btnPdf");
 const btnExcel = document.getElementById("btnExcel");
 
 
-async function cargarCategorias() {
-  try {
-    const insumos = await getInsumos();
+async function  cargarCategorias() {
+    try {
+    const categorias = await getCategorias();
 
-    const categoriasUnicas = [
-      ...new Set(insumos.map((i) => i.categoria).filter(Boolean)),
-    ];
+    const categoriasActivas = categorias.filter(cat => cat.estado === 1);
 
-    filtroCategoria.innerHTML =
-      '<option value="">Todas</option>' +
-      categoriasUnicas
-        .map((cat) => `<option value="${cat}">${cat}</option>`)
-        .join("");
+
+    filtroCategoria.innerHTML = '<option value="">Seleccione una categoría</option>';
+
+    categoriasActivas.forEach((cat) => {
+      const option = document.createElement("option");
+      option.value = cat.nombre;
+      option.textContent = cat.nombre;
+      filtroCategoria.appendChild(option);
+    });
   } catch (error) {
     console.error("❌ Error al cargar categorías:", error);
   }
@@ -111,7 +124,7 @@ btnExcel.addEventListener("click", exportarExcel);
 
 
 document.addEventListener("DOMContentLoaded", async () => {
-  await cargarCategorias();
+  cargarCategorias();
   const insumos = await getInsumos();
   renderTabla(insumos);
 

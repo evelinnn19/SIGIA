@@ -5,6 +5,17 @@ import { getSolicitudes } from "./services/SolicitudServices.js";
     document.addEventListener("DOMContentLoaded", () => {
         console.log('DOM cargado, ejecutando definirUsuario...');
         definirUsuario();
+
+         // Obtener la fecha de hoy en formato YYYY-MM-DD
+    const hoy = new Date().toISOString().split("T")[0];
+
+    // Seleccionar todos los inputs de tipo date
+    const inputsFecha = document.querySelectorAll('input[type="date"]');
+
+    // Aplicar el atributo max a cada uno
+    inputsFecha.forEach((input) => {
+      input.setAttribute("max", hoy);
+    });
     });
 //
 
@@ -22,9 +33,7 @@ function cargarEstados() {
   const ESTADOS = [
     "Pendiente",
     "Aprobada",
-    "Rechazada",
     "Entregada",
-    "Cancelada",
   ];
 
   filtroEstado.innerHTML =

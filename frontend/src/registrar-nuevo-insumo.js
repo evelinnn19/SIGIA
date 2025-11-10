@@ -1,6 +1,7 @@
 import { createInsumo, getUltimoInsumoId} from "./services/InsumoService.js";
 import {createTransaccion} from "./services/TransaccionService.js"
 import { registrarActividad } from "./services/actividadUtilidad";
+import { getCategorias } from "./services/CategoriaService.js";
 
 
      import { definirUsuario } from './services/usuarioEncabezado.js';
@@ -24,22 +25,24 @@ const btnCerrarExito = document.getElementById("btnCerrarExito");
 
 const usuarioActualRaw = localStorage.getItem('usuarioActual');
 const usuarioActual = usuarioActualRaw ? Number(usuarioActualRaw) : null;
-function cargarCategorias() {
-  const categorias = [
-    "Limpieza",
-    "Papelería",
-    "Oficina",
-    "Mantenimiento",
-    "Eléctrico",
-  ];
+async function  cargarCategorias() {
+    try {
+    const categorias = await getCategorias();
 
-  categoriaSelect.innerHTML = '<option value="">Seleccione una categoría</option>';
-  categorias.forEach((nombre) => {
-    const option = document.createElement("option");
-    option.value = nombre;
-    option.textContent = nombre;
-    categoriaSelect.appendChild(option);
-  });
+    const categoriasActivas = categorias.filter(cat => cat.estado === 1);
+
+
+    categoriaSelect.innerHTML = '<option value="">Seleccione una categoría</option>';
+
+    categoriasActivas.forEach((cat) => {
+      const option = document.createElement("option");
+      option.value = cat.nombre;
+      option.textContent = cat.nombre;
+      categoriaSelect.appendChild(option);
+    });
+  } catch (error) {
+    console.error("❌ Error al cargar categorías:", error);
+  }
 }
 
 esCriticoSelect.addEventListener("change", (e) => {

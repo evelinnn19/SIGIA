@@ -1,10 +1,22 @@
+// informe-movimiento-insumos-generado.js
 import { getTransacciones, getNameInsumoById } from "./services/TransaccionService.js";
 import { getInsumos } from "./services/InsumoService.js";
+import { getCategorias } from "./services/CategoriaService.js";
 import { definirUsuario } from './services/usuarioEncabezado.js';
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log('DOM cargado, ejecutando definirUsuario...');
   definirUsuario();
+ // Obtener la fecha de hoy en formato YYYY-MM-DD
+    const hoy = new Date().toISOString().split("T")[0];
+
+    // Seleccionar todos los inputs de tipo date
+    const inputsFecha = document.querySelectorAll('input[type="date"]');
+
+    // Aplicar el atributo max a cada uno
+    inputsFecha.forEach((input) => {
+      input.setAttribute("max", hoy);
+    });
 
   const filtroCategoria = document.getElementById("filtroCategoria");
   const filtroInsumo = document.getElementById("filtroInsumo");
@@ -20,6 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   let todasLasTransacciones = [];
 
+  // traer insumos y transacciones (en paralelo)
   const [insumos, transacciones] = await Promise.all([
     getInsumos(),
     getTransacciones(),
@@ -27,9 +40,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   await cargarSelects(insumos, transacciones);
 
-  const mapaInsumos = new Map(insumos.map(i => [i.idInsumo, i]));
+  const mapaInsumos = new Map((insumos || []).map(i => [i.idInsumo, i]));
 
-  todasLasTransacciones = transacciones.map(t => {
+  todasLasTransacciones = (transacciones || []).map(t => {
     const insumo = mapaInsumos.get(t.idInsumo);
     return {
       ...t,
@@ -55,26 +68,53 @@ document.addEventListener("DOMContentLoaded", async () => {
     return fechaCorregida.toLocaleDateString("es-AR");
   }
 
+  // ---- nueva función: cargarCategorias usando getCategorias() ----
+  async function cargarCategorias() {
+    try {
+      const categorias = await getCategorias(); // espera array de DTOs
+      const lista = Array.isArray(categorias) ? categorias : (categorias ? [categorias] : []);
+
+      // solo activas
+      const categoriasActivas = lista.filter(cat => Number(cat.estado ?? 0) === 1);
+
+      // ordenar por nombre (opcional, mejora UX)
+      categoriasActivas.sort((a, b) => (a.nombre || "").localeCompare(b.nombre || ""));
+
+      // limpiar y poblar select
+      filtroCategoria.innerHTML = '<option value="">Todas</option>';
+      categoriasActivas.forEach((cat) => {
+        const opt = document.createElement("option");
+        // usamos el nombre como value porque las transacciones comparan por nombre de categoría
+        opt.value = cat.nombre ?? "";
+        opt.textContent = cat.nombre ?? (cat.idCategoria ?? "");
+        filtroCategoria.appendChild(opt);
+      });
+    } catch (error) {
+      console.error("❌ Error al cargar categorías:", error);
+      // mantener opción por defecto si hay error
+      filtroCategoria.innerHTML = '<option value="">Todas</option>';
+    }
+  }
+
+  // ---- cargar los otros selects ----
   async function cargarSelects(insumos, transacciones) {
     try {
-      const categorias = [...new Set(insumos.map((i) => i.categoria).filter(Boolean))];
-      filtroCategoria.innerHTML =
-        '<option value="">Todas</option>' +
-        categorias.map((c) => `<option value="${c}">${c}</option>`).join("");
+      // cargar categorías desde la API
+      await cargarCategorias();
 
-      const nombresInsumos = [...new Set(insumos.map((i) => i.nombre).filter(Boolean))];
+      const nombresInsumos = [...new Set((insumos || []).map((i) => i.nombre).filter(Boolean))];
       filtroInsumo.innerHTML =
         '<option value="">Todos</option>' +
         nombresInsumos.map((n) => `<option value="${n}">${n}</option>`).join("");
 
       const areas = [
-        ...new Set(transacciones.map((t) => t.areaDestino || t.areaSolicitante).filter(Boolean)),
+        ...new Set((transacciones || []).map((t) => t.areaDestino || t.areaSolicitante).filter(Boolean)),
       ];
       filtroArea.innerHTML =
         '<option value="">Todas</option>' +
         areas.map((a) => `<option value="${a}">${a}</option>`).join("");
 
-      const tipos = [...new Set(transacciones.map((t) => t.tipo).filter(Boolean))];
+      const tipos = [...new Set((transacciones || []).map((t) => t.tipo).filter(Boolean))];
       filtroTipo.innerHTML =
         '<option value="">Todos</option>' +
         tipos.map((t) => `<option value="${t}">${t}</option>`).join("");
