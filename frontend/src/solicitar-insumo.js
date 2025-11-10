@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       // mostrar popup éxito, limpiar formulario
-      mostrarExito(`Solicitud procesada con exito: `);
+      mostrarExito(`Solicitud procesada con exito `);
       form.reset();
       insumoSeleccionado = null;
       deshabilitarBoton(true);
