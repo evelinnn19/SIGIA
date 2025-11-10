@@ -1,25 +1,25 @@
 import { getActividades } from "./services/ActividadService.js";
 import { getUsuarios } from "./services/UsuarioService.js";
 
-     import { definirUsuario } from './services/usuarioEncabezado.js';
+import { definirUsuario } from './services/usuarioEncabezado.js';
 
-    document.addEventListener("DOMContentLoaded", () => {
-        console.log('DOM cargado, ejecutando definirUsuario...');
-        definirUsuario();
+document.addEventListener("DOMContentLoaded", () => {
+  console.log('DOM cargado, ejecutando definirUsuario...');
+  definirUsuario();
 
-         // Obtener la fecha de hoy en formato YYYY-MM-DD
-    const hoy = new Date().toISOString().split("T")[0];
+  // Obtener la fecha de hoy en formato YYYY-MM-DD
+  const hoy = new Date().toISOString().split("T")[0];
 
-    // Seleccionar todos los inputs de tipo date
-    const inputsFecha = document.querySelectorAll('input[type="date"]');
+  // Seleccionar todos los inputs de tipo date
+  const inputsFecha = document.querySelectorAll('input[type="date"]');
 
-    // Aplicar el atributo max a cada uno
-    inputsFecha.forEach((input) => {
-      input.setAttribute("max", hoy);
-    });
-    });
-//
+  // Aplicar el atributo max a cada uno
+  inputsFecha.forEach((input) => {
+    input.setAttribute("max", hoy);
+  });
+});
 
+// DOM refs
 const filtroUsuario = document.getElementById("filtroUsuario");
 const inputDesde = document.getElementById("inputDesde");
 const inputHasta = document.getElementById("inputHasta");
@@ -29,27 +29,43 @@ const btnExcel = document.getElementById("btnExcel");
 const contenedorTabla = document.getElementById("contenedorTabla");
 
 let todasLasActividades = [];
-let mapaUsuarios = new Map(); 
+let mapaUsuarios = new Map();
 
+// Helper: obtener nombre de usuario con fallbacks
+function nombreUsuarioDisplay(u) {
+  if (!u) return "Desconocido";
+  // Intentamos distintos campos comunes
+  const nameCandidates = [
+    u.nombre_apellido,
+    u.nombreCompleto,
+    u.nombre,
+    (u.nombre && u.apellido) ? `${u.nombre} ${u.apellido}` : null,
+    u.email,
+    u.correo,
+    u.rol
+  ];
+  const found = nameCandidates.find(v => v && String(v).trim().length > 0);
+  return found ? String(found).trim() : "Desconocido";
+}
 
 async function cargarUsuarios() {
   try {
     const usuarios = await getUsuarios();
 
-    mapaUsuarios = new Map(usuarios.map((u) => [u.idUsuario, u.rol]));
+    // construir mapa idUsuario -> displayName
+    mapaUsuarios = new Map((usuarios || []).map((u) => [u.idUsuario, nombreUsuarioDisplay(u)]));
 
     filtroUsuario.innerHTML =
       '<option value="">Todos</option>' +
-      usuarios
+      (usuarios || [])
         .map(
-          (u) => `<option value="${u.idUsuario}">${u.rol}</option>`
+          (u) => `<option value="${u.idUsuario}">${nombreUsuarioDisplay(u)}</option>`
         )
         .join("");
   } catch (err) {
     console.error("❌ Error cargando usuarios:", err);
   }
 }
-
 
 function renderTabla(actividades) {
   if (!actividades || actividades.length === 0) {
@@ -112,9 +128,11 @@ function aplicarFiltros() {
     return coincideUsuario && coincideFecha;
   });
 
+  // ordenar por fecha descendente: más reciente primero
+  filtradas.sort((x, y) => new Date(y.fecha) - new Date(x.fecha));
+
   renderTabla(filtradas);
 }
-
 
 function limpiarFiltros() {
   filtroUsuario.value = "";
@@ -122,7 +140,6 @@ function limpiarFiltros() {
   inputHasta.value = "";
   renderTabla(todasLasActividades);
 }
-
 
 function exportarPDF() {
   const { jsPDF } = window.jspdf;
@@ -137,7 +154,6 @@ function exportarPDF() {
   doc.save("informe_actividad.pdf");
 }
 
-
 function exportarExcel() {
   const tabla = document.getElementById("tablaActividad");
   const ws = XLSX.utils.table_to_sheet(tabla);
@@ -146,13 +162,13 @@ function exportarExcel() {
   XLSX.writeFile(wb, "informe_actividad.xlsx");
 }
 
-
 function formatearFecha(iso) {
   if (!iso) return "-";
   const d = new Date(iso);
-  return d.toLocaleDateString("es-AR");
+  // normalizamos a la fecha local para evitar desfases
+  const fechaCorregida = new Date(d.getTime() + d.getTimezoneOffset() * 60000);
+  return fechaCorregida.toLocaleDateString("es-AR");
 }
-
 
 [filtroUsuario, inputDesde, inputHasta].forEach((el) =>
   el.addEventListener("change", aplicarFiltros)
@@ -161,12 +177,14 @@ btnLimpiar.addEventListener("click", limpiarFiltros);
 btnPdf.addEventListener("click", exportarPDF);
 btnExcel.addEventListener("click", exportarExcel);
 
-
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     await cargarUsuarios();
 
-    todasLasActividades = await getActividades();
+    todasLasActividades = await getActividades() || [];
+
+    // ordenar globalmente por fecha descendente (más recientes primero)
+    todasLasActividades.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
 
     renderTabla(todasLasActividades);
   } catch (err) {

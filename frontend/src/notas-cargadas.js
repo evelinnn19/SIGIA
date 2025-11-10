@@ -6,6 +6,7 @@ import { registrarActividad } from "./services/actividadUtilidad";
 import { renderSimpleComprobantePDF} from "./services/comprobanteUtilidad.js"
 
      import { definirUsuario } from './services/usuarioEncabezado.js';
+import { alertasStockMinimo } from "./services/AlertasUtilidad.js";
 
     document.addEventListener("DOMContentLoaded", () => {
         console.log('DOM cargado, ejecutando definirUsuario...');
@@ -17,10 +18,8 @@ const usuarioActual = usuarioActualRaw ? Number(usuarioActualRaw) : null;
 
 const ESTADOS = [
   "Pendiente",
-  "Aprobada",
-  "Rechazada",
   "Entregada", 
-  "Cancelada",
+  
 ];
 
 
@@ -52,35 +51,82 @@ function attachEvents() {
 
   cont.addEventListener("change", async (e) => {
     const target = e.target;
-    if (target.tagName.toLowerCase() === "select") {
-      const nuevoEstado =
-        target.value.charAt(0).toUpperCase() + target.value.slice(1);
+    if (target.tagName.toLowerCase() !== "select") return;
 
+    // bloquear el select mientras procesamos
+    target.disabled = true;
 
-      const id = target.dataset.id;
-      console.log("Actualizar estado", id, nuevoEstado);
-      target.disabled = true;
+    // Estado nuevo desde el select (value viene en minúsculas)
+    const nuevoValorRaw = String(target.value || "").toLowerCase();
+    const nuevoEstado = nuevoValorRaw.charAt(0).toUpperCase() + nuevoValorRaw.slice(1); // "Entregada", "Pendiente"
 
-      if(nuevoEstado == "Aprobada"){
-          entregarElementosSolicitados(id);
+    const id = target.dataset.id;
+    const prev = target.dataset.prev || ""; // estado anterior guardado en crearFila
+    console.log("Actualizar estado", id, prev, "->", nuevoEstado);
+
+    try {
+      // Si ya estaba entregada, no permitimos cambios
+      if (prev === "entregada") {
+        console.warn("Solicitud ya entregada; cambios no permitidos.");
+        // revertir visualmente por seguridad
+        target.value = prev;
+        return;
+      }
+
+      // Si el usuario cambió a 'entregada' primero intentamos entregar elementos
+      let entregaOk = true;
+      if (nuevoEstado === "Entregada") {
+        // llamar a la función que realiza la entrega (ya implementada)
+        const resultado = await entregarElementosSolicitados(id);
+        if (!resultado || resultado.exito === false) {
+          entregaOk = false;
+          // mostrar alerta / log
+          console.error("La entrega falló:", resultado && resultado.mensaje);
+          alert("No se pudo completar la entrega. Revirtiendo estado.");
+        } else {
+          console.log("Entrega realizada OK:", resultado.mensaje);
+          await alertasStockMinimo();
         }
-      try {
+      }
 
-        await updateEstadoSolicitud(id, nuevoEstado);
-        console.log("Estado actualizado OK");
-        await registrarActividad(
-          usuarioActual,
-          "Cambio de estado en solicitud",
-          `Cambio a ${nuevoEstado} en IDSolicitud ${id}`, 
-          "--"
-        );
-      } catch (err) {
-        console.error("No se pudo actualizar estado:", err);
-      } finally {
+      if (!entregaOk) {
+        // revertimos el select al estado previo
+        target.value = prev;
+        return;
+      }
+
+      // Si llegamos acá: o el nuevo estado no es 'Entregada' o la entrega fue OK.
+      await updateEstadoSolicitud(id, nuevoEstado);
+      // actualizamos dataset.prev al nuevo estado en minúscula
+      target.dataset.prev = nuevoValorRaw;
+      // si quedó entregada, deshabilitamos definitivamente
+      if (nuevoValorRaw === "entregada") {
+        target.disabled = true;
+      }
+
+      await registrarActividad(
+        usuarioActual,
+        "Cambio de estado en solicitud",
+        `Cambio a ${nuevoEstado} en IDSolicitud ${id}`, 
+        "--"
+      );
+
+      console.log("Estado actualizado OK");
+
+    } catch (err) {
+      console.error("No se pudo actualizar estado:", err);
+      // revertir visualmente al estado previo
+      target.value = target.dataset.prev || "";
+      alert("No se pudo actualizar el estado. Intente nuevamente.");
+    } finally {
+      // si aún no es entregada y no hubo error, dejar habilitado;
+      // si prev era entregada ya devolvimos antes; si quedó entregada lo dejamos disabled.
+      if (target.dataset.prev !== "entregada" && target.value !== "entregada") {
         target.disabled = false;
       }
     }
   });
+
 
   // Event listener para el botón de descarga
   cont.addEventListener("click", async (e) => {
@@ -291,6 +337,8 @@ async function  entregarElementosSolicitados(id){
         console.log(`✅ Entregado: ${cantidadEntregar} de ${insumo.nombre}`);
       }
     }
+
+    await alertasStockMinimo();
     
     return { exito: true, mensaje: "Elementos entregados correctamente" };
     
@@ -351,9 +399,14 @@ function crearFila(tramite) {
     select.appendChild(option);
   });
 
-  if(select.value === "aprobada"){
+    
+  if (estadoActual === "entregada") {
     select.disabled = true;
+    select.dataset.prev = "entregada"; // guardamos estado previo
+  } else {
+    select.dataset.prev = estadoActual; // guardamos para posibles revert
   }
+
 
 
   divSelect.appendChild(select);

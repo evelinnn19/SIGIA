@@ -78,7 +78,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       const categoriasActivas = lista.filter(cat => Number(cat.estado ?? 0) === 1);
 
       // ordenar por nombre (opcional, mejora UX)
-      categoriasActivas.sort((a, b) => (a.nombre || "").localeCompare(b.nombre || ""));
+      categoriasActivas.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+      
 
       // limpiar y poblar select
       filtroCategoria.innerHTML = '<option value="">Todas</option>';
@@ -170,6 +171,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       return coincideCategoria && coincideInsumo && coincideArea && coincideTipo && coincideFecha;
     });
+
+    filtradas.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
 
     renderTabla(filtradas);
   }

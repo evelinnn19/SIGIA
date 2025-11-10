@@ -32,7 +32,6 @@ let todasLasSolicitudes = [];
 function cargarEstados() {
   const ESTADOS = [
     "Pendiente",
-    "Aprobada",
     "Entregada",
   ];
 
@@ -81,6 +80,8 @@ function aplicarFiltros() {
   const desde = inputDesde.value ? parseFechaLocal(inputDesde.value) : null;
   const hasta = inputHasta.value ? parseFechaLocal(inputHasta.value) : null;
 
+  todasLasSolicitudes.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
   const filtradas = todasLasSolicitudes.filter((s) => {
     const coincideEstado = estado ? s.estado === estado : true;
 
@@ -93,6 +94,9 @@ function aplicarFiltros() {
 
     return coincideEstado && coincideFecha;
   });
+
+  
+  
 
   renderTabla(filtradas);
 }
@@ -153,6 +157,8 @@ btnLimpiar.addEventListener("click", () => {
   filtroEstado.value = "";
   inputDesde.value = "";
   inputHasta.value = "";
+
+  
 
   renderTabla(todasLasSolicitudes); 
 });

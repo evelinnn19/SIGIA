@@ -16,6 +16,7 @@ import { alertasStockMinimo } from "./services/AlertasUtilidad.js";
 
 
 
+
 const categoriaSelect = document.getElementById("categoria");
 const esCriticoSelect = document.getElementById("esCritico");
 const stockMinimoContainer = document.getElementById("stockMinimoContainer");
