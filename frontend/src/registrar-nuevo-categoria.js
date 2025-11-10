@@ -19,7 +19,7 @@ btnCancelar.addEventListener("click", (e) => {
   form.reset(); // limpia los campos
 
   // si querés volver a la página anterior:
-  window.location.href = "administrador.html"});
+  window.location.href = "categoria-menu.html"});
 
 
 function mostrarExito(mensaje) {
