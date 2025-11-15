@@ -48,7 +48,7 @@ export function renderSimpleComprobantePDF(contenedorSelector, solicitud, datosC
   const thead = document.createElement('thead');
   thead.innerHTML = `
     <tr style="background:#e6f0d9;">
-      <th style="padding:8px;border:1px solid #ccc;text-align:left;">Nombre</th>
+      <th style="padding:8px;border:1px solid #ccc;text-align:left;">Insumo</th>
       <th style="padding:8px;border:1px solid #ccc;text-align:left;">Área</th>
       <th style="padding:8px;border:1px solid #ccc;text-align:left;">Solicitante</th>
       <th style="padding:8px;border:1px solid #ccc;text-align:right;">Cant. Solicitada</th>
